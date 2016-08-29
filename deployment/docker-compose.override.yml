@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+
+  postgres:
+    volumes:
+      - './pg/postgres_data/data:/var/lib/postgresql/data'
+
+  django:
+    # Loading the app is defined here to allow for
+    # autoreload on changes it is mounted on top of the
+    # old copy that docker added when creating the image
+    volumes:
+      - '../src/geonode:/usr/src/app'
+    environment:
+      - DEBUG=True
+
+  celery:
+    # Loading the app is defined here to allow for
+    # autoreload on changes it is mounted on top of the
+    # old copy that docker added when creating the image
+    volumes:
+      - '../src/geonode:/usr/src/app'
+    environment:
+      - DEBUG=True

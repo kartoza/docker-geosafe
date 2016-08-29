@@ -1,0 +1,70 @@
+version: '2'
+services:
+
+  django:
+    build: docker-geonode
+#    image: geonode_django
+    volumes:
+      - '../src/core:/usr/src/core'
+      - '../src/geosafe:/usr/src/geosafe'
+      - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
+#    command: django-admin.py runserver 0.0.0.0:8000
+    command: /setup-geonode.sh
+    environment:
+      - PYTHONPATH=/usr/src:/usr/src/app/
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - ROOT_URLCONF=core.urls
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - SITEURL=http://localhost/
+      - GEONODE_BASE_URL=http://nginx/
+    links:
+      - inasafe-output
+    ports:
+      - "81:80"
+
+  celery:
+    build: docker-geonode
+#    image: geonode_django
+    working_dir: /usr/src/app
+    volumes:
+      - '../src/core:/usr/src/core'
+      - '../src/geosafe:/usr/src/geosafe'
+      - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
+    environment:
+      - PYTHONPATH=/usr/src:/usr/src/app/
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - ROOT_URLCONF=core.urls
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+      - SITEURL=http://localhost/
+      - GEONODE_BASE_URL=http://nginx/
+    command: celery -A geosafe worker -l info -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+    links:
+      - inasafe-output
+
+  inasafe-output:
+    image: nginx
+    volumes:
+      - ./inasafe/headless/output:/usr/share/nginx/html/output
+    ports:
+      - "8081:80"
+
+  inasafe-headless:
+    build: docker-inasafe-headless
+    volumes:
+      - ../src/inasafe:/home/src/inasafe
+      - ./inasafe/headless/output:/home/output
+    working_dir: /home/src/inasafe
+    environment:
+      - C_FORCE_ROOT=True
+      - PYTHONPATH=/home/src/inasafe
+      - DISPLAY=:99
+      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR=/home/output/
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL=http://inasafe-output/output/
+    command: /start-celery.sh
+    links:
+      - rabbitmq:rabbitmq

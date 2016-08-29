@@ -1,0 +1,7 @@
+requests>=2.6.2
+tzlocal==1.2
+nose
+hammock
+pyinotify
+celery
+future
