@@ -48,9 +48,12 @@ STATICFILES_DIRS += (
 
 # Delete Geoserver settings
 
-# INSTALLED_APPS.remove("geonode.geoserver")
-# MAP_BASELAYERS.remove(LOCAL_GEOSERVER)
-# del LOCAL_GEOSERVER
+try:
+    INSTALLED_APPS.remove("geonode.geoserver")
+    MAP_BASELAYERS.remove(LOCAL_GEOSERVER)
+    del LOCAL_GEOSERVER
+except:
+    pass
 
 # Leaflet config
 LAYER_PREVIEW_LIBRARY = 'leaflet'
