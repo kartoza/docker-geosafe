@@ -30,3 +30,18 @@ make sync
 ```
 
 You can view geonode in the exposed port (default 80).
+
+
+## Logging
+
+Available logging view command
+
+```
+make geosafe-log
+make geosafe-celery-log
+make inasafe-headless-log
+```
+
+## PyCharm SSH Orchestration
+
+Will be implemented later. With this, we can debug from inside PyCharm.

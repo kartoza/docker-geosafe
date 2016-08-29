@@ -30,6 +30,15 @@ sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata sample_admin
 
+geosafe-log:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=50 django
+
+geosafe-celery-log:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=50 celery
+
+inasafe-headless-log:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=50 inasafe-headless
+
 setup: build
 	@echo
 	@echo "------------------------------------------------------------------"

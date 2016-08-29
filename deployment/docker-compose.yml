@@ -12,7 +12,7 @@ services:
       - '../src/core:/usr/src/core'
       - '../src/geosafe:/usr/src/geosafe'
       - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
-      - '../src/otf-project:/opt/qgis-server/plugins'
+      - '../src/otf-project:/opt/qgis-server/plugins/otf-project'
     command:
       - /setup-qgis-server.sh
     environment:
