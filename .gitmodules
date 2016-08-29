@@ -10,3 +10,6 @@
 [submodule "src/inasafe"]
 	path = src/inasafe
 	url = https://github.com/inasafe/inasafe.git
+[submodule "src/otf-project"]
+	path = src/otf-project
+	url = https://github.com/kartoza/otf-project.git

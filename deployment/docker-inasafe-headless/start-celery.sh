@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cp -n /celeryconfig.py /home/src/inasafe/headless/celeryconfig.py
 
 start-stop-daemon --start -b -x /usr/bin/Xvfb :99
 source run-env-linux.sh /usr

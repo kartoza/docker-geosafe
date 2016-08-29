@@ -11,7 +11,7 @@ __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '1/28/16'
 
 
-BROKER_URL = os.environ['INASAFE_BROKER_URL']
+BROKER_URL = os.environ['BROKER_URL']
 
 CELERY_RESULT_BACKEND = BROKER_URL
 

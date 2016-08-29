@@ -45,4 +45,5 @@ RUN mv ubuntu-font-family-0.83 /usr/share/fonts/truetype/ubuntu-font-family
 CMD fc-cache -f -v
 
 ADD start-celery.sh /start-celery.sh
+ADD headless-celeryconfig.py /celeryconfig.py
 RUN chmod +x /start-celery.sh
