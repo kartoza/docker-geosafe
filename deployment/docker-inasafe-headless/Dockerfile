@@ -11,7 +11,7 @@ RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
 #RUN echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list
 #RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
 
-RUN apt-get -y update; apt-get -y install qgis python-qgis
+RUN apt-get -y update; apt-get -y install qgis python-qgis --force-yes
 RUN apt-get -y --force-yes install build-essential autoconf libtool pkg-config
 #RUN pip install cython
 
@@ -29,7 +29,7 @@ RUN apt-get -y --force-yes install pwgen git inotify-tools
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
-RUN apt-get -y install git xvfb python-setuptools python-dev libssl-dev libffi-dev
+RUN apt-get -y --force-yes install git xvfb python-setuptools python-dev libssl-dev libffi-dev
 RUN easy_install pip==7.1.2
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 ADD REQUIREMENTS-headless.txt /REQUIREMENTS-headless.txt
