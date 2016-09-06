@@ -3,7 +3,7 @@ services:
 
   postgres:
     volumes:
-      - './pg/postgres_data/data:/var/lib/postgresql/data'
+      - './pg/postgres_data:/var/lib/postgresql'
 
   qgis-server:
     build: docker-qgis-server

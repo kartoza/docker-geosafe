@@ -2,9 +2,9 @@ version: '2'
 
 services:
 
-  postgres:
-    volumes:
-      - './pg/postgres_data/data:/var/lib/postgresql/data'
+  qgis-server:
+    ports:
+      - "9003:80"
 
   django:
     # Loading the app is defined here to allow for
@@ -14,6 +14,9 @@ services:
       - '../src/geonode:/usr/src/app'
     environment:
       - DEBUG=True
+    command: /setup-geonode.sh dev
+    ports:
+      - "9000:22"
 
   celery:
     # Loading the app is defined here to allow for
@@ -23,3 +26,11 @@ services:
       - '../src/geonode:/usr/src/app'
     environment:
       - DEBUG=True
+    command: /setup-geonode.sh dev
+    ports:
+      - "9001:22"
+
+  inasafe-headless:
+    command: /start-celery.sh dev
+    ports:
+      - "9002:22"
