@@ -11,7 +11,7 @@ RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
 #RUN echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main" >> /etc/apt/sources.list
 #RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe" >> /etc/apt/sources.list
 
-RUN apt-get -y update; apt-get -y install qgis python-qgis
+RUN apt-get -y update; apt-get -y --force-yes install qgis python-qgis
 RUN apt-get -y --force-yes install build-essential autoconf libtool pkg-config
 #RUN pip install cython
 
@@ -26,6 +26,22 @@ ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
 
 RUN apt-get -y update
 RUN apt-get -y --force-yes install pwgen git inotify-tools
+
+# This section taken on 2 July 2015 from
+# https://docs.docker.com/examples/running_ssh_service/
+# Sudo is needed by pycharm when it tries to pip install packages
+RUN apt-get update -y; apt-get install -y openssh-server sudo
+RUN mkdir /var/run/sshd
+RUN echo 'root:docker' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+# End of cut & paste section
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
