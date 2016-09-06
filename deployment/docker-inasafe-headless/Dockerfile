@@ -45,7 +45,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
-RUN apt-get -y install git xvfb python-setuptools python-dev libssl-dev libffi-dev
+RUN apt-get -y --force-yes install git xvfb python-setuptools python-dev libssl-dev libffi-dev
 RUN easy_install pip==7.1.2
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 ADD REQUIREMENTS-headless.txt /REQUIREMENTS-headless.txt
