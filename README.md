@@ -106,3 +106,7 @@ Environment: Do the same like in Geosafe Environment, but execute ```make inasaf
 
 
 After creating this runtime configuration. You can up the services and proceed to run/debug the configuration using PyCharm commands
+
+## Known Issue
+If the QGIS Server doesn't work (e.g. you upload a layer, and geonode doesn't the layer), one of the problem is `permission problem`. You can fix it by giving permission to write in the `qgis_layer` directory. For example:
+```sudo chmod -R +066 qgis_layer/```
