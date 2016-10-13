@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 PROJECT_ID := geonode-docker
-CONF_FILE := -f docker-compose.geonode.yml -f docker-compose.yml -f docker-compose.override.yml
+CONF_FILE := -f docker-compose.yml -f docker-compose.override.yml
 
 # ----------------------------------------------------------------------------
 #    P R O D U C T I O N     C O M M A N D S
@@ -21,6 +21,7 @@ build:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build django
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build celery
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build inasafe-headless
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build inasafe-headless-analysis
 
 sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py makemigrations --noinput
@@ -29,6 +30,15 @@ sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geonode_qgis_server --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata sample_admin
+
+shell:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django /bin/bash
+
+status:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) ps
+
+dblogs:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) logs -f --tail=30 postgis
 
 geosafe-env:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django printenv

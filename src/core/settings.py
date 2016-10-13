@@ -109,7 +109,7 @@ LEAFLET_CONFIG = {
 # OGC (WMS/WFS/WCS) Server Settings
 tiles_directory = os.path.join(PROJECT_ROOT, "qgis_tiles")
 QGIS_SERVER_URL = os.environ.get(
-    'QGIS_SERVER_URL', 'http://qgis-server/cgi-bin/qgis_mapserv.fcgi')
+    'QGIS_SERVER_URL', 'http://qgis-server/')
 QGIS_SERVER_CONFIG = {
     'tiles_directory': tiles_directory,
     'tile_path': tiles_directory + '/%s/%d/%d/%d.png',

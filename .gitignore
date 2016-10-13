@@ -94,4 +94,8 @@ ENV/
 .idea
 deployment/inasafe
 deployment/pg
+deployment/qgis-server-log
+deployment/qgis-web
 deployment/docker-compose.override.yml
+
+!.gitkeep
