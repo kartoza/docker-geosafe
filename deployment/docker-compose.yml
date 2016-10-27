@@ -1,9 +1,23 @@
 version: '2'
 services:
 
-  postgres:
+
+  elasticsearch:
+    image: elasticsearch
+    network_mode: "bridge"
+
+  rabbitmq:
+    image: rabbitmq
+    network_mode: "bridge"
+
+  postgis:
+    image: kartoza/postgis:9.4-2.1
     volumes:
       - './pg/postgres_data:/var/lib/postgresql'
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+    network_mode: "bridge"
 
   qgis-server:
     build: docker-qgis-server
@@ -13,42 +27,70 @@ services:
       - '../src/geosafe:/usr/src/geosafe'
       - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
       - '../src/otf-project:/opt/qgis-server/plugins/otf-project'
-    command:
-      - /setup-qgis-server.sh
+      - './qgis-web:/var/www'
+      - './qgis-server-log:/tmp/qgis-server'
     environment:
       - DEBUG=False
+      - QGIS_LOG_FILE=/tmp/qgis-server/qgis.log
+      - QGIS_SERVER_LOG_FILE=/tmp/qgis-server/qgis-server.log
+      - QGIS_DEBUG=5
+      - QGIS_SERVER_LOG_LEVEL=5
+      - QGIS_PLUGINPATH=/opt/qgis-server/plugins/
+      - QGIS_PROJECT_FILE=/project/project.qgs
+    links:
+      - postgis
+    network_mode: "bridge"
 
   django:
     build: docker-geonode
-#    image: geonode_django
     volumes:
       - '../src/geonode:/usr/src/app'
       - '../src/core:/usr/src/core'
       - '../src/geosafe:/usr/src/geosafe'
       - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
       - '../src/otf-project:/opt/qgis-server/plugins'
-#    command: django-admin.py runserver 0.0.0.0:8000
     command: /setup-geonode.sh
     environment:
+      - DATABASE_URL=postgres://docker:docker@postgis:5432/gis
+      - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - DJANGO_SETTINGS_MODULE=geonode.settings
+      - GEOSERVER_BASE_URL="http://geoserver:8080/geoserver/"
+#      - ALLOWED_HOSTS=['django',]
       - DEBUG=False
       - PYTHONPATH=/usr/src:/usr/src/app/
       - DJANGO_SETTINGS_MODULE=core.settings
       - ROOT_URLCONF=core.urls
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASS=postgres
       - SITEURL=http://localhost/
       - GEONODE_BASE_URL=http://nginx/
-      - QGIS_SERVER_URL=http://qgis-server/cgi-bin/qgis_mapserv.fcgi
+      - QGIS_SERVER_URL=http://qgis-server/
     links:
+      - postgis
+      - elasticsearch
+      - rabbitmq
       - inasafe-output
       - qgis-server
+    network_mode: "bridge"
+
+  geoserver:
+    image: geonode/geoserver
+    links:
+      - postgis
     ports:
-      - "81:80"
+      - "8080"
+    network_mode: "bridge"
+
+  nginx:
+#    image: geonode/nginx
+    build: docker-nginx
+    links:
+      - django
+      - geoserver
+    ports:
+      - "80:80"
+    network_mode: "bridge"
 
   celery:
     build: docker-geonode
-#    image: geonode_django
     working_dir: /usr/src/app
     volumes:
       - '../src/geonode:/usr/src/app'
@@ -57,19 +99,26 @@ services:
       - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
     environment:
       - DEBUG=False
+      - C_FORCE_ROOT=True
+      - DATABASE_URL=postgres://docker:docker@postgis:5432/gis
+      - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
       - PYTHONPATH=/usr/src:/usr/src/app/
       - DJANGO_SETTINGS_MODULE=core.settings
       - ROOT_URLCONF=core.urls
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASS=postgres
+#      - DB_NAME=postgres
+#      - DB_USER=postgres
+#      - DB_PASS=postgres
       - SITEURL=http://localhost/
       - GEONODE_BASE_URL=http://nginx/
-      - QGIS_SERVER_URL=http://qgis-server/cgi-bin/qgis_mapserv.fcgi
+      - QGIS_SERVER_URL=http://qgis-server/
     command: celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
     links:
+      - rabbitmq
+      - postgis
+      - elasticsearch
       - inasafe-output
       - qgis-server
+    network_mode: "bridge"
 
   inasafe-output:
     image: nginx
@@ -77,6 +126,7 @@ services:
       - ./inasafe/headless/output:/usr/share/nginx/html/output
     ports:
       - "8081:80"
+    network_mode: "bridge"
 
   inasafe-headless:
     build: docker-inasafe-headless
@@ -91,6 +141,27 @@ services:
       - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR=/home/output/
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL=http://inasafe-output/output/
-    command: /start-celery.sh
+    command: /start-celery.sh prod inasafe-headless
     links:
       - rabbitmq:rabbitmq
+      - nginx:nginx
+    network_mode: "bridge"
+
+  inasafe-headless-analysis:
+    build: docker-inasafe-headless
+    volumes:
+      - '../src/inasafe:/home/src/inasafe'
+      - './inasafe/headless/output:/home/output'
+    working_dir: /home/src/inasafe
+    environment:
+      - C_FORCE_ROOT=True
+      - PYTHONPATH=/home/src/inasafe
+      - DISPLAY=:99
+      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR=/home/output/
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL=http://inasafe-output/output/
+    command: /start-celery.sh prod inasafe-headless-analysis
+    links:
+      - rabbitmq:rabbitmq
+      - nginx:nginx
+    network_mode: "bridge"

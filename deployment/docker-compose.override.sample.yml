@@ -3,6 +3,13 @@ version: '2'
 services:
 
   qgis-server:
+    environment:
+      - DEBUG=True
+      - QGIS_LOG_FILE=/tmp/qgis-server/qgis.log
+      - QGIS_SERVER_LOG_FILE=/tmp/qgis-server/qgis-server.log
+      # Log level 0 is the lowest (catch all), 5 is the highest (only fatal error)
+      - QGIS_DEBUG=0
+      - QGIS_SERVER_LOG_LEVEL=0
     ports:
       - "9003:80"
 

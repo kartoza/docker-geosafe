@@ -21,6 +21,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 # End of cut & paste section
 
 # Upgrade dependencies
+RUN apt-get update -y; apt-get install -y gdal-bin
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip install --upgrade -r /REQUIREMENTS.txt
 ADD setup-geonode.sh /setup-geonode.sh
