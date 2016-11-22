@@ -142,6 +142,7 @@ CELERY_DEFAULT_EXCHANGE = "default"
 CELERY_DEFAULT_EXCHANGE_TYPE = "direct"
 CELERY_DEFAULT_ROUTING_KEY = "default"
 CELERY_CREATE_MISSING_QUEUES = True
+CELERYD_CONCURRENCY = 1
 
 # Defining Celery queue to avoid clash between tasks. Leave as default
 CELERY_QUEUES = [
