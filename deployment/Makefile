@@ -18,6 +18,7 @@ build:
 	@echo "Building in production mode"
 	@echo "------------------------------------------------------------------"
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build qgis-server
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build nginx
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build django
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build celery
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) build inasafe-headless

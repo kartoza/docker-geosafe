@@ -41,3 +41,7 @@ services:
     command: /start-celery.sh dev
     ports:
       - "9002:22"
+
+  nginx:
+    ports:
+      - "80:80"

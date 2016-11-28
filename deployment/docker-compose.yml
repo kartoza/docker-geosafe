@@ -71,22 +71,16 @@ services:
       - qgis-server
     network_mode: "bridge"
 
-  geoserver:
-    image: geonode/geoserver
-    links:
-      - postgis
-    ports:
-      - "8080"
-    network_mode: "bridge"
-
   nginx:
 #    image: geonode/nginx
     build: docker-nginx
     links:
       - django
-      - geoserver
-    ports:
-      - "80:80"
+      - qgis-server
+#  Default exposed port.
+#  Should be specified in docker-compose.override.yml
+#    ports:
+#      - "80:80"
     network_mode: "bridge"
 
   celery:
