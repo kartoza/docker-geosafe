@@ -3,5 +3,5 @@ tzlocal==1.2
 nose
 hammock
 pyinotify
-celery
+celery==3.1.18
 future
