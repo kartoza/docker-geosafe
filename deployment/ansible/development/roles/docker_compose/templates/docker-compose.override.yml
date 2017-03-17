@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+  postgis:
+    ports:
+      # - "6543:5432"
+      - "{{ docker_port_forward.postgis.postgis }}:5432"
+
+  qgis-server:
+    environment:
+      - DEBUG={{ qgis_server.DEBUG }}
+      - QGIS_LOG_FILE={{ qgis_server.QGIS_LOG_FILE }}
+      - QGIS_SERVER_LOG_FILE={{ qgis_server.QGIS_SERVER_LOG_FILE }}
+      # Log level 0 is the lowest (catch all), 5 is the highest (only fatal error)
+      - QGIS_DEBUG={{ qgis_server.QGIS_DEBUG }}
+      - QGIS_SERVER_LOG_LEVEL={{ qgis_server.QGIS_SERVER_LOG_LEVEL }}
+    ports:
+      # - "9003:80"
+      - "{{ docker_port_forward.qgis_server.http }}:80"
+
+  django:
+    # Loading the app is defined here to allow for
+    # autoreload on changes it is mounted on top of the
+    # old copy that docker added when creating the image
+    volumes:
+      - '../src/geonode:/usr/src/app'
+    environment:
+      - DEBUG={{ django.DEBUG }}
+    command: {{ django.command }}
+    ports:
+      # - "9000:22"
+      - "{{ docker_port_forward.django.ssh }}:22"
+
+  nginx:
+    ports:
+      # - "80:80"
+      - "{{ docker_port_forward.nginx.http }}:80"
+
+  celery:
+    # Loading the app is defined here to allow for
+    # autoreload on changes it is mounted on top of the
+    # old copy that docker added when creating the image
+    volumes:
+      - '../src/geonode:/usr/src/app'
+    environment:
+      - DEBUG={{ celery.DEBUG }}
+    command: {{ celery.command }}
+    ports:
+      # - "9001:22"
+      - "{{ docker_port_forward.celery.ssh }}:22"
+
+  inasafe-headless:
+    environment:
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}
+    command: {{ inasafe_headless.command }}
+    ports:
+      # - "9002:22"
+      - "{{ docker_port_forward.inasafe_headless.ssh }}:22"
+
+  inasafe-headless-analysis:
+    environment:
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
+      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}
+    command: {{ inasafe_headless_analysis.command }}
+    ports:
+      # - "9002:22"
+      - "{{ docker_port_forward.inasafe_headless_analysis.ssh }}:22"

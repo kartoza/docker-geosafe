@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteMappingsManager">
+    <list>
+      <list>
+        <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
+            </list>
+          </settings>
+        </remote-mappings>
+        <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.inasafe_headless.ssh }}/usr/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/src/inasafe" remote-root="/home/src/inasafe" />
+            </list>
+          </settings>
+        </remote-mappings>
+        <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.inasafe_headless_analysis.ssh }}/usr/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/src/inasafe" remote-root="/home/src/inasafe" />
+            </list>
+          </settings>
+        </remote-mappings>
+        <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.django.ssh }}/usr/local/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/src/core" remote-root="/usr/src/core" />
+              <mapping local-root="$PROJECT_DIR$/src/geonode_qgis_server/geonode_qgis_server" remote-root="/usr/src/geonode_qgis_server" />
+              <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
+              <mapping local-root="$PROJECT_DIR$/src/geonode" remote-root="/usr/src/app" />
+            </list>
+          </settings>
+        </remote-mappings>
+      </list>
+    </list>
+  </component>
+</project>

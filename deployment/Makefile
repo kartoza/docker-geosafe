@@ -12,6 +12,15 @@ up:
 
 default: deploy
 
+ansible-check:
+	@echo "Check ansible command"
+	@ansible -i ansible/development/hosts all -m ping
+	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml --syntax-check --list-tasks --list-hosts
+
+setup-ansible:
+	@echo "Setup configurations using ansible"
+	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml
+
 build:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -28,7 +37,8 @@ sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py makemigrations --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate account --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate layers --noinput
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geonode_qgis_server --noinput
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geonode_qgis_server --noinput --settings=core.settings
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geosafe --noinput --settings=core.settings
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata sample_admin
 

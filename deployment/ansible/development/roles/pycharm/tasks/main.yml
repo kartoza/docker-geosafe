@@ -1,0 +1,24 @@
+---
+- name: customize project configuration
+  template:
+    src: docker-geosafe.iml
+    dest: '{{ project_path }}/.idea/docker-geosafe.iml'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+- name: customize remote-mappings configurations
+  template:
+    src: remote-mappings.xml
+    dest: '{{ project_path }}/.idea/remote-mappings.xml'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+- name: customize run/debug configurations
+  template:
+    src: workspace-configuration.xml
+    dest: '{{ project_path }}/deployment/workspace-configuration.xml'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+- name: inject run/debug configurations
+  script: inject_run_configurations.py "{{ project_path }}/.idea/workspace.xml" "{{ project_path }}/deployment/workspace-configuration.xml"

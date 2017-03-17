@@ -1,0 +1,8 @@
+---
+- name: customize InaSAFE celeryconfig
+  template:
+    src: inasafe-headless-celeryconfig.py
+    dest: '{{ project_path }}/src/inasafe/headless/celeryconfig.py'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"

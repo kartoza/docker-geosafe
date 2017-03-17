@@ -1,0 +1,54 @@
+---
+
+remote_user: user
+remote_group: group
+project_path: "/Users/user/Documents/WorkingDir/Projects/InaSAFE/docker-geosafe"
+
+docker_port_forward:
+  postgis:
+    postgis: 6543
+  qgis_server:
+    http: 9003
+  django:
+    ssh: 9000
+  nginx:
+    http: 80
+  celery:
+    ssh: 9001
+  inasafe_headless:
+    ssh: 9002
+  inasafe_headless_analysis:
+    ssh: 9004
+
+qgis_server:
+  DEBUG: True
+  QGIS_LOG_FILE: /tmp/qgis-server/qgis.log
+  QGIS_SERVER_LOG_FILE: /tmp/qgis-server/qgis-server.log
+  QGIS_DEBUG: 0
+  QGIS_SERVER_LOG_LEVEL: 0
+
+django:
+  DEBUG: True
+  # enable remote debugging
+  command: /usr/sbin/sshd -D
+  SITEURL: http://localhost/
+  GEONODE_BASE_URL: http://nginx/
+  QGIS_SERVER_URL: http://qgis-server/
+  GEOSERVER_BASE_URL: http://geoserver:8080/geoserver/
+
+celery:
+  DEBUG: True
+  # enable remote debugging
+  command: /usr/sbin/sshd -D
+
+inasafe_headless:
+  INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
+  INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
+  # enable remote debugging
+  command: /usr/sbin/sshd -D
+
+inasafe_headless_analysis:
+  INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
+  INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
+  # enable remote debugging
+  command: /usr/sbin/sshd -D
