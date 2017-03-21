@@ -98,7 +98,8 @@ deployment/qgis-server-log
 deployment/qgis-web
 deployment/docker-compose.override.yml
 deployment/ansible/development/group_vars/all
-deployment/workspace-configuration.xml
+deployment/ansible/development/site.retry
+deployment/ansible/tmp
 
 pycharm_helpers
 

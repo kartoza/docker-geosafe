@@ -1,4 +1,7 @@
 ---
+- name: gather os specific variables
+  include_vars:
+    file: "{{ ansible_distribution }}.yml"
 - name: customize project configuration
   template:
     src: docker-geosafe.iml
@@ -13,12 +16,38 @@
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
+
+- name: customize dockerized python interpreter
+  template:
+    src: 'python-interpreter/{{ item }}'
+    dest: '{{ project_path }}/deployment/ansible/tmp/{{ item }}'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+  with_items:
+    - geonode-django.xml.j2
+    - geonode-celery.xml.j2
+    - inasafe-headless-celery.xml.j2
+    - inasafe-headless-analysis-celery.xml.j2
+- name: inject python interpreter definitions
+  command: python inject_python_interpreter.py "{{ pycharm_settings_path }}/options/jdk.table.xml" "{{ project_path }}/deployment/ansible/tmp/{{ item }}"
+  with_items:
+    - geonode-django.xml.j2
+    - geonode-celery.xml.j2
+    - inasafe-headless-celery.xml.j2
+    - inasafe-headless-analysis-celery.xml.j2
+  args:
+    chdir: "{{ project_path }}/deployment/ansible/development/roles/pycharm/files/"
+
 - name: customize run/debug configurations
   template:
     src: workspace-configuration.xml
-    dest: '{{ project_path }}/deployment/workspace-configuration.xml'
+    dest: '{{ project_path }}/deployment/ansible/tmp/workspace-configuration.xml'
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
 - name: inject run/debug configurations
-  script: inject_run_configurations.py "{{ project_path }}/.idea/workspace.xml" "{{ project_path }}/deployment/workspace-configuration.xml"
+  command: python inject_run_configurations.py "{{ project_path }}/.idea/workspace.xml" "{{ project_path }}/deployment/ansible/tmp/workspace-configuration.xml"
+  args:
+    chdir: "{{ project_path }}/deployment/ansible/development/roles/pycharm/files/"
+

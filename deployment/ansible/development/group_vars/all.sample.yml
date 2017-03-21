@@ -45,10 +45,10 @@ inasafe_headless:
   INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
   INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
   # enable remote debugging
-  command: /usr/sbin/sshd -D
+  command: /start-celery.sh dev
 
 inasafe_headless_analysis:
   INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
   INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
   # enable remote debugging
-  command: /usr/sbin/sshd -D
+  command: /start-celery.sh dev

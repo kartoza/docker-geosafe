@@ -1,0 +1,463 @@
+<project version="4">
+  <component name="RunManager">
+    <configuration default="true" factoryName="Bash" type="BashConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Django tests" type="DjangoTestsConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Protractor" type="JavaScriptTestRunnerProtractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="JavaScript Debug" type="JavascriptDebugType">
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Behave" type="PyBehaveRunConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Lettuce" type="PyLettuceRunConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Django server" type="Python.DjangoServer">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Python" type="PythonConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Tox" type="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <module name="docker-geosafe" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Gulp.js" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="npm" type="js.build_tools.npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Attests" type="tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Doctests" type="tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Nosetests" type="tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="Unittests" type="tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" factoryName="py.test" type="tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" factoryName="Django server" name="Geonode Django" type="Python.DjangoServer">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
+        <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
+        <env name="NOTVISIBLE" value="in users profile" />
+        <env name="ROOT_URLCONF" value="core.urls" />
+        <env name="DB_USER" value="postgres" />
+        <env name="DB_NAME" value="postgres" />
+        <env name="DEBUG" value="True" />
+        <env name="LANG" value="C.UTF-8" />
+        <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="PYTHON_PIP_VERSION" value="6.1.1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
+        <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
+        <env name="GEOSERVER_BASE_URL" value="http://geoserver:8080/geoserver/" />
+        <env name="DB_PASS" value="postgres" />
+        <env name="ALLOWED_HOSTS" value="['django',]" />
+        <env name="GEONODE_BASE_URL" value="http://nginx/" />
+        <env name="QGIS_SERVER_URL" value="http://qgis-server/" />
+        <env name="PYTHON_VERSION" value="2.7.9" />
+        <env name="SITEURL" value="http://localhost/" />
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@localhost:9000/usr/local/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
+      <module name="docker-geosafe" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="0.0.0.0" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" factoryName="Python" name="Geonode Celery" type="PythonConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
+        <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
+        <env name="NOTVISIBLE" value="in users profile" />
+        <env name="ROOT_URLCONF" value="core.urls" />
+        <env name="C_FORCE_ROOT" value="1" />
+        <env name="DB_USER" value="postgres" />
+        <env name="DB_NAME" value="postgres" />
+        <env name="DEBUG" value="True" />
+        <env name="LANG" value="C.UTF-8" />
+        <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="PYTHON_PIP_VERSION" value="6.1.1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
+        <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
+        <env name="GEOSERVER_BASE_URL" value="http://geoserver:8080/geoserver/" />
+        <env name="DB_PASS" value="postgres" />
+        <env name="ALLOWED_HOSTS" value="['django',]" />
+        <env name="GEONODE_BASE_URL" value="http://nginx/" />
+        <env name="QGIS_SERVER_URL" value="http://qgis-server/" />
+        <env name="PYTHON_VERSION" value="2.7.9" />
+        <env name="SITEURL" value="http://localhost/" />
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@localhost:9001/usr/local/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="/usr/local/bin/celery" />
+      <option name="PARAMETERS" value="-A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" factoryName="Python" name="Geonode InaSAFE Headless" type="PythonConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
+        <env name="INASAFE_LOCALE" value="id" />
+        <env name="NOTVISIBLE" value="in users profile" />
+        <env name="C_FORCE_ROOT" value="True" />
+        <env name="QGIS_PATH" value="/usr" />
+        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_URL" value="http://inasafe-output/output/" />
+        <env name="INASAFE_HEADLESS_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="DISPLAY" value=":99" />
+        <env name="LD_LIBRARY_PATH" value="/usr/lib" />
+        <env name="QGIS_LOG_FILE" value="/tmp/inasafe/realtime/logs/qgis.log" />
+        <env name="QGIS_DEBUG_FILE" value="/tmp/inasafe/realtime/logs/qgis-debug.log" />
+        <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/src/inasafe" />
+        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR" value="/home/output/" />
+        <env name="QGIS_PREFIX_PATH" value="/usr" />
+        <env name="INASAFE_WORK_DIR" value="/tmp/inasafe" />
+        <env name="INASAFE_SENTRY" value="1" />
+        <env name="DEBIAN_FRONTEND" value="noninteractive" />
+        <env name="QGIS_DEBUG" value="0" />
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@localhost:9002/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="/usr/local/bin/celery" />
+      <option name="PARAMETERS" value="-A headless.celery_app worker -l info -Q inasafe-headless -n inasafe-headless.%h" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" factoryName="Python" name="Geonode InaSAFE Headless Analysis" type="PythonConfigurationType">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
+        <env name="INASAFE_LOCALE" value="id" />
+        <env name="NOTVISIBLE" value="in users profile" />
+        <env name="C_FORCE_ROOT" value="True" />
+        <env name="QGIS_PATH" value="/usr" />
+        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_URL" value="http://inasafe-output/output/" />
+        <env name="INASAFE_HEADLESS_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="DISPLAY" value=":99" />
+        <env name="LD_LIBRARY_PATH" value="/usr/lib" />
+        <env name="QGIS_LOG_FILE" value="/tmp/inasafe/realtime/logs/qgis.log" />
+        <env name="QGIS_DEBUG_FILE" value="/tmp/inasafe/realtime/logs/qgis-debug.log" />
+        <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/src/inasafe" />
+        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR" value="/home/output/" />
+        <env name="QGIS_PREFIX_PATH" value="/usr" />
+        <env name="INASAFE_WORK_DIR" value="/tmp/inasafe" />
+        <env name="INASAFE_SENTRY" value="1" />
+        <env name="DEBIAN_FRONTEND" value="noninteractive" />
+        <env name="QGIS_DEBUG" value="0" />
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@localhost:9004/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" runner="coverage.py" sample_coverage="true" />
+      <option name="SCRIPT_NAME" value="/usr/local/bin/celery" />
+      <option name="PARAMETERS" value="-A headless.celery_app worker -l info -Q inasafe-headless-analysis -n inasafe-headless-analysis.%h" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <list size="4">
+      <item class="java.lang.String" index="0" itemvalue="Django server.Geonode Django" />
+      <item class="java.lang.String" index="1" itemvalue="Python.Geonode Celery" />
+      <item class="java.lang.String" index="2" itemvalue="Python.Geonode InaSAFE Headless" />
+      <item class="java.lang.String" index="3" itemvalue="Python.Geonode InaSAFE Headless Analysis" />
+    </list>
+  </component><component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component SELECTED_TARGET="default_target" name="ExecutionTargetManager" />
+  <component name="FileEditorManager">
+  </component>
+  <component name="FileTemplateManagerImpl">
+  </component>
+  <component name="FindInProjectRecents">
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+  </component>
+  <component detection-done="true" name="JsBuildToolGruntFileManager" sorting="DEFINITION_ORDER" />
+  <component detection-done="true" name="JsBuildToolPackageJson" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+  </component>
+  <component name="PropertiesComponent">
+  </component>
+  <component name="RecentsManager">
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+  </component>
+  <component name="TestHistory">
+  </component>
+  <component name="ToolWindowManager">
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+  </component>
+  <component name="VcsContentAnnotationSettings">
+  </component>
+  <component name="XDebuggerManager">
+  </component>
+  <component name="editorHistoryManager">
+  </component>
+</project>

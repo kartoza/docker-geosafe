@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+  </component>
+  <component name="FileTemplateManagerImpl">
+  </component>
+  <component name="FindInProjectRecents">
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+  </component>
+  <component name="PropertiesComponent">
+  </component>
+  <component name="RecentsManager">
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+  </component>
+  <component name="TestHistory">
+  </component>
+  <component name="ToolWindowManager">
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+  </component>
+  <component name="VcsContentAnnotationSettings">
+  </component>
+  <component name="XDebuggerManager">
+  </component>
+  <component name="editorHistoryManager">
+  </component>
+</project>

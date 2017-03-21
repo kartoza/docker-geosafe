@@ -1,0 +1,24 @@
+<jdk version="2">
+      <name value="Geonode Celery" />
+      <type value="Python SDK" />
+      <version value="Python 2.7.9" />
+      <homePath value="ssh://root@localhost:9001/usr/local/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite">
+            <root type="simple" url="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons" />
+          </root>
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional HOST="localhost" PORT="9001" ANONYMOUS="false" USERNAME="root" PASSWORD="dfcedfc5dfc9dfc1dfcfdfd8" PRIVATE_KEY_FILE="" MY_KNOWN_HOSTS_FILE="" PASSPHRASE="" USE_KEY_PAIR="false" INTERPRETER_PATH="/usr/local/bin/python" HELPERS_PATH="/root/.pycharm_helpers" INITIALIZED="false" VALID="true" SKELETONS_PATH="" VERSION="Python 2.7.9">
+        <PathMappingSettings>
+          <option name="pathMappings">
+            <list>
+            </list>
+          </option>
+        </PathMappingSettings>
+      </additional>
+    </jdk>

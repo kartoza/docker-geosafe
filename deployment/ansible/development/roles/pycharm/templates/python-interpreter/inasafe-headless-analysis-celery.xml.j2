@@ -1,0 +1,15 @@
+    <jdk version="2">
+      <name value="Geonode InaSAFE Headless Analysis Celery" />
+      <type value="Python SDK" />
+      <version value="Python 2.7.9" />
+      <homePath value="ssh://root@localhost:{{ docker_port_forward.inasafe_headless_analysis.ssh }}/usr/bin/python" />
+      <roots>
+        <classPath>
+          <root type="composite" />
+        </classPath>
+        <sourcePath>
+          <root type="composite" />
+        </sourcePath>
+      </roots>
+      <additional HOST="localhost" PORT="{{ docker_port_forward.inasafe_headless_analysis.ssh }}" ANONYMOUS="false" USERNAME="root" PASSWORD="dfcedfc5dfc9dfc1dfcfdfd8" PRIVATE_KEY_FILE="" MY_KNOWN_HOSTS_FILE="" PASSPHRASE="" USE_KEY_PAIR="false" INTERPRETER_PATH="/usr/bin/python" HELPERS_PATH="/root/.pycharm_helpers" INITIALIZED="false" VALID="true" SKELETONS_PATH="" VERSION="Python 2.7.9" />
+    </jdk>
