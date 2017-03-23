@@ -22,23 +22,11 @@ INSTALLED_APPS += (
 INSTALLED_APPS = list(INSTALLED_APPS)
 
 # Make priority for geosafe templates
-TEMPLATE_DIRS = list(TEMPLATE_DIRS)
-TEMPLATE_DIRS.insert(0, '/usr/src/geosafe/templates')
-TEMPLATE_DIRS += ['/usr/src/geonode_qgis_server/templates']
+template_dirs = list(TEMPLATES[0]['DIRS'])
+template_dirs.insert(0, '/usr/src/geosafe/templates')
+template_dirs += ['/usr/src/geonode_qgis_server/templates']
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': list(TEMPLATE_DIRS),
-        'OPTIONS': {
-            'context_processors': list(TEMPLATE_CONTEXT_PROCESSORS),
-            'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader'
-            ]
-        },
-    },
-]
+TEMPLATES[0]['DIRS'] = template_dirs
 STATICFILES_DIRS += (
     '/usr/src/geosafe/static',
     '/usr/src/geonode_qgis_server/static',

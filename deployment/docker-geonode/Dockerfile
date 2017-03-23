@@ -1,4 +1,4 @@
-FROM geonode_django
+FROM geonode/django:latest
 
 # Toolbox
 RUN apt-get -y update
