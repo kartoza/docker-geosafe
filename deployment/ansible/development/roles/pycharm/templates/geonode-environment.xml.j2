@@ -1,0 +1,19 @@
+
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
+        <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
+        <env name="ROOT_URLCONF" value="core.urls" />
+        <env name="C_FORCE_ROOT" value="True" />
+        <env name="DB_USER" value="postgres" />
+        <env name="DB_NAME" value="postgres" />
+        <env name="DEBUG" value="{{ django.DEBUG }}" />
+        <env name="LANG" value="C.UTF-8" />
+        <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
+        <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
+        <env name="GEOSERVER_BASE_URL" value="{{ django.GEOSERVER_BASE_URL }}" />
+        <env name="DB_PASS" value="postgres" />
+        <env name="ALLOWED_HOSTS" value="['django',]" />
+        <env name="GEONODE_BASE_URL" value="{{ django.GEONODE_BASE_URL }}" />
+        <env name="QGIS_SERVER_URL" value="{{ django.QGIS_SERVER_URL }}" />
+        <env name="SITEURL" value="{{ django.SITEURL }}" />

@@ -14,20 +14,21 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
+          {% include 'geonode-environment.xml.j2' %}
+          <env name="CELERY_ALWAYS_EAGER" value="True" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="false" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
       <module name="docker-geosafe" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="TARGET" value="" />
       <option name="SETTINGS_FILE" value="" />
       <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
+      <option name="USE_OPTIONS" value="true" />
+      <option name="OPTIONS" value="--noinput" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
@@ -251,26 +252,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
-        <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
-        <env name="NOTVISIBLE" value="in users profile" />
-        <env name="ROOT_URLCONF" value="core.urls" />
-        <env name="DB_USER" value="postgres" />
-        <env name="DB_NAME" value="postgres" />
-        <env name="DEBUG" value="{{ django.DEBUG }}" />
-        <env name="LANG" value="C.UTF-8" />
-        <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
-        <env name="PYTHON_PIP_VERSION" value="6.1.1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
-        <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
-        <env name="GEOSERVER_BASE_URL" value="{{ django.GEOSERVER_BASE_URL }}" />
-        <env name="DB_PASS" value="postgres" />
-        <env name="ALLOWED_HOSTS" value="['django',]" />
-        <env name="GEONODE_BASE_URL" value="{{ django.GEONODE_BASE_URL }}" />
-        <env name="QGIS_SERVER_URL" value="{{ django.QGIS_SERVER_URL }}" />
-        <env name="PYTHON_VERSION" value="2.7.9" />
-        <env name="SITEURL" value="{{ django.SITEURL }}" />
+          {% include 'geonode-environment.xml.j2' %}
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.django.ssh }}/usr/local/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -293,27 +275,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
-        <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
-        <env name="NOTVISIBLE" value="in users profile" />
-        <env name="ROOT_URLCONF" value="core.urls" />
-        <env name="C_FORCE_ROOT" value="1" />
-        <env name="DB_USER" value="postgres" />
-        <env name="DB_NAME" value="postgres" />
-        <env name="DEBUG" value="True" />
-        <env name="LANG" value="C.UTF-8" />
-        <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
-        <env name="PYTHON_PIP_VERSION" value="6.1.1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
-        <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
-        <env name="GEOSERVER_BASE_URL" value="{{ django.GEOSERVER_BASE_URL }}" />
-        <env name="DB_PASS" value="postgres" />
-        <env name="ALLOWED_HOSTS" value="['django',]" />
-        <env name="GEONODE_BASE_URL" value="{{ django.GEONODE_BASE_URL }}" />
-        <env name="QGIS_SERVER_URL" value="{{ django.QGIS_SERVER_URL }}" />
-        <env name="PYTHON_VERSION" value="2.7.9" />
-        <env name="SITEURL" value="{{ django.SITEURL }}" />
+          {% include 'geonode-environment.xml.j2' %}
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -331,25 +293,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
-        <env name="INASAFE_LOCALE" value="id" />
-        <env name="NOTVISIBLE" value="in users profile" />
-        <env name="C_FORCE_ROOT" value="True" />
-        <env name="QGIS_PATH" value="/usr" />
-        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_URL" value="{{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}" />
-        <env name="INASAFE_HEADLESS_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
-        <env name="DISPLAY" value=":99" />
-        <env name="LD_LIBRARY_PATH" value="/usr/lib" />
-        <env name="QGIS_LOG_FILE" value="/tmp/inasafe/realtime/logs/qgis.log" />
-        <env name="QGIS_DEBUG_FILE" value="/tmp/inasafe/realtime/logs/qgis-debug.log" />
-        <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/src/inasafe" />
-        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR" value="{{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}" />
-        <env name="QGIS_PREFIX_PATH" value="/usr" />
-        <env name="INASAFE_WORK_DIR" value="/tmp/inasafe" />
-        <env name="INASAFE_SENTRY" value="1" />
-        <env name="DEBIAN_FRONTEND" value="noninteractive" />
-        <env name="QGIS_DEBUG" value="0" />
+          {% include 'inasafe-environment.xml.j2' %}
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.inasafe_headless.ssh }}/usr/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -367,25 +311,7 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="PATH" value="/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
-        <env name="INASAFE_LOCALE" value="id" />
-        <env name="NOTVISIBLE" value="in users profile" />
-        <env name="C_FORCE_ROOT" value="True" />
-        <env name="QGIS_PATH" value="/usr" />
-        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_URL" value="{{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}" />
-        <env name="INASAFE_HEADLESS_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
-        <env name="DISPLAY" value=":99" />
-        <env name="LD_LIBRARY_PATH" value="/usr/lib" />
-        <env name="QGIS_LOG_FILE" value="/tmp/inasafe/realtime/logs/qgis.log" />
-        <env name="QGIS_DEBUG_FILE" value="/tmp/inasafe/realtime/logs/qgis-debug.log" />
-        <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/src/inasafe" />
-        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR" value="{{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}" />
-        <env name="QGIS_PREFIX_PATH" value="/usr" />
-        <env name="INASAFE_WORK_DIR" value="/tmp/inasafe" />
-        <env name="INASAFE_SENTRY" value="1" />
-        <env name="DEBIAN_FRONTEND" value="noninteractive" />
-        <env name="QGIS_DEBUG" value="0" />
+          {% include 'inasafe-environment.xml.j2' %}
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.inasafe_headless_analysis.ssh }}/usr/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />

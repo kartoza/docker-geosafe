@@ -11,8 +11,15 @@
     mode: "u=rw,g=rw,o=r"
 - name: customize remote-mappings configurations
   template:
-    src: remote-mappings.xml
+    src: remote-mappings.xml.j2
     dest: '{{ project_path }}/.idea/remote-mappings.xml'
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rw,g=rw,o=r"
+- name: customize VCS mappings
+  template:
+    src: vcs.xml
+    dest: '{{ project_path }}/.idea/vcs.xml'
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
@@ -41,7 +48,7 @@
 
 - name: customize run/debug configurations
   template:
-    src: workspace-configuration.xml
+    src: workspace-configuration.xml.j2
     dest: '{{ project_path }}/deployment/ansible/tmp/workspace-configuration.xml'
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'

@@ -119,7 +119,7 @@ BROKER_URL = os.environ['BROKER_URL']
 CELERY_RESULT_BACKEND = BROKER_URL
 
 # Specific celery settings. Can be modified accordingly or leave as default
-CELERY_ALWAYS_EAGER = False
+CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER', False)
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 CELERY_IGNORE_RESULT = False
 CELERY_SEND_EVENTS = True
