@@ -1,7 +1,10 @@
 ---
 
+# put your linux/mac user here
 remote_user: user
+# put your linux/mac group here
 remote_group: group
+# put project path
 project_path: "/Users/user/Documents/WorkingDir/Projects/InaSAFE/docker-geosafe"
 
 docker_port_forward:
@@ -31,8 +34,9 @@ django:
   DEBUG: True
   # enable remote debugging
   command: /usr/sbin/sshd -D
-  SITEURL: http://localhost/
-  GEONODE_BASE_URL: http://nginx/
+  # put your ip address of your interface
+  SITEURL: http://192.168.1.5/
+  GEONODE_BASE_URL: http://192.168.1.5/
   QGIS_SERVER_URL: http://qgis-server/
   GEOSERVER_BASE_URL: http://geoserver:8080/geoserver/
 
@@ -44,11 +48,19 @@ celery:
 inasafe_headless:
   INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
   INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
+  QGIS_LOG_FILE: /tmp/inasafe/realtime/logs/qgis.log
+  QGIS_DEBUG_FILE: /tmp/inasafe/realtime/logs/qgis-debug.log
+  QGIS_DEBUG: 0
+  INASAFE_WORK_DIR: /tmp/inasafe
   # enable remote debugging
   command: /start-celery.sh dev
 
 inasafe_headless_analysis:
   INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
   INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
+  QGIS_LOG_FILE: /tmp/inasafe/realtime/logs/qgis.log
+  QGIS_DEBUG_FILE: /tmp/inasafe/realtime/logs/qgis-debug.log
+  QGIS_DEBUG: 0
+  INASAFE_WORK_DIR: /tmp/inasafe
   # enable remote debugging
   command: /start-celery.sh dev

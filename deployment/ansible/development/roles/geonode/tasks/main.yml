@@ -1,0 +1,14 @@
+---
+- name: create qgis layer directory
+  file:
+    path: '{{ project_path }}/src/geonode/geonode/{{ item }}'
+    state: directory
+    owner: '{{ remote_user }}'
+    group: '{{ remote_group }}'
+    mode: "u=rwx,g=rwx,o=rwx"
+    recurse: yes
+  become: yes
+  become_user: root
+  with_items:
+    - qgis_layer
+    - qgis_tiles

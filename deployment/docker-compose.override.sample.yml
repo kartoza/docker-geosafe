@@ -19,6 +19,7 @@ services:
     # old copy that docker added when creating the image
     volumes:
       - '../src/geonode:/usr/src/app'
+      - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
       - DEBUG=True
     command: /setup-geonode.sh dev
@@ -31,6 +32,7 @@ services:
     # old copy that docker added when creating the image
     volumes:
       - '../src/geonode:/usr/src/app'
+      - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
       - DEBUG=True
     command: /setup-geonode.sh dev
@@ -39,8 +41,14 @@ services:
 
   inasafe-headless:
     command: /start-celery.sh dev
+    volumes:
+      - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     ports:
       - "9002:22"
+
+  inasafe-headless-analysis:
+    volumes:
+      - './pycharm_helpers/inasafe-headless-analysis:/root/.pycharm_helpers'
 
   nginx:
     ports:

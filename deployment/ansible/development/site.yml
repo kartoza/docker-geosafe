@@ -6,4 +6,9 @@
     - pycharm
     - docker_compose
     - inasafe_headless
+    - geonode
     - geosafe
+  vars_prompt:
+    - name: "ansible_sudo_pass"
+      prompt: "Sudo password"
+      private: yes
