@@ -42,6 +42,12 @@ sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata sample_admin
 
+collectstatic: up
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py collectstatic
+
+reload:
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django uwsgi --reload  /tmp/django.pid
+
 shell:
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django /bin/bash
 

@@ -49,7 +49,10 @@ services:
       - '../src/geosafe:/usr/src/geosafe'
       - '../src/geonode_qgis_server/geonode_qgis_server:/usr/src/geonode_qgis_server'
       - '../src/otf-project:/opt/qgis-server/plugins'
-    command: /setup-geonode.sh
+      - '../src/geonode/geonode/static_root:/home/web/static'
+      - '../src/geonode/geonode/uploaded:/home/web/media'
+      - './logs:/var/log/'
+    command: uwsgi --ini /uwsgi.conf
     environment:
       - DATABASE_URL=postgres://docker:docker@postgis:5432/gis
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
@@ -81,6 +84,19 @@ services:
 #  Should be specified in docker-compose.override.yml
 #    ports:
 #      - "80:80"
+    network_mode: "bridge"
+
+  web:
+    image: nginx
+    volumes:
+      - './sites-enabled:/etc/nginx/conf.d:ro'
+      # I dont use volumes_from as I want to use the ro modifier
+      - '../src/geonode/geonode/static_root:/home/web/static:ro'
+      - '../src/geonode/geonode/uploaded:/home/web/media:ro'
+      - './logs:/var/log/nginx'
+    links:
+      - django
+      - qgis-server
     network_mode: "bridge"
 
   celery:

@@ -27,3 +27,16 @@ RUN pip install --upgrade -r /REQUIREMENTS.txt
 ADD setup-geonode.sh /setup-geonode.sh
 ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py
 RUN chmod +x /setup-geonode.sh
+
+# include uwsgi and production ready
+RUN apt-get update -y; apt-get -y install \
+	python-gdal \
+	python-geoip \
+	npm \
+	nodejs \
+	rpl
+RUN npm -g install yuglify
+RUN rpl "env node" "env nodejs" /usr/local/lib/node_modules/yuglify/bin/yuglify
+ADD uwsgi.conf /uwsgi.conf
+
+CMD ["uwsgi", "--ini", "/uwsgi.conf"]
