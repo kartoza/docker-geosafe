@@ -1,5 +1,7 @@
 # coding=utf-8
 from __future__ import absolute_import
+
+import ast
 import os
 import djcelery
 from kombu import Queue
@@ -169,3 +171,10 @@ if DEBUG:
         "handlers": ["console"],
         "level": "DEBUG",
     }
+
+if isinstance(ALLOWED_HOSTS, str):
+    # convert to list
+    try:
+        ALLOWED_HOSTS = ast.literal_eval(ALLOWED_HOSTS)
+    except:
+        pass
