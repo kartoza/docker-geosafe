@@ -12,3 +12,10 @@
     - name: "ansible_sudo_pass"
       prompt: "Sudo password"
       private: yes
+    - name: 'pycharm_version'
+      prompt: |
+        Choose PyCharm Version, available:
+        2016.3
+        2017.1
+      default: '2017.1'
+      private: no

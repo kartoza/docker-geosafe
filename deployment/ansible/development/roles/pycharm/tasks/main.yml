@@ -1,7 +1,4 @@
 ---
-- name: gather os specific variables
-  include_vars:
-    file: "{{ ansible_distribution }}.yml"
 - name: customize project configuration
   template:
     src: docker-geosafe.iml
@@ -23,6 +20,10 @@
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
+
+- name: gather os specific variables
+  include_vars:
+    file: "{{ pycharm_version }}/{{ ansible_distribution }}.yml"
 
 - name: customize dockerized python interpreter
   template:
