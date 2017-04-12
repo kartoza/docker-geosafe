@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/geonode" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/geonode_qgis_server" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/geosafe" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/inasafe" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/otf-project" vcs="Git" />

@@ -6,12 +6,12 @@ __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '8/25/16'
 
 
-urlpatterns = patterns('',
-
-                       # geonode urls
-                       (r'', include('geonode.urls')),
-                       # geosafe urls
-                       (r'', include('geosafe.urls', namespace="geosafe")),
-                       # qgis_server urls
-                       (r'', include('geonode_qgis_server.urls', namespace="geonode_qgis_server")),
-                       )
+urlpatterns = patterns(
+    '',
+    # geonode urls
+    (r'', include('geonode.urls')),
+    # geosafe urls
+    (r'', include('geosafe.urls', namespace="geosafe")),
+    # qgis_server urls
+    (r'', include('geonode.qgis_server.urls', namespace="qgis_server")),
+)

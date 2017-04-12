@@ -37,7 +37,7 @@ sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py makemigrations --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate account --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate layers --noinput
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geonode_qgis_server --noinput --settings=core.settings
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate qgis_server --noinput --settings=core.settings
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geosafe --noinput --settings=core.settings
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata sample_admin

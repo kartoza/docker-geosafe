@@ -19,19 +19,17 @@ except ImportError:
     pass
 
 INSTALLED_APPS += (
-    "geonode_qgis_server",
+    "geonode.qgis_server",
     "geosafe", )
 INSTALLED_APPS = list(INSTALLED_APPS)
 
 # Make priority for geosafe templates
 template_dirs = list(TEMPLATES[0]['DIRS'])
 template_dirs.insert(0, '/usr/src/geosafe/templates')
-template_dirs += ['/usr/src/geonode_qgis_server/templates']
 
 TEMPLATES[0]['DIRS'] = template_dirs
 STATICFILES_DIRS += (
     '/usr/src/geosafe/static',
-    '/usr/src/geonode_qgis_server/static',
 )
 
 # QGIS Server Backend settings
@@ -49,28 +47,12 @@ except:
 LAYER_PREVIEW_LIBRARY = 'leaflet'
 LEAFLET_CONFIG = {
     'TILES': [
-        # Find tiles at:
-        # http://leaflet-extras.github.io/leaflet-providers/preview/
-
         # Map Quest
         ('Map Quest',
          'http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
          'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> '
          '&mdash; Map data &copy; '
          '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'),
-        # Stamen toner lite.
-        # ('Watercolor',
-        #  'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png',
-        #  'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
-        #  <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; \
-        #  <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-        #  <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'),
-        # ('Toner Lite',
-        #  'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
-        #  'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
-        #  <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; \
-        #  <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-        #  <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'),
     ],
     'PLUGINS': {
         'esri-leaflet': {
@@ -163,7 +145,7 @@ GEONODE_BASE_URL = os.environ.get('GEONODE_BASE_URL', SITEURL)
 if DEBUG:
     LOGGING["handlers"]["console"]["level"] = "DEBUG"
 
-    LOGGING["loggers"]["geonode_qgis_server"] = {
+    LOGGING["loggers"]["geonode"] = {
         "handlers": ["console"],
         "level": "DEBUG",
     }

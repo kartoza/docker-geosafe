@@ -1,9 +1,6 @@
 [submodule "src/geonode"]
 	path = src/geonode
 	url = https://github.com/kartoza/geonode.git
-[submodule "src/geonode_qgis_server"]
-	path = src/geonode_qgis_server
-	url = https://github.com/kartoza/geonode_qgis_server.git
 [submodule "src/geosafe"]
 	path = src/geosafe
 	url = https://github.com/kartoza/geosafe.git
