@@ -36,11 +36,13 @@ build:
 sync: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py makemigrations --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate account --noinput
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate layers --noinput
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate qgis_server --noinput --settings=core.settings
-	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geosafe --noinput --settings=core.settings
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate --noinput
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata sample_admin
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata geonode/base/fixtures/default_oauth_apps_docker.json
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py loaddata geonode/base/fixtures/initial_data.json
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py layer_notice_types
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate qgis_server --noinput --settings=core.settings
+	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py migrate geosafe --noinput --settings=core.settings
 
 collectstatic: up
 	@docker-compose $(CONF_FILE) -p $(PROJECT_ID) exec django django-admin.py collectstatic

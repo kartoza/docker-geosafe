@@ -20,7 +20,7 @@ services:
     network_mode: "bridge"
 
   qgis-server:
-    build: docker-qgis-server
+    image: kartoza/qgis-server:LTR
     volumes:
       - '../src/geonode:/usr/src/app'
       - '../src/core:/usr/src/core'
@@ -35,7 +35,9 @@ services:
       - QGIS_DEBUG=5
       - QGIS_SERVER_LOG_LEVEL=5
       - QGIS_PLUGINPATH=/opt/qgis-server/plugins/
-      - QGIS_PROJECT_FILE=/project/project.qgs
+      # It is important to include this environment variable
+      # QGIS-Server:LTR cgi needs it
+      - QGIS_PROJECT_FILE=
     links:
       - postgis
     network_mode: "bridge"
