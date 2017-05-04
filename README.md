@@ -5,11 +5,13 @@
 Update all submodules to retrieve all the codes
 
 ```
+git remote update
 git submodule init
 git submodule update
 ```
 
-If some submodules wasn't updated correctly, add the following remote repo
+If some submodules wasn't updated correctly because it didn't find the 
+reference, add the following remote repo
 
 ```
 cd src/geonode
@@ -40,15 +42,9 @@ make up
 make down
 ```
 
-We need to create new tag for newly built images of geonode/django (so it doesn't try to fetch it again from dockerhub)
-This new tagged image will then be used in our entire architecture orchestration next.
-
-```
-# Find latest built images of geonode/django from previous command
-docker images | grep geonode/django
-# copy the image id and use it in below command
-docker tag [image-id] geonode_django
-```
+Now we have built a geonode docker image. This latest image will be used for 
+Geonode-GeoSAFE docker images. Whenever you change your geonode version, you 
+need to rebuilt geonode image.
 
 Build all images
 
@@ -80,6 +76,10 @@ services:
       - '../src/geonode:/usr/src/app'
     environment:
       - DEBUG=False
+      - SITEURL=http://yourdomain/
+      - GEONODE_BASE_URL=http://yourdomain/
+      - QGIS_SERVER_URL=http://qgis-server/
+      - GEOSERVER_BASE_URL=http://geoserver:8080/geoserver/
 
   celery:
     # Loading the app is defined here to allow for
@@ -90,7 +90,9 @@ services:
     environment:
       - DEBUG=False
 
-  nginx:
+  web:
+  	# this container works by forwarding requests from nginx to uwsgi in 
+  	# django container.
     ports:
       - "80:80"
 ```
@@ -111,7 +113,7 @@ services:
       - QGIS_DEBUG=0
       - QGIS_SERVER_LOG_LEVEL=0
     ports:
-      - "9003:80"  # Used to expose qgis-server to localhost
+      - "9003:80"  # Used to expose qgis-server to localhost for debugging
 
   django:
     # Loading the app is defined here to allow for
@@ -120,8 +122,11 @@ services:
     volumes:
       - '../src/geonode:/usr/src/app'
     environment:
+      # Make django autoreload on changes
       - DEBUG=True
-    command: /setup-geonode.sh dev
+    command: /usr/sbin/sshd -D
+    # Start ssh service, so django can be controlled to start using
+    # ssh
     ports:
       - "9000:22"  # Used for ssh interpreter to Geonode Django
 
@@ -133,16 +138,28 @@ services:
       - '../src/geonode:/usr/src/app'
     environment:
       - DEBUG=True
-    command: /setup-geonode.sh dev
+    command: /usr/sbin/sshd -D
+    # Start ssh service, so celery can be controlled to start using
+    # ssh
     ports:
       - "9001:22"  # Used for ssh interpreter to Geonode Celery
 
   inasafe-headless:
-    command: /start-celery.sh dev
+    command: /usr/sbin/sshd -D
+    # Start ssh service, so InaSAFE worker can be controlled to start using
+    # ssh
     ports:
       - "9002:22"  # Used for ssh interpreter to InaSAFE Headless
       
+  inasafe-headless-analysis:
+    command: /usr/sbin/sshd -D
+    # Start ssh service, so InaSAFE worker can be controlled to start using
+    # ssh
+    ports:
+      - "9004:22"  # Used for ssh interpreter to InaSAFE Headless
+      
   nginx:
+  # nginx works by forwarding request to django server in django container.
     ports:
       - "80:80"
 ```
@@ -158,6 +175,91 @@ make sync
 
 You can view geonode in the exposed port (default 80).
 
+## Development workflow
+
+Production environment should be able to run without further modification. 
+For development environment, we are using PyCharm configuration to start all 
+of these services, so we can debug/monitor logs easily. This configuration 
+assumes you are already familiar with PyCharm SSH debugging, Docker, Django, 
+and Celery.
+For those who are not familiar, the concept is fairly simple. Some of the 
+services that contains debuggable code (django, celery, and inasafe-headless) 
+were started as ssh service with exposed port to localhost. This allows us to 
+ssh into the container and start the necessary services ourselves.
+
+Geonode-GeoSAFE needs several services running. The core functionality of Geonode 
+ran on Django web framework. GeoSAFE is just a django app that run on top of Geonode.
+However, GeoSAFE also needs several services, especially InaSAFE to run analysis.
+Geonode-GeoSAFE and InaSAFE communicate using celery and message broker.
+These are some examples on how to run each services manually.
+
+To run django container in debug mode, we need to run django server on it.
+
+```
+# ssh into django container (exposed port is 9000 in docker-compose.override.yml)
+ssh root@localhost -p 9000
+# password: docker
+cd /usr/src/app
+# Run django server on 8000 port, so it will be forwarded to localhost via nginx.
+python manage.py runserver 0.0.0.0:8000
+```
+
+This way, as long as it is running, it will provides logs. You can continue 
+with your Django development workflow as usual. This is just to show on how to 
+run Django server from inside the container. If you're familiar with Docker, 
+it is fairly straightforward to understand.
+
+Next, we need to run celery workers. It is recommended if 
+you understand celery concepts. We have 3 workers needed for GeoSAFE. 
+The first one is celery worker that handles Geonode tasks. 
+
+```
+# ssh into geonode celery container (exposed port is 9001 in the 
+# docker-compose.override.yml example)
+ssh root@localhost -p 9001
+# password: docker
+cd /usr/src/app
+# Run celery worker (broker settings were already configured)
+# This command runs several queue (default,cleanup,email,update,geosafe) 
+# with debug log level, and activates celerybeat.
+celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+```
+
+The second one is to start up celery worker for InaSAFE that handles layer and 
+metadata query
+
+```
+# ssh into InaSAFE-Headless celery container (exposed port is 9002 in the
+# docker-compose.override.yml example)
+ssh root@localhost -p 9002
+# password: docker
+cd /home/src/inasafe
+# We already provide a short script to run the service:
+/start-celery.sh prod inasafe-headless
+# If you look at the file, it is basically calls the following worker commands:
+celery -A headless.celery_app worker -l info -Q inasafe-headless -n inasafe-headless.%h
+```
+
+The third one is to start up celery worker for InaSAFE that handles analysis
+
+```
+# ssh into InaSAFE-Headless celery container (exposed port is 9004 in the
+# docker-compose.override.yml example)
+ssh root@localhost -p 9004
+# password: docker
+cd /home/src/inasafe
+# We already provide a short script to run the service:
+/start-celery.sh prod inasafe-headless-analysis
+# If you look at the file, it is basically calls the following worker commands:
+celery -A headless.celery_app worker -l info -Q inasafe-headless-analysis -n inasafe-headless-analysis.%h
+```
+
+These concludes the necessary tasks to run services needed by GeoSAFE. Also note 
+that Django web server supports hot-loading, meaning that if you changed some 
+codes in Geonode or GeoSAFE, it will be interpreted immediately by Django web 
+server. Meanwhile, if you changed celery tasks codes, you need to rerun the 
+relevant worker for the changes to be applied. Celery worker doesn't support 
+hot-loading.
 
 ## Logging
 
@@ -171,11 +273,39 @@ make inasafe-headless-log
 
 ## PyCharm SSH Orchestration
 
+We used PyCharm for our development environment. In the professional edition, 
+we are able to use SSH interpreter to debug code, and use Run Configuration 
+to orchestrate the services.
+
+### Ansible generated files
+
+We are using ansible to setup pycharm configurations. To use this, simply go to:
+deployment/ansible/development/group_vars/all.sample.yml
+Use that file as template and modify it according to your environment.
+For example, these are common changes needed:
+
+```
+remote_user: your username
+remote_group: your username group
+project_path: the location of this repository in your computer path
+docker_port_forward: you might want to change several port redirection
+django: you might want to change SITEURL and GEONODE_BASE_URL to your local ip 
+		interface
+```
+
+After setting this up, run
+
+```
+make setup-ansible
+```
+
+and follow further instructions.
+
+### Creating Interpreter without using ansible
+
 Copy docker-compose.overrida.sample.yml as docker-compose.override.yml. This compose file will 
 override some configuration to use in deployment. Some notable settings is ports and commands. 
 This settings will enable ssh ready container for django, celery, and inasafe-headless.
-
-### Creating Interpreter
 
 Create 3 Remote Interpreter in PyCharm with corresponding services:
 

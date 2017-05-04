@@ -1,4 +1,6 @@
 ---
+# Edit or use this files as template to configure ansible variable,
+# then save it as filename: "all" in this folder.
 
 # put your linux/mac user here
 remote_user: user
