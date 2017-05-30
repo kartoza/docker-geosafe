@@ -14,6 +14,9 @@ services:
       # Log level 0 is the lowest (catch all), 5 is the highest (only fatal error)
       - QGIS_DEBUG=0
       - QGIS_SERVER_LOG_LEVEL=0
+      # It is important to include this environment variable
+      # QGIS-Server:LTR cgi needs it
+      - QGIS_PROJECT_FILE=
     ports:
       # - "9003:80"
       - "9003:80"
@@ -35,6 +38,11 @@ services:
     ports:
       # - "9000:22"
       - "9000:22"
+    links:
+      - postgis
+      - rabbitmq
+      - inasafe-output
+      - qgis-server
 
   nginx:
     ports:

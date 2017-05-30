@@ -3,7 +3,7 @@
   hosts: dev-env
   remote_user: '{{ remote_user }}'
   roles:
-    - pycharm
+    - { role: pycharm, tags: development }
     - docker_compose
     - inasafe_headless
     - geonode

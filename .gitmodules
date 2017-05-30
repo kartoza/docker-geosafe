@@ -6,7 +6,7 @@
 	url = https://github.com/kartoza/geosafe.git
 [submodule "src/inasafe"]
 	path = src/inasafe
-	url = https://github.com/inasafe/inasafe.git
+	url = https://github.com/inasafe/inasafe-realtime.git
 [submodule "src/otf-project"]
 	path = src/otf-project
 	url = https://github.com/kartoza/otf-project.git

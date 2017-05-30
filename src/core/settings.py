@@ -18,6 +18,8 @@ try:
 except ImportError:
     pass
 
+GEONODE_APPS += ("geonode.qgis_server", )
+GEONODE_APPS = list(GEONODE_APPS)
 INSTALLED_APPS += (
     "geonode.qgis_server",
     "geosafe", )
@@ -38,8 +40,15 @@ STATICFILES_DIRS += (
 
 try:
     INSTALLED_APPS.remove("geonode.geoserver")
+    GEONODE_APPS.remove("geonode.geoserver")
     MAP_BASELAYERS.remove(LOCAL_GEOSERVER)
     del LOCAL_GEOSERVER
+
+    geoserver_context_processor = 'geonode.geoserver.context_processors.geoserver_urls'
+    TEMPLATES[0]['OPTIONS']['context_processors'].remove(geoserver_context_processor)
+
+    qgis_server_context_processor = 'geonode.qgis_server.context_processors.qgis_server_urls'
+    TEMPLATES[0]['OPTIONS']['context_processors'].append(qgis_server_context_processor)
 except:
     pass
 
@@ -69,14 +78,15 @@ LEAFLET_CONFIG = {
     'RESET_VIEW': False
 }
 
-# Legacy from Geoserver
-# OGC_URL_INSIDE = os.environ.get('OGC_URL_INSIDE', SITEURL)
-# OGC_SERVER = {
-#     'default': {
-#         'LOCATION': OGC_URL_INSIDE + 'qgis-server/',
-#         'PUBLIC_LOCATION': SITEURL + 'qgis-server/'
-#     }
-# }
+# QGIS Server as local OGC Server, wrapped by geonode itself.
+OGC_URL_INSIDE = os.environ.get('OGC_URL_INSIDE', SITEURL)
+OGC_SERVER = {
+    'default': {
+        'BACKEND': 'geonode.qgis_server',
+        'LOCATION': OGC_URL_INSIDE + 'qgis-server/',
+        'PUBLIC_LOCATION': SITEURL + 'qgis-server/'
+    }
+}
 
 # OGC (WMS/WFS/WCS) Server Settings
 tiles_directory = os.path.join(PROJECT_ROOT, "qgis_tiles")
@@ -115,6 +125,7 @@ CELERY_DEFAULT_EXCHANGE_TYPE = "direct"
 CELERY_DEFAULT_ROUTING_KEY = "default"
 CELERY_CREATE_MISSING_QUEUES = True
 CELERYD_CONCURRENCY = 1
+CELERYD_PREFETCH_MULTIPLIER = 1
 
 # Defining Celery queue to avoid clash between tasks. Leave as default
 CELERY_QUEUES = [
@@ -154,9 +165,9 @@ if DEBUG:
         "level": "DEBUG",
     }
 
-if isinstance(ALLOWED_HOSTS, str):
+try:
     # convert to list
-    try:
-        ALLOWED_HOSTS = ast.literal_eval(ALLOWED_HOSTS)
-    except:
-        pass
+    allowed_hosts = os.environ['ALLOWED_HOSTS']
+    ALLOWED_HOSTS = ast.literal_eval(allowed_hosts)
+except:
+    pass

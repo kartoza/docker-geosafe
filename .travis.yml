@@ -1,0 +1,40 @@
+sudo: required
+
+language: python
+
+python:
+  - "2.7"
+
+virtualenv:
+  system_site_packages: true
+
+services:
+  - docker
+
+branches:
+  only:
+    - develop
+
+before_install:
+  # install ansible
+  - sudo apt-get -y update
+  - sudo apt-get -y install libssl-dev
+  - sudo pip install ansible
+
+install:
+  # setup files
+  - cd deployment
+  - cp ansible/development/group_vars/all.travis.yml ansible/development/group_vars/all.yml
+  - make setup-ansible ANSIBLE_ARGS="--extra-vars='ansible_sudo_pass=\"\"' --extra-vars='pycharm_version=\"\"' --skip-tags=development"
+  - cat docker-compose.override.yml
+  - cd ../
+
+script:
+  - cd src/geonode
+  - make build
+  - make up
+  - make down
+  - cd ../../deployment
+  - make build
+  - make up
+  - until make sync; do echo "Retrying"; sleep 5; done

@@ -1,17 +1,13 @@
 version: '2'
 services:
 
-
-  elasticsearch:
-    image: elasticsearch
-    network_mode: "bridge"
-
   rabbitmq:
     image: rabbitmq
     network_mode: "bridge"
 
   postgis:
     image: kartoza/postgis:9.4-2.1
+    restart: on-failure
     volumes:
       - './pg/postgres_data:/var/lib/postgresql'
     environment:
@@ -70,7 +66,6 @@ services:
       - QGIS_SERVER_URL=http://qgis-server/
     links:
       - postgis
-      - elasticsearch
       - rabbitmq
       - inasafe-output
       - qgis-server
@@ -102,6 +97,7 @@ services:
 
   celery:
     build: docker-geonode
+    restart: on-failure
     working_dir: /usr/src/app
     volumes:
       - '../src/geonode:/usr/src/app'
@@ -122,7 +118,6 @@ services:
     links:
       - rabbitmq
       - postgis
-      - elasticsearch
       - inasafe-output
       - qgis-server
     network_mode: "bridge"
@@ -137,6 +132,7 @@ services:
 
   inasafe-headless:
     build: docker-inasafe-headless
+    restart: on-failure
     volumes:
       - '../src/inasafe:/home/src/inasafe'
       - './inasafe/headless/output:/home/output'
@@ -156,6 +152,7 @@ services:
 
   inasafe-headless-analysis:
     build: docker-inasafe-headless
+    restart: on-failure
     volumes:
       - '../src/inasafe:/home/src/inasafe'
       - './inasafe/headless/output:/home/output'
