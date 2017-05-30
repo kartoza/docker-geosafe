@@ -1,8 +1,18 @@
-# Geosafe Deployment
+# GeoSAFE (and GeoNode-QGIS_server) Deployment
 
-## How to build stuffs happily
+This document describes the orchestration / provisioning of a GeoSAFE service. GeoSAFE is a Django app that has a number of dependencies, including GeoNode-QIS_server .
 
-Update all submodules to retrieve all the codes
+If you want to deploy just GeoNode-QGIS_server then omit all the parts referring to InaSAFE, GeoSAFE and celery. 
+
+Take note of the differences between production and development orchestration. 
+
+## _'One-line'_ orchestration
+  
+__Ansible__ playbooks are ready for use for a development environment and coming soon (end May 2017) for deploying a production instance. See the bottom of this doc and in `deployment-ansible` for details.  
+
+## How to build GeoSAFE with dependencies
+
+Update all submodules to retrieve all the code
 
 ```
 git remote update
@@ -10,8 +20,8 @@ git submodule init
 git submodule update
 ```
 
-If some submodules wasn't updated correctly because it didn't find the 
-reference, add the following remote repo
+If some submodules weren't updated correctly because they didn't find the 
+reference, add the following remote repos
 
 ```
 cd src/geonode
@@ -43,14 +53,14 @@ make down
 ```
 
 Now we have built a geonode docker image. This latest image will be used for 
-Geonode-GeoSAFE docker images. Whenever you change your geonode version, you 
-need to rebuilt geonode image.
+Geonode-GeoSAFE docker images. Whenever you change your GeoNode version, you 
+need to rebuild the GeoNode image.
 
 Build all images
 
-You can override docker-compose variable by creating docker-compose.override.yml. 
+You can override docker-compose variables by creating docker-compose.override.yml. 
 A sample file can be seen in docker-compose.override.yml.sample. Typical configuration 
-is to redirect exposed ports. Or enable Pycharm Debugging.
+is to redirect exposed ports, or enable Pycharm Debugging.
 
 Example for production configuration:
 
@@ -173,27 +183,28 @@ make up
 make sync
 ```
 
-You can view geonode in the exposed port (default 80).
+You can view GeoNode in the exposed port (default 80).
 
 ## Development workflow
 
-Production environment should be able to run without further modification. 
-For development environment, we are using PyCharm configuration to start all 
-of these services, so we can debug/monitor logs easily. This configuration 
+The production environment should be able to run without further modification. 
+For the development environment, we are using PyCharm configuration to start all 
+of these services so we can debug / monitor logs easily. This configuration 
 assumes you are already familiar with PyCharm SSH debugging, Docker, Django, 
 and Celery.
+
 For those who are not familiar, the concept is fairly simple. Some of the 
-services that contains debuggable code (django, celery, and inasafe-headless) 
-were started as ssh service with exposed port to localhost. This allows us to 
+services that contain debuggable code (django, celery, and inasafe-headless) 
+were started as ssh services with exposed ports to localhost. This allows us to 
 ssh into the container and start the necessary services ourselves.
 
 Geonode-GeoSAFE needs several services running. The core functionality of Geonode 
-ran on Django web framework. GeoSAFE is just a django app that run on top of Geonode.
-However, GeoSAFE also needs several services, especially InaSAFE to run analysis.
+runs on the Django web framework. GeoSAFE is just a Django app that runs on top of GeoNode.
+However, GeoSAFE also needs several services, especially InaSAFE, to run analysis.
 Geonode-GeoSAFE and InaSAFE communicate using celery and message broker.
-These are some examples on how to run each services manually.
+These are some examples of how to run each service manually.
 
-To run django container in debug mode, we need to run django server on it.
+To run a Django container in debug mode, we need to run the Django server in it.
 
 ```
 # ssh into django container (exposed port is 9000 in docker-compose.override.yml)
@@ -204,14 +215,14 @@ cd /usr/src/app
 python manage.py runserver 0.0.0.0:8000
 ```
 
-This way, as long as it is running, it will provides logs. You can continue 
-with your Django development workflow as usual. This is just to show on how to 
+This way, as long as it is running, it will provide logs. You can continue 
+with your Django development workflow as usual. This is just to show how to 
 run Django server from inside the container. If you're familiar with Docker, 
 it is fairly straightforward to understand.
 
-Next, we need to run celery workers. It is recommended if 
-you understand celery concepts. We have 3 workers needed for GeoSAFE. 
-The first one is celery worker that handles Geonode tasks. 
+Next, we need to run celery workers. It is recommendeded if 
+you understand celery concepts. We need three workers for GeoSAFE. 
+The first celery worker handles Geonode tasks. 
 
 ```
 # ssh into geonode celery container (exposed port is 9001 in the 
@@ -225,8 +236,8 @@ cd /usr/src/app
 celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
 ```
 
-The second one is to start up celery worker for InaSAFE that handles layer and 
-metadata query
+The second one starts up a celery worker for InaSAFE that handles layer and 
+metadata queries
 
 ```
 # ssh into InaSAFE-Headless celery container (exposed port is 9002 in the
@@ -240,7 +251,7 @@ cd /home/src/inasafe
 celery -A headless.celery_app worker -l info -Q inasafe-headless -n inasafe-headless.%h
 ```
 
-The third one is to start up celery worker for InaSAFE that handles analysis
+The third one starts up a celery worker for InaSAFE that handles analysis
 
 ```
 # ssh into InaSAFE-Headless celery container (exposed port is 9004 in the
@@ -254,11 +265,11 @@ cd /home/src/inasafe
 celery -A headless.celery_app worker -l info -Q inasafe-headless-analysis -n inasafe-headless-analysis.%h
 ```
 
-These concludes the necessary tasks to run services needed by GeoSAFE. Also note 
+These conclude the necessary tasks to run services needed by GeoSAFE. Also note 
 that Django web server supports hot-loading, meaning that if you changed some 
-codes in Geonode or GeoSAFE, it will be interpreted immediately by Django web 
-server. Meanwhile, if you changed celery tasks codes, you need to rerun the 
-relevant worker for the changes to be applied. Celery worker doesn't support 
+code in GeoNode or GeoSAFE, it will be interpreted immediately by the Django web 
+server. Meanwhile, if you changed celery tasks code, you need to rerun the 
+relevant worker for the changes to be applied. Celery workers don't support 
 hot-loading.
 
 ## Logging
@@ -304,12 +315,12 @@ and follow further instructions.
 ### Creating Interpreter without using ansible
 
 Copy docker-compose.overrida.sample.yml as docker-compose.override.yml. This compose file will 
-override some configuration to use in deployment. Some notable settings is ports and commands. 
-This settings will enable ssh ready container for django, celery, and inasafe-headless.
+override some configurations to use in deployment. Some notable settings are ports and commands. 
+These settings will enable ssh ready containers for django, celery, and inasafe-headless.
 
-Create 3 Remote Interpreter in PyCharm with corresponding services:
+Create 3 Remote Interpreters in PyCharm with corresponding services:
 
-#### Geosafe
+#### GeoSAFE
 
 Use ssh port from django service. /usr/local/bin/python for interpreter path. Username root.
 Password docker. Set unique name and include path mappings:
@@ -319,9 +330,9 @@ Password docker. Set unique name and include path mappings:
 - src/geonode_qgis_server/geonode_qgis_server --> /usr/src/geonode_qgis_server
 - src/geosafe --> /usr/src/geosafe
 
-#### Geosafe Celery
+#### GeoSAFE Celery
 
-Pretty much the same with Geosafe, but with corresponding ports for celery service.
+Pretty much the same as with GeoSAFE, but with corresponding ports for celery service.
 
 #### InaSAFE-Headless
 
@@ -330,12 +341,11 @@ Password docker. Set unique name and include path mappings:
 
 - src/inasafe --> /home/src/inasafe
 
-
 ### Creating Running Configuration
 
 After creating 3 Remote Interpreter, create 3 corresponding python configuration:
 
-#### Geosafe
+#### GeoSAFE
 
 Script: manage.py
 
@@ -370,7 +380,7 @@ PYTHON_VERSION=2.7.9
 SITEURL=http://localhost/
 ```
 
-#### Geosafe Celery
+#### GeoSAFE Celery
 
 Script: /usr/local/bin/celery
 
@@ -453,5 +463,5 @@ Script Parameter: -A headless.celery_app worker -l info -Q inasafe-headless-anal
 After creating this runtime configuration. You can up the services and proceed to run/debug the configuration using PyCharm commands
 
 ## Known Issue
-If the QGIS Server doesn't work (e.g. you upload a layer, and geonode doesn't the layer), one of the problem is `permission problem`. You can fix it by giving permission to write in the `qgis_layer` directory. For example:
+If the QGIS Server doesn't work (e.g. you upload a layer, and GeoNode doesn't publish the layer), one of the problems could be `permission problem`. You can fix it by setting write permission in the `qgis_layer` directory. For example:
 ```sudo chmod -R +066 qgis_layer/```
