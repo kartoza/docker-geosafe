@@ -6,7 +6,9 @@
         <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python">
           <settings>
             <list>
+              <mapping local-root="$PROJECT_DIR$/src/core" remote-root="/usr/src/core" />
               <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
+              <mapping local-root="$PROJECT_DIR$/src/geonode" remote-root="/usr/src/app" />
             </list>
           </settings>
         </remote-mappings>

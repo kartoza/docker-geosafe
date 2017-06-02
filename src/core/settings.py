@@ -90,6 +90,7 @@ OGC_SERVER = {
 
 # OGC (WMS/WFS/WCS) Server Settings
 tiles_directory = os.path.join(PROJECT_ROOT, "qgis_tiles")
+layer_directory = os.path.join(PROJECT_ROOT, "qgis_layer")
 QGIS_SERVER_URL = os.environ.get(
     'QGIS_SERVER_URL', 'http://qgis-server/')
 QGIS_SERVER_CONFIG = {
@@ -100,7 +101,7 @@ QGIS_SERVER_CONFIG = {
     'map_tile_path': os.path.join(
         tiles_directory, '%s', 'map_tiles', '%s', '%s', '%s', '%s.png'),
     'qgis_server_url': QGIS_SERVER_URL,
-    'layer_directory': os.path.join(PROJECT_ROOT, "qgis_layer")
+    'layer_directory': layer_directory
 }
 
 
