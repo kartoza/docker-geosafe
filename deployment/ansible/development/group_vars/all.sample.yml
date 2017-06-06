@@ -45,7 +45,7 @@ django:
   DEBUG: True
   # enable remote debugging
   command: /usr/sbin/sshd -D
-  # put your ip address of your interface
+  # put your ip address of your interface to SITEURL and GEONODE_BASE_URL
   SITEURL: http://192.168.1.5/
   # Settings for geosafe
   GEONODE_BASE_URL: http://192.168.1.5/

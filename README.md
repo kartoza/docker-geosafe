@@ -290,8 +290,8 @@ to orchestrate the services.
 
 ### Ansible generated files
 
-We are using ansible to setup pycharm configurations. To use this, simply go to:
-deployment/ansible/development/group_vars/all.sample.yml
+We are using ansible to setup pycharm configurations. To use this, in the directory
+deployment/ansible/development/group_vars/ copy/paste all.sample.yml to all.yml.
 Use that file as template and modify it according to your environment.
 For example, these are common changes needed:
 
@@ -310,7 +310,10 @@ After setting this up, run
 make setup-ansible
 ```
 
-and follow further instructions.
+and follow further instructions in the command line.
+
+You need to relaunch the ansible playbook everytime your IP is updated.
+Otherwise, Geonode will try to fetch some resources with an IP out of date.
 
 ### Creating Interpreter without using ansible
 
