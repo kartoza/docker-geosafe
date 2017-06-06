@@ -12,3 +12,4 @@
   with_items:
     - qgis_layer
     - qgis_tiles
+  when: ogc_backend == 'qgis_server' or use_geosafe

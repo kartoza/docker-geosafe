@@ -15,6 +15,14 @@ services:
   {% endif %}
 
   qgis-server:
+    image: kartoza/qgis-server:LTR
+    volumes:
+      - '../src/geonode:/usr/src/app'
+      - '../src/core:/usr/src/core'
+      - '../src/geosafe:/usr/src/geosafe'
+      - '../src/otf-project:/opt/qgis-server/plugins/otf-project'
+      - './qgis-web:/var/www'
+      - './qgis-server-log:/tmp/qgis-server'
     environment:
       - DEBUG={{ qgis_server.DEBUG }}
       - QGIS_LOG_FILE={{ qgis_server.QGIS_LOG_FILE }}
@@ -36,19 +44,20 @@ services:
       {% endif %}
     {% endif %}
 
+    network_mode: "bridge"
+
   django:
-    # Loading the app is defined here to allow for
-    # autoreload on changes it is mounted on top of the
-    # old copy that docker added when creating the image
     volumes:
-      - '../src/geonode:/usr/src/app'
+      - '../src/geosafe:/usr/src/geosafe'
+      - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
       - DEBUG={{ django.DEBUG }}
       - SITEURL={{ django.SITEURL }}
+      - OGC_BACKEND=geonode.{{ ogc_backend }}
       - GEONODE_BASE_URL={{ django.GEONODE_BASE_URL }}
       - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
-      - GEOSERVER_BASE_URL={{ django.GEOSERVER_BASE_URL }}
+      - USE_GEOSAFE={{ use_geosafe }}
     {% if django.command is defined %}
 
     command: {{ django.command }}
@@ -64,6 +73,10 @@ services:
 
       {% endif %}
     {% endif %}
+
+    links:
+      - qgis-server
+      - inasafe-output
 
   {% if docker_port_forward.nginx is defined %}
 
@@ -90,14 +103,16 @@ services:
   {% endif %}
 
   celery:
-    # Loading the app is defined here to allow for
-    # autoreload on changes it is mounted on top of the
-    # old copy that docker added when creating the image
     volumes:
-      - '../src/geonode:/usr/src/app'
+      - '../src/geosafe:/usr/src/geosafe'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
-      - DEBUG={{ celery.DEBUG }}
+      - DEBUG={{ django.DEBUG }}
+      - SITEURL={{ django.SITEURL }}
+      - OGC_BACKEND=geonode.{{ ogc_backend }}
+      - GEONODE_BASE_URL={{ django.GEONODE_BASE_URL }}
+      - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
+      - USE_GEOSAFE={{ use_geosafe }}
     {% if celery.command is defined %}
 
     command: {{ celery.command }}
@@ -112,8 +127,26 @@ services:
       {% endif %}
     {% endif %}
 
+    links:
+      - qgis-server
+
+  inasafe-output:
+    image: nginx
+    volumes:
+      - ./inasafe/headless/output:/usr/share/nginx/html/output
+    ports:
+      - "8081:80"
+    network_mode: "bridge"
+
   inasafe-headless:
+    build: docker-inasafe-headless
+    restart: on-failure
+    working_dir: /home/src/inasafe
     environment:
+      - C_FORCE_ROOT=True
+      - PYTHONPATH=/home/src/inasafe
+      - DISPLAY=:99
+      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}
       - QGIS_LOG_FILE={{ inasafe_headless.QGIS_LOG_FILE }}
@@ -121,10 +154,15 @@ services:
       - QGIS_DEBUG={{ inasafe_headless.QGIS_DEBUG }}
       - INASAFE_WORK_DIR={{ inasafe_headless.INASAFE_WORK_DIR }}
     volumes:
+      - '../src/inasafe:/home/src/inasafe'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
     command: {{ inasafe_headless.command }}
+
+    {% else %}
+
+    command: /start-celery.sh prod inasafe-headless
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless is defined %}
@@ -138,8 +176,20 @@ services:
       {% endif %}
     {% endif %}
 
+    links:
+      - rabbitmq:rabbitmq
+      - nginx:nginx
+    network_mode: "bridge"
+
   inasafe-headless-analysis:
+    build: docker-inasafe-headless
+    restart: on-failure
+    working_dir: /home/src/inasafe
     environment:
+      - C_FORCE_ROOT=True
+      - PYTHONPATH=/home/src/inasafe
+      - DISPLAY=:99
+      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}
       - QGIS_LOG_FILE={{ inasafe_headless_analysis.QGIS_LOG_FILE }}
@@ -147,10 +197,15 @@ services:
       - QGIS_DEBUG={{ inasafe_headless_analysis.QGIS_DEBUG }}
       - INASAFE_WORK_DIR={{ inasafe_headless_analysis.INASAFE_WORK_DIR }}
     volumes:
+      - '../src/inasafe:/home/src/inasafe'
       - './pycharm_helpers/inasafe-headless-analysis:/root/.pycharm_helpers'
     {% if inasafe_headless_analysis.command is defined %}
 
     command: {{ inasafe_headless_analysis.command }}
+
+    {% else %}
+
+    command: /start-celery.sh prod inasafe-headless
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless_analysis is defined %}
@@ -163,3 +218,8 @@ services:
 
       {% endif %}
     {% endif %}
+
+    links:
+      - rabbitmq:rabbitmq
+      - nginx:nginx
+    network_mode: "bridge"

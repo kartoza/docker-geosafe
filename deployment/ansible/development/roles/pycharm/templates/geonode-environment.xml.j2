@@ -11,9 +11,24 @@
         <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
         <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
         <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
+        <env name="OGC_BACKEND" value="geonode.{{ ogc_backend }}" />
+        {% if ogc_backend == 'geoserver' %}
+
         <env name="GEOSERVER_BASE_URL" value="{{ django.GEOSERVER_BASE_URL }}" />
+
+        {% endif %}
         <env name="DB_PASS" value="postgres" />
         <env name="ALLOWED_HOSTS" value="['django',]" />
+        {% if use_geosafe %}
+
         <env name="GEONODE_BASE_URL" value="{{ django.GEONODE_BASE_URL }}" />
+        <env name="USE_GEOSAFE" value="{{ use_geosafe }}" />
+
+        {% endif %}
+        <env name="USE_GEOSAFE" value="{{ use_geosafe }}" />
+        {% if ogc_backend == 'qgis_server' %}
+
         <env name="QGIS_SERVER_URL" value="{{ django.QGIS_SERVER_URL }}" />
+
+        {% endif %}
         <env name="SITEURL" value="{{ django.SITEURL }}" />

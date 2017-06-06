@@ -2,6 +2,11 @@
 # Edit or use this files as template to configure ansible variable,
 # then save it as filename: "all" in this folder.
 
+# Use either qgis_server or geoserver
+ogc_backend: qgis_server
+# set to True or False to include geosafe in the orchestration
+use_geosafe: True
+
 # put your linux/mac user here
 remote_user: user
 # put your linux/mac group here
@@ -12,6 +17,8 @@ project_path: "/Users/user/Documents/WorkingDir/Projects/InaSAFE/docker-geosafe"
 docker_port_forward:
   postgis:
     postgis: 6543
+  geoserver:
+    http: 8080
   qgis_server:
     http: 9003
   django:
@@ -40,8 +47,11 @@ django:
   command: /usr/sbin/sshd -D
   # put your ip address of your interface
   SITEURL: http://192.168.1.5/
+  # Settings for geosafe
   GEONODE_BASE_URL: http://192.168.1.5/
+  # Settings for qgis server
   QGIS_SERVER_URL: http://qgis-server/
+  # Settings for geoserver
   GEOSERVER_BASE_URL: http://geoserver:8080/geoserver/
 
 celery:

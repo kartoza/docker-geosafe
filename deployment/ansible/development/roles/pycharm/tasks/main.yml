@@ -27,25 +27,27 @@
 
 - name: customize dockerized python interpreter
   template:
-    src: 'python-interpreter/{{ item }}'
-    dest: '{{ project_path }}/deployment/ansible/tmp/{{ item }}'
+    src: 'python-interpreter/{{ item.src }}'
+    dest: '{{ project_path }}/deployment/ansible/tmp/{{ item.src }}'
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
   with_items:
-    - geonode-django.xml.j2
-    - geonode-celery.xml.j2
-    - inasafe-headless-celery.xml.j2
-    - inasafe-headless-analysis-celery.xml.j2
+    - { src: geonode-django.xml.j2, included: True }
+    - { src: geonode-celery.xml.j2, included: True }
+    - { src: inasafe-headless-celery.xml.j2, included: '{{ use_geosafe }}' }
+    - { src: inasafe-headless-analysis-celery.xml.j2, included: '{{ use_geosafe }}' }
+  when: item.included
 - name: inject python interpreter definitions
-  command: python inject_python_interpreter.py "{{ pycharm_settings_path }}/options/jdk.table.xml" "{{ project_path }}/deployment/ansible/tmp/{{ item }}"
-  with_items:
-    - geonode-django.xml.j2
-    - geonode-celery.xml.j2
-    - inasafe-headless-celery.xml.j2
-    - inasafe-headless-analysis-celery.xml.j2
+  command: python inject_python_interpreter.py "{{ pycharm_settings_path }}/options/jdk.table.xml" "{{ project_path }}/deployment/ansible/tmp/{{ item.src }}"
   args:
     chdir: "{{ project_path }}/deployment/ansible/development/roles/pycharm/files/"
+  with_items:
+    - { src: geonode-django.xml.j2, included: True }
+    - { src: geonode-celery.xml.j2, included: True }
+    - { src: inasafe-headless-celery.xml.j2, included: '{{ use_geosafe }}' }
+    - { src: inasafe-headless-analysis-celery.xml.j2, included: '{{ use_geosafe }}' }
+  when: item.included
 
 - name: customize run/debug configurations
   template:

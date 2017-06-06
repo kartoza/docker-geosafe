@@ -2,6 +2,11 @@
 # Edit or use this files as template to configure ansible variable,
 # then save it as filename: "all" in this folder.
 
+# Use either qgis_server or geoserver
+ogc_backend: qgis_server
+# set to True or False to include geosafe in the orchestration
+use_geosafe: True
+
 # put your linux/mac user here
 remote_user: travis
 # put your linux/mac group here
@@ -27,7 +32,6 @@ django:
   SITEURL: http://172.17.0.1/
   GEONODE_BASE_URL: http://172.17.0.1/
   QGIS_SERVER_URL: http://qgis-server/
-  GEOSERVER_BASE_URL: http://geoserver:8080/geoserver/
 
 celery:
   DEBUG: False

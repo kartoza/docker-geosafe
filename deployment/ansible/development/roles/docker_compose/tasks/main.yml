@@ -1,8 +1,13 @@
 ---
 - name: customize docker-compose.yml
   template:
-    src: docker-compose.override.yml
+    src: '{{ item.src }}'
     dest: '{{ project_path }}/deployment/docker-compose.override.yml'
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
+  with_items:
+    - { src: docker-compose.override.geoserver.yml, match: '{{ ogc_backend == "geoserver" }}'}
+    - { src: docker-compose.override.qgis.yml, match: '{{ ogc_backend == "qgis_server" }}'}
+    - { src: docker-compose.override.geosafe.yml, match: '{{ use_geosafe }}'}
+  when: item.match

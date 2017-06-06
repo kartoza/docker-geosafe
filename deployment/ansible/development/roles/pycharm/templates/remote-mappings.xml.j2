@@ -3,15 +3,29 @@
   <component name="RemoteMappingsManager">
     <list>
       <list>
+        <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.django.ssh }}/usr/local/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="$PROJECT_DIR$/src/core" remote-root="/usr/src/core" />
+              <mapping local-root="$PROJECT_DIR$/src/geonode" remote-root="/usr/src/app" />
+            {% if use_geosafe %}
+              <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
+            {% endif %}
+            </list>
+          </settings>
+        </remote-mappings>
         <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python">
           <settings>
             <list>
               <mapping local-root="$PROJECT_DIR$/src/core" remote-root="/usr/src/core" />
-              <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
               <mapping local-root="$PROJECT_DIR$/src/geonode" remote-root="/usr/src/app" />
+            {% if use_geosafe %}
+              <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
+            {% endif %}
             </list>
           </settings>
         </remote-mappings>
+        {% if use_geosafe %}
         <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.inasafe_headless.ssh }}/usr/bin/python">
           <settings>
             <list>
@@ -26,15 +40,7 @@
             </list>
           </settings>
         </remote-mappings>
-        <remote-mappings server-id="python@ssh://root@localhost:{{ docker_port_forward.django.ssh }}/usr/local/bin/python">
-          <settings>
-            <list>
-              <mapping local-root="$PROJECT_DIR$/src/core" remote-root="/usr/src/core" />
-              <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
-              <mapping local-root="$PROJECT_DIR$/src/geonode" remote-root="/usr/src/app" />
-            </list>
-          </settings>
-        </remote-mappings>
+        {% endif %}
       </list>
     </list>
   </component>

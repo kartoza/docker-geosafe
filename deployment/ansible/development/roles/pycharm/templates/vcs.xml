@@ -3,8 +3,12 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/geonode" vcs="Git" />
+    {% if use_geosafe %}
     <mapping directory="$PROJECT_DIR$/src/geosafe" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/inasafe" vcs="Git" />
+    {% endif %}
+    {% if use_geosafe or ogc_backend == 'qgis_server' %}
     <mapping directory="$PROJECT_DIR$/src/otf-project" vcs="Git" />
+    {% endif %}
   </component>
 </project>

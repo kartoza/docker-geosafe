@@ -1,17 +1,20 @@
 # coding=utf-8
 from __future__ import absolute_import
-from django.conf.urls import include, patterns, url
+from django.conf import settings
+from django.conf.urls import include, patterns
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '8/25/16'
 
 
-urlpatterns = patterns(
+pattern_lists = [
     '',
     # geonode urls
     (r'', include('geonode.urls')),
-    # geosafe urls
-    (r'', include('geosafe.urls', namespace="geosafe")),
-    # qgis_server urls
-    (r'', include('geonode.qgis_server.urls', namespace="qgis_server")),
-)
+]
+
+if 'geosafe' in settings.INSTALLED_APPS:
+    pattern_lists.append(
+        (r'^geosafe/', include('geosafe.urls', namespace="geosafe")))
+
+urlpatterns = patterns(*pattern_lists)

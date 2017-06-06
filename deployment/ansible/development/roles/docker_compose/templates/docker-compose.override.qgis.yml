@@ -1,0 +1,125 @@
+version: '2'
+
+services:
+
+  {% if docker_port_forward.postgis is defined %}
+
+  postgis:
+    ports:
+      # - "6543:5432"
+      {% if docker_port_forward.postgis.postgis is defined %}
+
+      - "{{ docker_port_forward.postgis.postgis }}:5432"
+
+      {% endif %}
+  {% endif %}
+
+  qgis-server:
+    image: kartoza/qgis-server:LTR
+    volumes:
+      - '../src/geonode:/usr/src/app'
+      - '../src/core:/usr/src/core'
+      - '../src/otf-project:/opt/qgis-server/plugins/otf-project'
+      - './qgis-web:/var/www'
+      - './qgis-server-log:/tmp/qgis-server'
+    environment:
+      - DEBUG={{ qgis_server.DEBUG }}
+      - QGIS_LOG_FILE={{ qgis_server.QGIS_LOG_FILE }}
+      - QGIS_SERVER_LOG_FILE={{ qgis_server.QGIS_SERVER_LOG_FILE }}
+      # Log level 0 is the lowest (catch all), 5 is the highest (only fatal error)
+      - QGIS_DEBUG={{ qgis_server.QGIS_DEBUG }}
+      - QGIS_SERVER_LOG_LEVEL={{ qgis_server.QGIS_SERVER_LOG_LEVEL }}
+      # It is important to include this environment variable
+      # QGIS-Server:LTR cgi needs it
+      - QGIS_PROJECT_FILE=
+    {% if docker_port_forward.qgis_server is defined %}
+
+    ports:
+      # - "9003:80"
+      {% if docker_port_forward.qgis_server.http is defined %}
+
+      - "{{ docker_port_forward.qgis_server.http }}:80"
+
+      {% endif %}
+    {% endif %}
+
+    network_mode: "bridge"
+
+  django:
+    volumes:
+      - '../src/otf-project:/opt/qgis-server/plugins'
+      - './pycharm_helpers/django:/root/.pycharm_helpers'
+    environment:
+      - DEBUG={{ django.DEBUG }}
+      - SITEURL={{ django.SITEURL }}
+      - OGC_BACKEND=geonode.{{ ogc_backend }}
+      - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
+      - USE_GEOSAFE={{ use_geosafe }}
+    {% if django.command is defined %}
+
+    command: {{ django.command }}
+
+    {% endif %}
+    {% if docker_port_forward.django is defined %}
+
+    ports:
+      # - "9000:22"
+      {% if docker_port_forward.django.ssh is defined %}
+
+      - "{{ docker_port_forward.django.ssh }}:22"
+
+      {% endif %}
+    {% endif %}
+
+    links:
+      - qgis-server
+
+  {% if docker_port_forward.nginx is defined %}
+
+  nginx:
+    ports:
+      # - "80:80"
+      {% if docker_port_forward.nginx.http is defined %}
+
+      - "{{ docker_port_forward.nginx.http }}:80"
+
+      {% endif %}
+  {% endif %}
+
+  {% if docker_port_forward.web is defined %}
+
+  web:
+    ports:
+      # - "80:80"
+      {% if docker_port_forward.web.http is defined %}
+
+      - "{{ docker_port_forward.web.http }}:80"
+
+      {% endif %}
+  {% endif %}
+
+  celery:
+    volumes:
+      - './pycharm_helpers/celery:/root/.pycharm_helpers'
+    environment:
+      - DEBUG={{ django.DEBUG }}
+      - SITEURL={{ django.SITEURL }}
+      - OGC_BACKEND=geonode.{{ ogc_backend }}
+      - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
+      - USE_GEOSAFE={{ use_geosafe }}
+    {% if celery.command is defined %}
+
+    command: {{ celery.command }}
+
+    {% endif %}
+    {% if docker_port_forward.celery is defined %}
+
+    ports:
+      # - "9001:22"
+      {% if docker_port_forward.celery.ssh is defined %}
+      - "{{ docker_port_forward.celery.ssh }}:22"
+      {% endif %}
+    {% endif %}
+
+    links:
+      - qgis-server

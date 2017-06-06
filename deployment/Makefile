@@ -26,18 +26,11 @@ build:
 	@echo "------------------------------------------------------------------"
 	@echo "Building in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) build qgis-server
-	@docker-compose -p $(PROJECT_ID) build nginx
-	@docker-compose -p $(PROJECT_ID) build django
-	@docker-compose -p $(PROJECT_ID) build celery
-	@docker-compose -p $(PROJECT_ID) build inasafe-headless
-	@docker-compose -p $(PROJECT_ID) build inasafe-headless-analysis
+	@docker-compose -p $(PROJECT_ID) build
 
 sync: up
 	@docker-compose -p $(PROJECT_ID) exec django django-admin.py makemigrations --noinput --merge
 	@docker-compose -p $(PROJECT_ID) exec django paver sync
-	@docker-compose -p $(PROJECT_ID) exec django django-admin.py migrate qgis_server --noinput --settings=core.settings
-	@docker-compose -p $(PROJECT_ID) exec django django-admin.py migrate geosafe --noinput --settings=core.settings
 
 collectstatic: up
 	@docker-compose -p $(PROJECT_ID) exec django django-admin.py collectstatic

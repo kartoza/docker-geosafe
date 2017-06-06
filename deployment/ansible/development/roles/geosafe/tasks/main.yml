@@ -6,3 +6,4 @@
     owner: '{{ remote_user }}'
     group: '{{ remote_group }}'
     mode: "u=rw,g=rw,o=r"
+  when: use_geosafe

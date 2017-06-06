@@ -15,36 +15,11 @@ services:
       - POSTGRES_PASS=docker
     network_mode: "bridge"
 
-  qgis-server:
-    image: kartoza/qgis-server:LTR
-    volumes:
-      - '../src/geonode:/usr/src/app'
-      - '../src/core:/usr/src/core'
-      - '../src/geosafe:/usr/src/geosafe'
-      - '../src/otf-project:/opt/qgis-server/plugins/otf-project'
-      - './qgis-web:/var/www'
-      - './qgis-server-log:/tmp/qgis-server'
-    environment:
-      - DEBUG=False
-      - QGIS_LOG_FILE=/tmp/qgis-server/qgis.log
-      - QGIS_SERVER_LOG_FILE=/tmp/qgis-server/qgis-server.log
-      - QGIS_DEBUG=5
-      - QGIS_SERVER_LOG_LEVEL=5
-      - QGIS_PLUGINPATH=/opt/qgis-server/plugins/
-      # It is important to include this environment variable
-      # QGIS-Server:LTR cgi needs it
-      - QGIS_PROJECT_FILE=
-    links:
-      - postgis
-    network_mode: "bridge"
-
   django:
     build: docker-geonode
     volumes:
       - '../src/geonode:/usr/src/app'
       - '../src/core:/usr/src/core'
-      - '../src/geosafe:/usr/src/geosafe'
-      - '../src/otf-project:/opt/qgis-server/plugins'
       - '../src/geonode/geonode/static_root:/home/web/static'
       - '../src/geonode/geonode/uploaded:/home/web/media'
       - './logs:/var/log/'
@@ -67,15 +42,12 @@ services:
     links:
       - postgis
       - rabbitmq
-      - inasafe-output
-      - qgis-server
     network_mode: "bridge"
 
   nginx:
     build: docker-nginx
     links:
       - django
-      - qgis-server
 #  Default exposed port.
 #  Should be specified in docker-compose.override.yml
 #    ports:
@@ -92,7 +64,6 @@ services:
       - './logs:/var/log/nginx'
     links:
       - django
-      - qgis-server
     network_mode: "bridge"
 
   celery:
@@ -102,7 +73,6 @@ services:
     volumes:
       - '../src/geonode:/usr/src/app'
       - '../src/core:/usr/src/core'
-      - '../src/geosafe:/usr/src/geosafe'
     environment:
       - DEBUG=False
       - C_FORCE_ROOT=True
@@ -118,54 +88,4 @@ services:
     links:
       - rabbitmq
       - postgis
-      - inasafe-output
-      - qgis-server
-    network_mode: "bridge"
-
-  inasafe-output:
-    image: nginx
-    volumes:
-      - ./inasafe/headless/output:/usr/share/nginx/html/output
-    ports:
-      - "8081:80"
-    network_mode: "bridge"
-
-  inasafe-headless:
-    build: docker-inasafe-headless
-    restart: on-failure
-    volumes:
-      - '../src/inasafe:/home/src/inasafe'
-      - './inasafe/headless/output:/home/output'
-    working_dir: /home/src/inasafe
-    environment:
-      - C_FORCE_ROOT=True
-      - PYTHONPATH=/home/src/inasafe
-      - DISPLAY=:99
-      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR=/home/output/
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL=http://inasafe-output/output/
-    command: /start-celery.sh prod inasafe-headless
-    links:
-      - rabbitmq:rabbitmq
-      - nginx:nginx
-    network_mode: "bridge"
-
-  inasafe-headless-analysis:
-    build: docker-inasafe-headless
-    restart: on-failure
-    volumes:
-      - '../src/inasafe:/home/src/inasafe'
-      - './inasafe/headless/output:/home/output'
-    working_dir: /home/src/inasafe
-    environment:
-      - C_FORCE_ROOT=True
-      - PYTHONPATH=/home/src/inasafe
-      - DISPLAY=:99
-      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR=/home/output/
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL=http://inasafe-output/output/
-    command: /start-celery.sh prod inasafe-headless-analysis
-    links:
-      - rabbitmq:rabbitmq
-      - nginx:nginx
     network_mode: "bridge"

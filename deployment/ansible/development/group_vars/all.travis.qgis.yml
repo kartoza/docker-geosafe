@@ -1,0 +1,37 @@
+---
+# Edit or use this files as template to configure ansible variable,
+# then save it as filename: "all" in this folder.
+
+# Use either qgis_server or geoserver
+ogc_backend: qgis_server
+# set to True or False to include geosafe in the orchestration
+use_geosafe: False
+
+# put your linux/mac user here
+remote_user: travis
+# put your linux/mac group here
+remote_group: travis
+# put project path
+project_path: "/home/travis/build/kartoza/docker-geosafe"
+
+docker_port_forward:
+  web:
+    http: 80
+
+qgis_server:
+  DEBUG: True
+  QGIS_LOG_FILE: /tmp/qgis-server/qgis.log
+  QGIS_SERVER_LOG_FILE: /tmp/qgis-server/qgis-server.log
+  QGIS_DEBUG: 0
+  QGIS_SERVER_LOG_LEVEL: 0
+
+django:
+  DEBUG: False
+  ALLOWED_HOSTS: "['localhost','django']"
+  # put your ip address of your interface
+  SITEURL: http://172.17.0.1/
+  QGIS_SERVER_URL: http://qgis-server/
+
+celery:
+  DEBUG: False
+  # enable remote debugging

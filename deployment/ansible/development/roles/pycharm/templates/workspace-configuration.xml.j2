@@ -293,6 +293,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+    {% if use_geosafe %}
     <configuration default="false" name="Geonode InaSAFE Headless" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -329,10 +330,13 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+    {% endif %}
     <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Django server.Geonode Django" />
       <item index="1" class="java.lang.String" itemvalue="Python.Geonode Celery" />
+        {% if use_geosafe %}
       <item index="2" class="java.lang.String" itemvalue="Python.Geonode InaSAFE Headless" />
       <item index="3" class="java.lang.String" itemvalue="Python.Geonode InaSAFE Headless Analysis" />
+        {% endif %}
     </list>
   </component>
