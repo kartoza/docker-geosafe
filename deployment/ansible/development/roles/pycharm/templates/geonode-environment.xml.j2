@@ -15,6 +15,8 @@
         {% if ogc_backend == 'geoserver' %}
 
         <env name="GEOSERVER_BASE_URL" value="{{ django.GEOSERVER_BASE_URL }}" />
+        <env name="GEOSERVER_LOCATION" value="{{ django.GEOSERVER_LOCATION }}" />
+        <env name="GEOSERVER_PUBLIC_LOCATION" value="{{ django.GEOSERVER_PUBLIC_LOCATION }}" />
 
         {% endif %}
         <env name="DB_PASS" value="postgres" />

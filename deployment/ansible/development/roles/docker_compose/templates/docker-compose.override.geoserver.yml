@@ -52,6 +52,8 @@ services:
       - OGC_BACKEND=geonode.{{ ogc_backend }}
       - USE_GEOSAFE={{ use_geosafe }}
       - GEOSERVER_BASE_URL={{ django.GEOSERVER_BASE_URL }}
+      - GEOSERVER_LOCATION={{ django.GEOSERVER_LOCATION }}
+      - GEOSERVER_PUBLIC_LOCATION={{ django.GEOSERVER_PUBLIC_LOCATION }}
     {% if django.command is defined %}
 
     command: {{ django.command }}
@@ -104,6 +106,8 @@ services:
       - OGC_BACKEND=geonode.{{ ogc_backend }}
       - USE_GEOSAFE={{ use_geosafe }}
       - GEOSERVER_BASE_URL={{ django.GEOSERVER_BASE_URL }}
+      - GEOSERVER_LOCATION={{ django.GEOSERVER_LOCATION }}
+      - GEOSERVER_PUBLIC_LOCATION={{ django.GEOSERVER_PUBLIC_LOCATION }}
     {% if celery.command is defined %}
 
     command: {{ celery.command }}
