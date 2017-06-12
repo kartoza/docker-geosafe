@@ -33,29 +33,30 @@ def update_settings(settings):
 
     # Leaflet config
     settings.LAYER_PREVIEW_LIBRARY = 'leaflet'
-    settings.LEAFLET_CONFIG = {
-        'TILES': [
-            # Map Quest
-            ('Map Quest',
-             'http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
-             'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> '
-             '&mdash; Map data &copy; '
-             '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'),
-        ],
-        'PLUGINS': {
-            'esri-leaflet': {
-                'js': 'lib/js/esri-leaflet.js',
-                'auto-include': True,
+    if not hasattr(settings, 'LEAFLET_CONFIG'):
+        settings.LEAFLET_CONFIG = {
+            'TILES': [
+                # Map Quest
+                ('Map Quest',
+                 'http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
+                 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> '
+                 '&mdash; Map data &copy; '
+                 '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'),
+            ],
+            'PLUGINS': {
+                'esri-leaflet': {
+                    'js': 'lib/js/esri-leaflet.js',
+                    'auto-include': True,
+                },
+                'leaflet-fullscreen': {
+                    'css': 'lib/css/leaflet.fullscreen.css',
+                    'js': 'lib/js/Leaflet.fullscreen.min.js',
+                    'auto-include': True,
+                },
             },
-            'leaflet-fullscreen': {
-                'css': 'lib/css/leaflet.fullscreen.css',
-                'js': 'lib/js/Leaflet.fullscreen.min.js',
-                'auto-include': True,
-            },
-        },
-        'SRID': 3857,
-        'RESET_VIEW': False
-    }
+            'SRID': 3857,
+            'RESET_VIEW': False
+        }
 
     # QGIS Server as local OGC Server, wrapped by geonode itself.
     settings.OGC_URL_INSIDE = os.environ.get('OGC_URL_INSIDE', settings.SITEURL)

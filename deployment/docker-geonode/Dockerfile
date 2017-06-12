@@ -1,8 +1,7 @@
 FROM geonode/django:latest
 
 # Toolbox
-RUN apt-get -y update
-RUN apt-get -y install git python-pip python-virtualenv
+RUN apt-get -y update; apt-get -y install git python-pip python-virtualenv
 
 # This section taken on 2 July 2015 from
 # https://docs.docker.com/examples/running_ssh_service/

@@ -17,6 +17,7 @@ Update all submodules to retrieve all the code
 ```
 git remote update
 git submodule init
+git submodule sync
 git submodule update
 ```
 
@@ -193,6 +194,11 @@ of these services so we can debug / monitor logs easily. This configuration
 assumes you are already familiar with PyCharm SSH debugging, Docker, Django, 
 and Celery.
 
+### In Depth Explanation
+
+The following is an explanation of how this works in PyCharm. You can skip it 
+if you're not interested.
+
 For those who are not familiar, the concept is fairly simple. Some of the 
 services that contain debuggable code (django, celery, and inasafe-headless) 
 were started as ssh services with exposed ports to localhost. This allows us to 
@@ -296,6 +302,10 @@ Use that file as template and modify it according to your environment.
 For example, these are common changes needed:
 
 ```
+# Use either qgis_server or geoserver
+ogc_backend: qgis_server
+# set to True or False to include geosafe in the orchestration
+use_geosafe: True
 remote_user: your username
 remote_group: your username group
 project_path: the location of this repository in your computer path
