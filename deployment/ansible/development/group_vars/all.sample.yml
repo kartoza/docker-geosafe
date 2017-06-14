@@ -14,6 +14,13 @@ remote_group: group
 # put project path
 project_path: "/Users/user/Documents/WorkingDir/Projects/InaSAFE/docker-geosafe"
 
+# component path relative to project_path
+component_path:
+  geonode: "/src/geonode"
+  geosafe: "/src/geosafe"
+  inasafe: "/src/inasafe"
+  otf_project: "/src/otf-project"
+
 docker_port_forward:
   postgis:
     postgis: 6543

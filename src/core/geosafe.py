@@ -1,5 +1,6 @@
 # coding=utf-8
 import os
+from distutils.util import strtobool
 
 import djcelery
 from kombu import Queue
@@ -31,8 +32,12 @@ def update_settings(settings):
     settings.BROKER_URL = os.environ['BROKER_URL']
     settings.CELERY_RESULT_BACKEND = settings.BROKER_URL
 
-    # Specific celery settings. Can be modified accordingly or leave as default
-    settings.CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER', False)
+    # Specific celery settings. Can be modified accordingly or leave as
+    # default
+    settings.CELERY_ALWAYS_EAGER = os.environ.get(
+        'CELERY_ALWAYS_EAGER', False)
+    if isinstance(settings.CELERY_ALWAYS_EAGER, str):
+        settings.CELERY_ALWAYS_EAGER = strtobool(settings.CELERY_ALWAYS_EAGER)
     settings.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
     settings.CELERY_IGNORE_RESULT = False
     settings.CELERY_SEND_EVENTS = True
@@ -68,4 +73,5 @@ def update_settings(settings):
     djcelery.setup_loader()
 
     # base url used to resolve layer files accessed by InaSAFE Headless
-    settings.GEONODE_BASE_URL = os.environ.get('GEONODE_BASE_URL', settings.SITEURL)
+    settings.GEONODE_BASE_URL = os.environ.get(
+        'GEONODE_BASE_URL', settings.SITEURL)
