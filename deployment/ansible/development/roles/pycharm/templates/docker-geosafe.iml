@@ -14,7 +14,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
     {% if use_geosafe %}
-      <sourceFolder url="file://$MODULE_DIR$/src/geosafe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/inasafe" isTestSource="false" />
     {% endif %}
       <sourceFolder url="file://$MODULE_DIR$/src/geonode" isTestSource="false" />

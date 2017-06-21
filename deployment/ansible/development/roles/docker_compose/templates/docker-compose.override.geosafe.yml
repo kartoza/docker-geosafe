@@ -49,6 +49,7 @@ services:
   django:
     volumes:
       - '../src/geosafe:/usr/src/geosafe'
+      - './inasafe/headless/output:/home/geosafe/impact_layers'
       - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
@@ -105,6 +106,7 @@ services:
   celery:
     volumes:
       - '../src/geosafe:/usr/src/geosafe'
+      - './inasafe/headless/output:/home/geosafe/impact_layers'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
       - DEBUG={{ django.DEBUG }}
@@ -146,6 +148,7 @@ services:
     environment:
       - C_FORCE_ROOT=True
       - PYTHONPATH=/home/src/inasafe
+      - InaSAFEQGIS=/home/src/inasafe
       - DISPLAY=:99
       - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
@@ -157,6 +160,7 @@ services:
     volumes:
       - '../src/inasafe:/home/src/inasafe'
       - './inasafe/headless/output:/home/output'
+      - '../src/geonode/geonode/uploaded/layers:/home/geosafe/layers'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
@@ -191,6 +195,7 @@ services:
     environment:
       - C_FORCE_ROOT=True
       - PYTHONPATH=/home/src/inasafe
+      - InaSAFEQGIS=/home/src/inasafe
       - DISPLAY=:99
       - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
@@ -202,6 +207,7 @@ services:
     volumes:
       - '../src/inasafe:/home/src/inasafe'
       - './inasafe/headless/output:/home/output'
+      - '../src/geonode/geonode/uploaded/layers:/home/geosafe/layers'
       - './pycharm_helpers/inasafe-headless-analysis:/root/.pycharm_helpers'
     {% if inasafe_headless_analysis.command is defined %}
 
