@@ -91,6 +91,9 @@ smoketest: up
 unittest: up
 	@docker-compose -p $(PROJECT_ID) exec django python manage.py test geonode.people.tests geonode.base.tests geonode.layers.tests geonode.maps.tests geonode.proxy.tests geonode.security.tests geonode.social.tests geonode.catalogue.tests geonode.documents.tests geonode.api.tests geonode.groups.tests geonode.services.tests geonode.geoserver.tests geonode.upload.tests geonode.tasks.tests --noinput --failfast
 
+geosafe-test:
+	@docker-compose -p $(PROJECT_ID) exec django coverage run --branch --source=geosafe manage.py test --noinput geosafe --liveserver=0.0.0.0:8000 /usr/src/app
+
 test: smoketest unittest
 
 reset: down up wait sync

@@ -129,6 +129,7 @@ services:
 
     links:
       - qgis-server
+      - inasafe-output
 
   inasafe-output:
     image: nginx
@@ -155,6 +156,7 @@ services:
       - INASAFE_WORK_DIR={{ inasafe_headless.INASAFE_WORK_DIR }}
     volumes:
       - '../src/inasafe:/home/src/inasafe'
+      - './inasafe/headless/output:/home/output'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
@@ -179,6 +181,7 @@ services:
     links:
       - rabbitmq:rabbitmq
       - nginx:nginx
+      - django:django
     network_mode: "bridge"
 
   inasafe-headless-analysis:
@@ -198,6 +201,7 @@ services:
       - INASAFE_WORK_DIR={{ inasafe_headless_analysis.INASAFE_WORK_DIR }}
     volumes:
       - '../src/inasafe:/home/src/inasafe'
+      - './inasafe/headless/output:/home/output'
       - './pycharm_helpers/inasafe-headless-analysis:/root/.pycharm_helpers'
     {% if inasafe_headless_analysis.command is defined %}
 
@@ -222,4 +226,5 @@ services:
     links:
       - rabbitmq:rabbitmq
       - nginx:nginx
+      - django:django
     network_mode: "bridge"

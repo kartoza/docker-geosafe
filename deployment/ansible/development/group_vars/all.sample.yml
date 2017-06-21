@@ -55,7 +55,7 @@ django:
   # put your ip address of your interface to SITEURL and GEONODE_BASE_URL
   SITEURL: http://192.168.1.5/
   # Settings for geosafe
-  GEONODE_BASE_URL: http://192.168.1.5/
+  GEONODE_BASE_URL: http://django:8000/
   # Settings for qgis server
   QGIS_SERVER_URL: http://qgis-server/
   # Settings for geoserver
