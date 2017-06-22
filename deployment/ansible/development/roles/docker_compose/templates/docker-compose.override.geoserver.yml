@@ -24,15 +24,19 @@ services:
       # - "9003:80"
       {% if docker_port_forward.geoserver.http is defined %}
 
-      - "{{ docker_port_forward.geoserver.http }}:80"
+      - "{{ docker_port_forward.geoserver.http }}:8080"
 
       {% endif %}
     {% endif %}
 
     volumes_from:
       - data_dir_conf
-    env_file:
-      - ../src/geonode/scripts/docker/env/production/geoserver.env
+    environment:
+      - DJANGO_URL={{ django.GEONODE_BASE_URL }}
+      - SITEURL={{ django.SITEURL }}
+      - GEOSERVER_LOCATION={{ django.GEOSERVER_LOCATION }}
+      - GEOSERVER_PUBLIC_LOCATION={{ django.GEOSERVER_PUBLIC_LOCATION }}
+
     network_mode: "bridge"
 
   data_dir_conf:
