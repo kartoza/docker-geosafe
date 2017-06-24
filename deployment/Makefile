@@ -65,6 +65,14 @@ geosafe-celery-log:
 inasafe-headless-log:
 	@docker-compose -p $(PROJECT_ID) logs -f --tail=50 inasafe-headless
 
+inasafe-headless-analysis-log:
+	@docker-compose -p $(PROJECT_ID) logs -f --tail=50 inasafe-headless-analysis
+
+restart-celery:
+	@docker-compose -p $(PROJECT_ID) restart celery
+	@docker-compose -p $(PROJECT_ID) restart inasafe-headless
+	@docker-compose -p $(PROJECT_ID) restart inasafe-headless-analysis
+
 setup: build
 	@echo
 	@echo "------------------------------------------------------------------"

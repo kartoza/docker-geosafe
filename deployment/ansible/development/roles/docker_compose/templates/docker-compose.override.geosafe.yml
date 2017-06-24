@@ -49,7 +49,7 @@ services:
   django:
     volumes:
       - '../src/geosafe:/usr/src/geosafe'
-      - './inasafe/headless/output:/home/geosafe/impact_layers'
+      - './inasafe/headless/output:{{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
@@ -59,6 +59,12 @@ services:
       - GEONODE_BASE_URL={{ django.GEONODE_BASE_URL }}
       - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
       - USE_GEOSAFE={{ use_geosafe }}
+      - USE_LAYER_FILE_ACCESS={{ django.USE_LAYER_FILE_ACCESS }}
+      - INASAFE_LAYER_DIRECTORY={{ django.INASAFE_LAYER_DIRECTORY }}
+      - INASAFE_LAYER_DIRECTORY_BASE_PATH={{ django.INASAFE_LAYER_DIRECTORY_BASE_PATH }}
+      - GEOSAFE_IMPACT_OUTPUT_DIRECTORY={{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}
+      - INASAFE_IMPACT_BASE_URL={{ django.INASAFE_IMPACT_BASE_URL }}
+      - USE_LAYER_HTTP_ACCESS={{ django.USE_LAYER_HTTP_ACCESS }}
     {% if django.command is defined %}
 
     command: {{ django.command }}
@@ -106,7 +112,7 @@ services:
   celery:
     volumes:
       - '../src/geosafe:/usr/src/geosafe'
-      - './inasafe/headless/output:/home/geosafe/impact_layers'
+      - './inasafe/headless/output:{{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
       - DEBUG={{ django.DEBUG }}
@@ -115,6 +121,12 @@ services:
       - GEONODE_BASE_URL={{ django.GEONODE_BASE_URL }}
       - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
       - USE_GEOSAFE={{ use_geosafe }}
+      - USE_LAYER_FILE_ACCESS={{ django.USE_LAYER_FILE_ACCESS }}
+      - INASAFE_LAYER_DIRECTORY={{ django.INASAFE_LAYER_DIRECTORY }}
+      - INASAFE_LAYER_DIRECTORY_BASE_PATH={{ django.INASAFE_LAYER_DIRECTORY_BASE_PATH }}
+      - GEOSAFE_IMPACT_OUTPUT_DIRECTORY={{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}
+      - INASAFE_IMPACT_BASE_URL={{ django.INASAFE_IMPACT_BASE_URL }}
+      - USE_LAYER_HTTP_ACCESS={{ django.USE_LAYER_HTTP_ACCESS }}
     {% if celery.command is defined %}
 
     command: {{ celery.command }}
@@ -160,7 +172,7 @@ services:
     volumes:
       - '../src/inasafe:/home/src/inasafe'
       - './inasafe/headless/output:/home/output'
-      - '../src/geonode/geonode/uploaded/layers:/home/geosafe/layers'
+      - '../src/geonode/geonode/uploaded:{{ django.INASAFE_LAYER_DIRECTORY }}'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
@@ -207,7 +219,7 @@ services:
     volumes:
       - '../src/inasafe:/home/src/inasafe'
       - './inasafe/headless/output:/home/output'
-      - '../src/geonode/geonode/uploaded/layers:/home/geosafe/layers'
+      - '../src/geonode/geonode/uploaded:{{ django.INASAFE_LAYER_DIRECTORY }}'
       - './pycharm_helpers/inasafe-headless-analysis:/root/.pycharm_helpers'
     {% if inasafe_headless_analysis.command is defined %}
 
@@ -215,7 +227,7 @@ services:
 
     {% else %}
 
-    command: /start-celery.sh prod inasafe-headless
+    command: /start-celery.sh prod inasafe-headless-analysis
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless_analysis is defined %}
