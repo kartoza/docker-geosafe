@@ -27,7 +27,7 @@ except ImportError:
 
 try:
     # if using Geosafe, import settings
-    use_geosafe = os.environ.get('USE_GEOSAFE', True)
+    use_geosafe = os.environ.get('USE_GEOSAFE', 'True')
     use_geosafe = ast.literal_eval(use_geosafe)
     if use_geosafe:
         from core.geosafe import update_settings

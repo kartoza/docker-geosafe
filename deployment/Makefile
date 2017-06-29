@@ -28,6 +28,12 @@ build:
 	@echo "------------------------------------------------------------------"
 	@docker-compose -p $(PROJECT_ID) build
 
+default-scale:
+	@docker-compose -p $(PROJECT_ID) scale qgis-server=1 qgis-server-backend=1 celery=1 inasafe-headless=1 inasafe-headless-analysis=1
+
+production-scale:
+	@docker-compose -p $(PROJECT_ID) scale qgis-server=1 qgis-server-backend=4 celery=4 inasafe-headless=4 inasafe-headless-analysis=4
+
 sync: up
 	@docker-compose -p $(PROJECT_ID) exec django django-admin.py makemigrations --noinput --merge
 	@docker-compose -p $(PROJECT_ID) exec django paver sync
@@ -55,6 +61,9 @@ geosafe-celery-env:
 
 inasafe-headless-env:
 	@docker-compose -p $(PROJECT_ID) exec inasafe-headless /bin/bash -c "source run-env-linux.sh /usr; printenv"
+
+qgis-server-backend-log:
+	@docker-compose -p $(PROJECT_ID) logs -f --tail=50 qgis-server-backend
 
 geosafe-log:
 	@docker-compose -p $(PROJECT_ID) logs -f --tail=50 django

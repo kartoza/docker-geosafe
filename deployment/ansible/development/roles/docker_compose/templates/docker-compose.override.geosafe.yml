@@ -15,6 +15,16 @@ services:
   {% endif %}
 
   qgis-server:
+    image: tutum/haproxy
+    environment:
+      - BALANCE=roundrobin
+      - MODE=http
+    links:
+      - qgis-server-backend
+    network_mode: "bridge"
+
+
+  qgis-server-backend:
     image: kartoza/qgis-server:LTR
     volumes:
       - '../src/geonode:/usr/src/app'
