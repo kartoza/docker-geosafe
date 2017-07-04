@@ -44,6 +44,14 @@ collectstatic: up
 reload:
 	@docker-compose -p $(PROJECT_ID) exec django uwsgi --reload  /tmp/django.pid
 
+restart-qgis-server:
+	@docker-compose -p $(PROJECT_ID) up -d --force-recreate qgis-server
+
+restart-celery:
+	@docker-compose -p $(PROJECT_ID) up -d --force-recreate celery
+	@docker-compose -p $(PROJECT_ID) up -d --force-recreate inasafe-headless
+	@docker-compose -p $(PROJECT_ID) up -d --force-recreate inasafe-headless-analysis
+
 shell:
 	@docker-compose -p $(PROJECT_ID) exec django /bin/bash
 
@@ -76,11 +84,6 @@ inasafe-headless-log:
 
 inasafe-headless-analysis-log:
 	@docker-compose -p $(PROJECT_ID) logs -f --tail=50 inasafe-headless-analysis
-
-restart-celery:
-	@docker-compose -p $(PROJECT_ID) restart celery
-	@docker-compose -p $(PROJECT_ID) restart inasafe-headless
-	@docker-compose -p $(PROJECT_ID) restart inasafe-headless-analysis
 
 setup: build
 	@echo
