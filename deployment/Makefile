@@ -45,12 +45,14 @@ reload:
 	@docker-compose -p $(PROJECT_ID) exec django uwsgi --reload  /tmp/django.pid
 
 restart-qgis-server:
-	@docker-compose -p $(PROJECT_ID) up -d --force-recreate qgis-server
+	@docker kill geonode_docker_qgis-server_1
+	@docker rm geonode_docker_qgis-server_1
+	@docker-compose -p $(PROJECT_ID) up -d
 
 restart-celery:
-	@docker-compose -p $(PROJECT_ID) up -d --force-recreate celery
-	@docker-compose -p $(PROJECT_ID) up -d --force-recreate inasafe-headless
-	@docker-compose -p $(PROJECT_ID) up -d --force-recreate inasafe-headless-analysis
+	@docker-compose -p $(PROJECT_ID) restart celery
+	@docker-compose -p $(PROJECT_ID) restart inasafe-headless
+	@docker-compose -p $(PROJECT_ID) restart inasafe-headless-analysis
 
 shell:
 	@docker-compose -p $(PROJECT_ID) exec django /bin/bash
