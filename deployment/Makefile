@@ -45,8 +45,8 @@ reload:
 	@docker-compose -p $(PROJECT_ID) exec django uwsgi --reload  /tmp/django.pid
 
 restart-qgis-server:
-	@docker kill geonode_docker_qgis-server_1
-	@docker rm geonode_docker_qgis-server_1
+	@docker kill geonodedocker_qgis-server_1
+	@docker rm geonodedocker_qgis-server_1
 	@docker-compose -p $(PROJECT_ID) up -d
 
 restart-celery:

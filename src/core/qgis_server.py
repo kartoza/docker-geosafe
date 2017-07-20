@@ -83,3 +83,8 @@ def update_settings(settings):
         'qgis_server_url': settings.QGIS_SERVER_URL,
         'layer_directory': layer_directory
     }
+
+    # Middleware classes
+    settings.MIDDLEWARE_CLASSES += (
+        'geonode.qgis_server.middleware.QGISServerLayerMiddleware',
+    )

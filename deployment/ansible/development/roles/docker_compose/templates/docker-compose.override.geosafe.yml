@@ -22,6 +22,16 @@ services:
     links:
       - qgis-server-backend
     network_mode: "bridge"
+    {% if docker_port_forward.qgis_server is defined %}
+
+    ports:
+      # - "9003:80"
+      {% if docker_port_forward.qgis_server.http is defined %}
+
+      - "{{ docker_port_forward.qgis_server.http }}:80"
+
+      {% endif %}
+    {% endif %}
 
 
   qgis-server-backend:
@@ -43,17 +53,6 @@ services:
       # It is important to include this environment variable
       # QGIS-Server:LTR cgi needs it
       - QGIS_PROJECT_FILE=
-    {% if docker_port_forward.qgis_server is defined %}
-
-    ports:
-      # - "9003:80"
-      {% if docker_port_forward.qgis_server.http is defined %}
-
-      - "{{ docker_port_forward.qgis_server.http }}:80"
-
-      {% endif %}
-    {% endif %}
-
     network_mode: "bridge"
 
   django:
