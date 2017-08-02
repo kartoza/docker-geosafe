@@ -54,3 +54,6 @@ try:
     ALLOWED_HOSTS = ast.literal_eval(allowed_hosts)
 except:
     pass
+
+# Used when running test in development mode
+TESTING = sys.argv[1:2] == ['test']
