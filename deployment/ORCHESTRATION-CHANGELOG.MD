@@ -2,8 +2,23 @@
 
 This will keep track what the current orchestration able to do.
 
+# 2. Improve quick setup documentation
 
-1. Add GeoSAFE options
+Changes/Add the following documentation:
+
+- [Ansible setup README](deployment/ansible/README.md)
+- [Repository README](README.md)
+
+Improve Makefile:
+
+- Omit `--syntax-check` option on `make ansible-check` command. The list of task 
+  now will be displayed.  
+- Add `make build-geonode-core` to build base image of geonode/django
+
+Fix bug in ansible templates file
+
+
+# 1. Add GeoSAFE options
 
 Add the following Makefile commands:
 

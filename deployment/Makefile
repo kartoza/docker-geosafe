@@ -15,11 +15,15 @@ default: deploy
 ansible-check:
 	@echo "Check ansible command"
 	@ansible -i ansible/development/hosts all -m ping
-	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml --syntax-check --list-tasks --list-hosts $(ANSIBLE_ARGS)
+	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml --list-tasks --list-hosts $(ANSIBLE_ARGS)
 
 setup-ansible:
 	@echo "Setup configurations using ansible"
 	@ansible-playbook -i ansible/development/hosts ansible/development/site.yml $(ANSIBLE_ARGS)
+
+build-geonode-core:
+	@echo "Building core GeoNode container as image base"
+	@cd ../src/geonode; make build up down
 
 build:
 	@echo

@@ -52,6 +52,7 @@ services:
       - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
       - DEBUG={{ django.DEBUG }}
+      - ALLOWED_HOSTS={{ django.ALLOWED_HOSTS }}
       - SITEURL={{ django.SITEURL }}
       - OGC_BACKEND=geonode.{{ ogc_backend }}
       - USE_GEOSAFE={{ use_geosafe }}
@@ -106,6 +107,7 @@ services:
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
       - DEBUG={{ django.DEBUG }}
+      - ALLOWED_HOSTS={{ django.ALLOWED_HOSTS }}
       - SITEURL={{ django.SITEURL }}
       - OGC_BACKEND=geonode.{{ ogc_backend }}
       - USE_GEOSAFE={{ use_geosafe }}

@@ -6,9 +6,11 @@ If you want to deploy just GeoNode-QGIS_server then omit all the parts referring
 
 Take note of the differences between production and development orchestration. 
 
-## _'One-line'_ orchestration
+## _'One-line'_ orchestration and quick setup
   
-__Ansible__ playbooks are ready for use for a development environment and coming soon (end May 2017) for deploying a production instance. See the bottom of this doc and in `deployment-ansible` for details.  
+__Ansible__ playbooks are ready for use for a development environment and coming soon 
+(end May 2017) for deploying a production instance. See the bottom of this doc and in 
+[Ansible setup README](deployment/ansible/README.md) for details.  
 
 ## How to build GeoSAFE with dependencies
 
@@ -21,36 +23,10 @@ git submodule sync
 git submodule update
 ```
 
-If some submodules weren't updated correctly because they didn't find the 
-reference, add the following remote repos
-
-```
-cd src/geonode
-git remote add lucernae http://github.com/lucernae/geonode.git
-git fetch lucernae
-cd ../
-
-cd src/geosafe
-git remote add lucernae http://github.com/lucernae/geosafe.git
-git fetch lucernae
-cd ../
-
-cd src/inasafe
-git remote add lucernae http://github.com/lucernae/inasafe.git
-git fetch lucernae
-cd ../
-
-# Now we're in src/
-git submodule update
-```
-
 Build geonode image
 
 ```
-cd src/geonode
-make build
-make up
-make down
+make build-geonode-core
 ```
 
 Now we have built a geonode docker image. This latest image will be used for 

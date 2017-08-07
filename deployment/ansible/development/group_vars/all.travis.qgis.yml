@@ -39,4 +39,4 @@ django:
 
 celery:
   DEBUG: False
-  # enable remote debugging
+  command: celery worker --app=geonode.celery_app:app -B -l INFO
