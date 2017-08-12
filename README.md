@@ -454,3 +454,150 @@ After creating this runtime configuration. You can up the services and proceed t
 ## Known Issue
 If the QGIS Server doesn't work (e.g. you upload a layer, and GeoNode doesn't publish the layer), one of the problems could be `permission problem`. You can fix it by setting write permission in the `qgis_layer` directory. For example:
 ```sudo chmod -R +066 qgis_layer/```
+
+## Deploying Staging
+
+Deploying to staging server has made easier thanks to Ansible. 
+
+Before following the below steps, make sure that you have permissions from an admin-level user to access `docker-geosafe-staging` repo.
+
+These steps assume that you have got access from a user named *lucernae* in the gitlab. 
+
+Therefore, the repo would be: https://gitlab.com/lucernae/docker-geosafe-staging
+
+* Clone *docker-geosafe-staging* to your local machine
+
+  Run `git clone https://gitlab.com/lucernae/docker-geosafe-staging`
+
+  Assume your parent directory is `/home/data`. Then, you now have `/home/data/docker-geosafe-staging` with a subfolder named **ansible**, and two files: **Makefile** and **README.md**.
+
+* When you have obtained permission to deploy staging, your public key is added to the `docker-geosafe-staging` and the staging server by the admin. 
+
+  Now, you need to make sure that the server information is in your local `~/.ssh/config`. 
+  
+  Type: `more ~/.ssh/config` and make sure that the server information matches the one from `/home/data/docker-geosafe-staging/ansible/ssh-config/config`. If not, copy the server information from `/home/data/docker-geosafe-staging/ansible/ssh-config/config` to `~/.ssh/config`.
+  
+* Check if you can connect to the server using ssh by typing: `ssh <user>@<staging-ip-address>`. 
+
+* If the connection succeed, exit `ssh`, go to `/home/data/docker-geosafe-staging` and type: `make play-staging`. 
+
+* The deploying process is now ready to go. 
+
+* But, wait.... there are a few questions before deploying really takes place:
+
+  * Force checkout to latest update
+  
+    Default: **No**
+    
+    Leaves to the default **No** if you have played around on the staging server and don't want the changes to be purged. 
+    
+  * Update to snapshot in docker-geosafe?
+  
+    Default: ** Yes**
+    
+    Obtains the latest changes from `http://github.com/kartoza/docker-geosafe`. Current branch is *develop*.
+    
+  * Update to latest submodules?
+  
+    Default: **Yes**
+    
+    Obtains the latest changes from *geonode, geosafe, inasafe, otf-project* submodules.
+    
+  * Import default data?
+  
+    Default: **No**
+    
+    Just press enter if you would like to keep the current data on the staging intact.
+    
+Once you answer all the questions, the deploying process begins. 
+
+You should see messages like:
+
+```
+PLAY [Setup staging auto deploy] ***********************************************
+
+TASK [setup] *******************************************************************
+Enter passphrase for key '/Users/<your-name>/.ssh/id_rsa': 
+ok: [staging.geonode.kartoza.com]
+
+TASK [requirements : ensure apt packages installed] ****************************
+changed: [staging.geonode.kartoza.com] => (item=[u'nginx', u'libssl-dev'])
+
+TASK [requirements : ensure packages installed] ********************************
+ok: [staging.geonode.kartoza.com] => (item=pexpect)
+changed: [staging.geonode.kartoza.com] => (item=docker-compose)
+changed: [staging.geonode.kartoza.com] => (item=ansible)
+
+TASK [requirements : copy nginx sites available] *******************************
+ok: [staging.geonode.kartoza.com]
+
+TASK [requirements : link to nginx sites enabled] ******************************
+ok: [staging.geonode.kartoza.com]
+TASK [requirements : restart nginx] ********************************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch latest changes of docker-geosafe] ********************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch Remote update] ***************************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch Remote update geonode] *******************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch Remote update geosafe] *******************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch Remote update inasafe] *******************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch Remote update otf-project] ***************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch latest changes of geonode] ***************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch latest changes of geosafe] ***************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch latest changes of inasafe] ***************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [update_repo : Fetch latest changes of otf-project] ***********************
+changed: [staging.geonode.kartoza.com]
+
+TASK [docker_compose : customize docker-compose.yml] ***************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [inasafe_headless : customize InaSAFE celeryconfig] ***********************
+ok: [staging.geonode.kartoza.com]
+
+TASK [geonode : create qgis layer directory] ***********************************
+changed: [staging.geonode.kartoza.com] => (item=qgis_layer)
+changed: [staging.geonode.kartoza.com] => (item=qgis_tiles)
+
+TASK [geosafe : customize geosafe celeryconfig] ********************************
+ok: [staging.geonode.kartoza.com]
+
+TASK [orchestrate : shutdown container] ****************************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [orchestrate : build container] *******************************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [orchestrate : startup container] *****************************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [orchestrate : wait postgis to startup] ***********************************
+Pausing for 20 seconds
+(ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+ok: [staging.geonode.kartoza.com]
+
+TASK [orchestrate : run collectstatic] *****************************************
+changed: [staging.geonode.kartoza.com]
+
+TASK [orchestrate : reload uwsgi] **********************************************
+changed: [staging.geonode.kartoza.com]
+... etc ...
+```
+
