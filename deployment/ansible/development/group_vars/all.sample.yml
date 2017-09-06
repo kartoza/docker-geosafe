@@ -53,6 +53,7 @@ django:
   # enable remote debugging
   command: /usr/sbin/sshd -D
   # put your ip address of your interface to SITEURL and GEONODE_BASE_URL
+  ALLOWED_HOSTS: "['geonode.dev','localhost','django']"
   SITEURL: http://192.168.1.5/
   GEONODE_BASE_URL: http://django:8000/
   # Settings for qgis server
