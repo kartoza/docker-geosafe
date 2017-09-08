@@ -6,7 +6,7 @@ This guide serves as a quick setup guide to spin GeoSAFE instances.
 
 This guide assumes that the following requirements are met:
 
-1. Rancher Server has been setu p
+1. Rancher Server has been set up
 
 If it's not, refer to [Rancher quickstart guide](http://rancher.com/docs/rancher/v1.6/en/installing-rancher/installing-server/)
 
@@ -14,6 +14,8 @@ If it's not, refer to [Rancher quickstart guide](http://rancher.com/docs/rancher
 
 
 This guide also assumes that the user knows what Rancher is and how it works.
+
+Take note also of the supported docker versions [here](http://rancher.com/docs/rancher/v1.6/en/hosts/#supported-docker-versions) (that link also includes quick scripts to get docker installed on your system).
  
 # Creating a stack
 
