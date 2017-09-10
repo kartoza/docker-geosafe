@@ -1,12 +1,20 @@
 # Rancher Setup Guide
 
-This guide serves as a quick setup guide to spin GeoSAFE instances.
+This guide serves as a quick setup guide to spin GeoSAFE instances. If you you are new to docker and/or rancher, take a look at this video walk through so you understand the process:
+
+[![GeoNode and Rancher Walkthrough](https://img.youtube.com/vi/lJCrbCizsmo/0.jpg)](https://www.youtube.com/watch?v=lJCrbCizsmo)
+
+
 
 # Prerequisites
 
 This guide assumes that the following requirements are met:
 
-1. Rancher Server has been set up
+1. Docker is installed on your server. Use Ubuntu 16.04 for the best results because that is what we are testing on.
+
+
+
+1. The **stable** version of Rancher Server has been set up.
 
 If it's not, refer to [Rancher quickstart guide](http://rancher.com/docs/rancher/v1.6/en/installing-rancher/installing-server/)
 
