@@ -36,9 +36,13 @@ However, there are some environment variables which are dependent on how you set
 your instance. You need to change these values depending on your environment. Again see the video at the top of this page if you need some background on how a stack is created in rancher.
 
 
-## QGIS Server
+## GeoNode with QGIS Server
 
 A GeoNode with QGIS Server backend sample stack is stored [here](../docker/compose-files/qgis-server).
+
+Here is the link diagram for GeoNode with QGIS Server
+
+![screen shot 2017-09-10 at 4 52 01 pm](https://user-images.githubusercontent.com/178003/30250023-6a8082fc-9648-11e7-8d6b-e2dca9e68dfd.png)
 
 In `docker-compose.yml` file, there are some options that might need additional configuration:
 
@@ -93,6 +97,10 @@ This will ensure that intercontainer references are maintained properly.
 
 
 ## GeoSAFE
+
+Here is the link diagram for GeoSAFE with QGIS Server:
+
+![screen shot 2017-09-10 at 4 50 16 pm](https://user-images.githubusercontent.com/178003/30250019-54d67240-9648-11e7-89be-9072fbc7c896.png)
 
 A GeoSAFE stack is stored [here](../docker/compose-files/geosafe). GeoSAFE stack 
 is based on Geonode with QGIS Server backend. So, some options are the same, with 
