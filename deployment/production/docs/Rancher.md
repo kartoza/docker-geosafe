@@ -10,20 +10,20 @@ This guide serves as a quick setup guide to spin GeoSAFE instances. If you you a
 
 This guide assumes that the following requirements are met:
 
-1. Docker is installed on your server. Use Ubuntu 16.04 for the best results because that is what we are testing on.
+1. Docker is installed on your server. Use Ubuntu 16.04 for the best results because that is what we are testing on. For quick installation, use the [convenience scripts](http://rancher.com/docs/rancher/v1.6/en/hosts/#supported-docker-versions) provided by rancher (make sure you choose a supported version).
 
 
+2. The **stable** version of Rancher Server has been set up.
 
-1. The **stable** version of Rancher Server has been set up.
+If it's not, refer to [Rancher quickstart guide](http://rancher.com/docs/rancher/v1.6/en/installing-rancher/installing-server/). Here is an example of how to run the latest stable release with a persistent mysql database stored on the file system:
 
-If it's not, refer to [Rancher quickstart guide](http://rancher.com/docs/rancher/v1.6/en/installing-rancher/installing-server/)
+```
+mkdir /home/mysql
+docker run -d -v /home/mysql:/var/lib/mysql --restart=unless-stopped -p 8080:8080 rancher/server:stable
+```
 
-2. One rancher agent has been setup to actually run the instance (it could be on the same host as the rancher server).
+3. One rancher agent has been setup to actually run the instance (it could be on the same host as the rancher server). Take care not to specify the ``--name`` argument when running the agent - this is not supported and will cause problems with your installation later.
 
-
-This guide also assumes that the user knows what Rancher is and how it works.
-
-Take note also of the supported docker versions [here](http://rancher.com/docs/rancher/v1.6/en/hosts/#supported-docker-versions) (that link also includes quick scripts to get docker installed on your system).
  
 # Creating a stack
 
@@ -33,7 +33,7 @@ Simply copy paste the content of the file and put it on a relevant field when
 creating a new stack. `docker-compose.yml` content goes into the `docker-compose` field and `rancher-compose.yml`
 to the `rancher-compose` field. This is the default compose file to quickly set up a new instance.
 However, there are some environment variables which are dependent on how you set up 
-your instance. You need to change these values depending on your environment.
+your instance. You need to change these values depending on your environment. Again see the video at the top of this page if you need some background on how a stack is created in rancher.
 
 
 ## QGIS Server
@@ -56,7 +56,7 @@ Usually this is useful when you already have some data before.
 Django framework used by GeoNode will run on production mode. For security reasons,
 it doesn't allow hostname that is not described in the ALLOWED_HOSTS setting. 
 Simply append your hostname into this setting located in `django.environment` key
-and `celery.environment` key.
+and `celery.environment` key. Again, see the video at the top of this page for a demonstration of how you upgrade your services to set their settings.
 
 3. **Django SITEURL setting**
 
