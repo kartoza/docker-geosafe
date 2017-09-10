@@ -81,6 +81,17 @@ Scalable service in this stack are: `celery` and `qgis-server-backend`. It was s
 to 4 by default. You can change this into other relevant value. You can also change 
 this value after you created the stack.
 
+## Sequencing upgrades
+
+When upgrading / restarting services, you should take care to do things in the proper order:
+
+1. Celery workers first
+2. Django second
+3. Nginx last
+
+This will ensure that intercontainer references are maintained properly.
+
+
 ## GeoSAFE
 
 A GeoSAFE stack is stored [here](../docker/compose-files/geosafe). GeoSAFE stack 
