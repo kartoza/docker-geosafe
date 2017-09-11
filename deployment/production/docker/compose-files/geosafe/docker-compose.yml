@@ -153,7 +153,7 @@ services:
       - QGIS_DEBUG=0
       - INASAFE_WORK_DIR=/tmp/inasafe
     volumes:
-      - 'qgis-server-qgis-layer-data:/home/geosafe/media/'
+      - 'django-media-data:/home/geosafe/media/'
       - 'inasafe-headless-output-data:/home/output/'
     command: /start-celery.sh prod inasafe-headless
     links:
@@ -178,7 +178,7 @@ services:
       - QGIS_DEBUG=0
       - INASAFE_WORK_DIR=/tmp/inasafe
     volumes:
-      - 'qgis-server-qgis-layer-data:/home/geosafe/media/'
+      - 'django-media-data:/home/geosafe/media/'
       - 'inasafe-headless-output-data:/home/output/'
     command: /start-celery.sh prod inasafe-headless-analysis
     links:
