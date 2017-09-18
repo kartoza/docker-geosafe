@@ -81,6 +81,21 @@ Scalable service in this stack are: `celery` and `qgis-server-backend`. It is sc
 to 4 by default. You can change this into other relevant value. You can also change 
 this value after you have created the stack.
 
+# Troubleshooting
+
+## Hung containers
+
+If a service (e.g. qgis-server-backend service) is in a stale condition (stuck on rolling back but didn’t do anything), the easiest way to deal with this is to rename the service first (e.g. qgis-server-backend-old). Next clone the service into the previous name (qgis-server-backend), so we have the same service name, but with fresh containers and the same settings. Then because the qgis-server service is a load balancer to qgis-server-backend, I restart that service too. To make sure it picks up the new container instance’s internal ip.
+
+## Gateway errors
+
+If you try opening the web page and it says ``Gateway error``, there might be two reasons for this:
+
+1. The django service container is dead, 
+2. It doesn’t connect to nginx container (because nginx forward request to django container). 
+
+Check the log for **django** service. If it is running it’s maybe not dead so just restart the **nginx** service to make sure it picks up the django service instance. Generally if you restart django, then you need to restart nginx, because it needs the new internal ip of django (see sequencing upgrade section below as this is the same reasone why upgrades need to happen in sequence).
+
 ## Sequencing upgrades
 
 When upgrading / restarting services, you should take care to do things in the proper order:
