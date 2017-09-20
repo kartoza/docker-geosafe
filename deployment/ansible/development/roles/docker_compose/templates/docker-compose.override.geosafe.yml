@@ -75,6 +75,8 @@ services:
       - GEOSAFE_IMPACT_OUTPUT_DIRECTORY={{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}
       - INASAFE_IMPACT_BASE_URL={{ django.INASAFE_IMPACT_BASE_URL }}
       - USE_LAYER_HTTP_ACCESS={{ django.USE_LAYER_HTTP_ACCESS }}
+      - INASAFE_ANALYSIS_RUN_TIME_LIMIT={{ django.INASAFE_ANALYSIS_RUN_TIME_LIMIT }}
+      - INASAFE_ANALYSIS_AREA_LIMIT={{ django.INASAFE_ANALYSIS_AREA_LIMIT }}
     {% if django.command is defined %}
 
     command: {{ django.command }}
@@ -138,6 +140,8 @@ services:
       - GEOSAFE_IMPACT_OUTPUT_DIRECTORY={{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}
       - INASAFE_IMPACT_BASE_URL={{ django.INASAFE_IMPACT_BASE_URL }}
       - USE_LAYER_HTTP_ACCESS={{ django.USE_LAYER_HTTP_ACCESS }}
+      - INASAFE_ANALYSIS_RUN_TIME_LIMIT={{ django.INASAFE_ANALYSIS_RUN_TIME_LIMIT }}
+      - INASAFE_ANALYSIS_AREA_LIMIT={{ django.INASAFE_ANALYSIS_AREA_LIMIT }}
     {% if celery.command is defined %}
 
     command: {{ celery.command }}

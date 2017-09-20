@@ -17,5 +17,6 @@
         Choose PyCharm Version, available:
         2016.3
         2017.1
-      default: '2017.1'
+        2017.2
+      default: '2017.2'
       private: no

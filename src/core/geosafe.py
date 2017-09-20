@@ -1,6 +1,6 @@
 # coding=utf-8
 import os
-from distutils.util import strtobool
+from ast import literal_eval
 
 import djcelery
 from celery.schedules import crontab
@@ -33,10 +33,8 @@ def update_settings(settings):
 
     # Specific celery settings. Can be modified accordingly or leave as
     # default
-    settings.CELERY_ALWAYS_EAGER = os.environ.get(
-        'CELERY_ALWAYS_EAGER', False)
-    if isinstance(settings.CELERY_ALWAYS_EAGER, str):
-        settings.CELERY_ALWAYS_EAGER = strtobool(settings.CELERY_ALWAYS_EAGER)
+    settings.CELERY_ALWAYS_EAGER = literal_eval(os.environ.get(
+        'CELERY_ALWAYS_EAGER', 'False'))
     settings.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
     settings.CELERY_IGNORE_RESULT = False
     settings.CELERY_SEND_EVENTS = True
@@ -74,8 +72,8 @@ def update_settings(settings):
     # Specific settings for GeoSAFE
 
     # Opt-in to use layerfile direct disk access for InaSAFE Headless Celery
-    # workers insted of Http
-    settings.USE_LAYER_FILE_ACCESS = strtobool(os.environ.get(
+    # workers instead of Http
+    settings.USE_LAYER_FILE_ACCESS = literal_eval(os.environ.get(
         'USE_LAYER_FILE_ACCESS', 'True'))
 
     settings.INASAFE_LAYER_DIRECTORY = os.environ.get(
@@ -92,9 +90,21 @@ def update_settings(settings):
 
     # Opt-in to use layerfile http access for InaSAFE Headless Celery
     # workers instead of disk access
-    settings.USE_LAYER_HTTP_ACCESS = strtobool(os.environ.get(
+    settings.USE_LAYER_HTTP_ACCESS = literal_eval(os.environ.get(
         'USE_LAYER_HTTP_ACCESS', 'False'))
 
     # base url used to resolve layer files accessed by InaSAFE Headless
     settings.GEONODE_BASE_URL = os.environ.get(
         'GEONODE_BASE_URL', settings.SITEURL)
+
+    # Analysis Run Time Limit (in seconds)
+    # Task will exit if exceeded this hard limit
+    settings.INASAFE_ANALYSIS_RUN_TIME_LIMIT = os.environ.get(
+        'INASAFE_ANALYSIS_RUN_TIME_LIMIT', 600)
+
+    # Analysis area limit (in meter squares)
+    # Create analysis will display warning if analysis extent
+    # exceeded this limit. User will be able to continue analysis
+    # with warning that analysis will might take a long time.
+    settings.INASAFE_ANALYSIS_AREA_LIMIT = os.environ.get(
+        'INASAFE_ANALYSIS_AREA_LIMIT', 1000000000)

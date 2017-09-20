@@ -86,6 +86,8 @@ services:
       - GEOSAFE_IMPACT_OUTPUT_DIRECTORY=/home/geosafe/impact_layers
       - INASAFE_IMPACT_BASE_URL=/output/
       - USE_LAYER_HTTP_ACCESS=False
+      - INASAFE_ANALYSIS_RUN_TIME_LIMIT=600
+      - INASAFE_ANALYSIS_AREA_LIMIT=1000000000
     links:
       - postgis
       - rabbitmq
@@ -130,6 +132,8 @@ services:
       - GEOSAFE_IMPACT_OUTPUT_DIRECTORY=/home/geosafe/impact_layers
       - INASAFE_IMPACT_BASE_URL=/output/
       - USE_LAYER_HTTP_ACCESS=False
+      - INASAFE_ANALYSIS_RUN_TIME_LIMIT=600
+      - INASAFE_ANALYSIS_AREA_LIMIT=1000000000
     command: celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
     links:
       - rabbitmq
