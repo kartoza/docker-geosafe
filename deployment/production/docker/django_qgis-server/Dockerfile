@@ -1,4 +1,5 @@
-FROM kartoza/geonode_django_base
+ARG GEONODE_DJANGO_BASE_TAG=latest
+FROM kartoza/geonode_django_base:${GEONODE_DJANGO_BASE_TAG}
 
 # Toolbox
 RUN apt-get -y update; apt-get -y install git python-pip python-virtualenv
@@ -15,7 +16,8 @@ ADD uwsgi.conf /uwsgi.conf
 
 # Clone source code
 WORKDIR /tmp
-RUN git clone --branch develop https://github.com/kartoza/docker-geosafe.git
+ARG DOCKER_GEOSAFE_TAG=develop
+RUN git clone --branch ${DOCKER_GEOSAFE_TAG} --depth 1 https://github.com/kartoza/docker-geosafe.git
 RUN mv /tmp/docker-geosafe/src/core /usr/src/core
 
 WORKDIR /usr/src/app

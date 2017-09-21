@@ -38,7 +38,8 @@ RUN chmod +x /start-celery.sh
 # Put source code
 
 WORKDIR /home/src
-RUN git clone --branch realtime-backport-cherry-pick --depth 1 https://github.com/inasafe/inasafe-realtime.git inasafe
+ARG INASAFE_HEADLESS_TAG=realtime-backport-cherry-pick
+RUN git clone --branch ${INASAFE_HEADLESS_TAG} --depth 1 https://github.com/inasafe/inasafe-realtime.git inasafe
 
 ADD headless-celeryconfig.py /home/src/inasafe/headless/celeryconfig.py
 
