@@ -1,6 +1,15 @@
 # GeoNode with QGIS Server - Rancher Setup Guide
 
+**Contents**
 
+* [Prerequisites](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#prerequisites)
+* [Creating a stack](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#creating-a-stack)
+* [GeoNode with QGIS Server](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#geonode-with-qgis-server)
+* [GeoSAFE](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#geosafe)
+https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#troubleshooting
+
+
+# Overview
 
 This guide serves as a quick setup guide to spin up a GeoNode_QGIS-server or a GeoNode_QGIS-server + GeoSAFE instance. If you are new to docker and/or rancher, take a look at this video walk through so you understand the process:
 
