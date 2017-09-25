@@ -6,7 +6,7 @@
 * [Creating a stack](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#creating-a-stack)
 * [GeoNode with QGIS Server](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#geonode-with-qgis-server)
 * [GeoSAFE](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#geosafe)
-https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#troubleshooting
+* [Troubleshooting](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md#troubleshooting)
 
 
 # Overview
