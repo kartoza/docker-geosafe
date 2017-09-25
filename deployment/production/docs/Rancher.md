@@ -1,4 +1,6 @@
-# Rancher Setup Guide
+# GeoNode with QGIS Server - Rancher Setup Guide
+
+
 
 This guide serves as a quick setup guide to spin up a GeoNode_QGIS-server or a GeoNode_QGIS-server + GeoSAFE instance. If you are new to docker and/or rancher, take a look at this video walk through so you understand the process:
 
@@ -32,7 +34,7 @@ to the `rancher-compose` field. This is the default compose file to quickly set 
 However, there are some environment variables which are dependent on how you set up 
 your instance. You need to change these values depending on your environment. Again see the video at the top of this page if you need some background on how a stack is created in rancher.
 
-## GeoNode with QGIS Server
+# GeoNode with QGIS Server
 
 A GeoNode with QGIS Server backend sample stack is stored [here](../docker/compose-files/qgis-server).
 
@@ -81,6 +83,24 @@ Scalable service in this stack are: `celery` and `qgis-server-backend`. It is sc
 to 4 by default. You can change this into other relevant value. You can also change 
 this value after you have created the stack.
 
+
+
+# GeoSAFE
+
+GeoSAFE is GeoNode with an online version of InaSAFE bundled in. Here is the link for the diagram for GeoSAFE with QGIS Server:
+
+![screen shot 2017-09-10 at 4 50 16 pm](https://user-images.githubusercontent.com/178003/30250019-54d67240-9648-11e7-89be-9072fbc7c896.png)
+
+A GeoSAFE stack is stored [here](../docker/compose-files/geosafe). GeoSAFE stack 
+is based on Geonode with QGIS Server backend. So, some options are the same, with 
+additional option for GeoSAFE django app.
+
+In `rancher-compose.yml` file:
+
+1. Service scaling
+
+We have additional scalable service: `inasafe-headless` and `inasafe-headless-analysis`.
+
 # Troubleshooting
 
 ## Hung containers
@@ -105,19 +125,3 @@ When upgrading / restarting services, you should take care to do things in the p
 3. Nginx last
 
 This will ensure that intercontainer references are maintained properly.
-
-## GeoSAFE
-
-Here is the link diagram for GeoSAFE with QGIS Server:
-
-![screen shot 2017-09-10 at 4 50 16 pm](https://user-images.githubusercontent.com/178003/30250019-54d67240-9648-11e7-89be-9072fbc7c896.png)
-
-A GeoSAFE stack is stored [here](../docker/compose-files/geosafe). GeoSAFE stack 
-is based on Geonode with QGIS Server backend. So, some options are the same, with 
-additional option for GeoSAFE django app.
-
-In `rancher-compose.yml` file:
-
-1. Service scaling
-
-We have additional scalable service: `inasafe-headless` and `inasafe-headless-analysis`.
