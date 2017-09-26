@@ -8,9 +8,12 @@
 version: '2'
 volumes:
   postgis-data:
+  postgis-history-data:
   django-media-data:
+  django-media-history-data:
   django-static-data:
   qgis-server-qgis-layer-data:
+  qgis-server-qgis-layer-history-data:
   qgis-server-qgis-cache-data:
   inasafe-headless-output-data:
 
@@ -27,6 +30,57 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASS=docker
+
+  dbbackup: &dbbackup
+    image: kartoza/pg-backup:9.4
+    volumes:
+      - postgis-history-data:/backups
+    links:
+      - postgis
+    environment:
+      # make this equal to PG_$(PROJECT_ID) in makefile
+      - DUMPPREFIX=PG_geonode
+      # These are all defaults anyway, but setting explicitly in
+      # case we ever want to ever use different credentials
+      - PGUSER=docker
+      - PGPASSWORD=docker
+      - PGPORT=5432
+      - PGHOST=postgis
+      - PGDATABASE=gis
+
+  mediabackup:
+    image: kartoza/sftp-backup:1.0
+    volumes:
+      # this folder is used to store local backups from django media
+      - django-media-history-data:/backups
+      # this folder is used as target folder/source where the backup comes from
+      # this backup comes from django media
+      - django-media-data:/media_backup
+    environment:
+      - DUMPPREFIX=MEDIA_geonode
+      # reduce frequency because the dump is really big
+      - DAILY=3
+      - MONTHLY=2
+      - YEARLY=1
+      - TARGET_FOLDER=/media_backup
+      - USE_SFTP_BACKUP=False
+
+  qgisservermediabackup:
+    image: kartoza/sftp-backup:1.0
+    volumes:
+      # this folder is used to store local backups from django media
+      - qgis-server-qgis-layer-history-data:/backups
+      # this folder is used as target folder/source where the backup comes from
+      # this backup comes from django media
+      - qgis-server-qgis-layer-data:/media_backup
+    environment:
+      - DUMPPREFIX=MEDIA_qgisserver
+      # reduce frequency because the dump is really big
+      - DAILY=3
+      - MONTHLY=2
+      - YEARLY=1
+      - TARGET_FOLDER=/media_backup
+      - USE_SFTP_BACKUP=False
 
   qgis-server:
     image: rancher/lb-service-haproxy:v0.6.4
