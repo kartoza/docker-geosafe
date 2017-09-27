@@ -1,15 +1,16 @@
 # GeoSAFE (and GeoNode-QGIS_server) Deployment
 
-This document describes the orchestration / provisioning of a GeoSAFE service. GeoSAFE is a Django app that has a number of dependencies, including GeoNode-QIS_server .
+This document describes the orchestration / provisioning of a GeoNode-QIS_server or a GeoNode-QIS_server + GeoSAFE service. GeoSAFE is a Django app that has a number of dependencies, including GeoNode-QIS_server. 
 
-If you want to deploy just GeoNode-QGIS_server then omit all the parts referring to InaSAFE, GeoSAFE and celery. 
+## Rancher orchestration
 
-Take note of the differences between production and development orchestration. 
+The latest (and best and easiest) way to deploy GeoNode-QIS_server by itself or with GeoSAFE is to use Rancher by following  [Rancher setup README](https://github.com/kartoza/docker-geosafe/blob/develop/deployment/production/docs/Rancher.md) 
+
+_This readme doc needs to be refactored to put the Rancher orchestration in front and to move the Ansible and original docker-compose recipes discussed below away from the front page. They still work and may be useful in your application but we now recommend the Rancher method._
 
 ## _'One-line'_ orchestration and quick setup
   
-__Ansible__ playbooks are ready for use for a development environment and coming soon 
-(end May 2017) for deploying a production instance. See the bottom of this doc and in 
+__Ansible__ playbooks have been available since May 2017. See the bottom of this doc and in 
 [Ansible setup README](deployment/ansible/README.md) for details.  
 
 ## How to build GeoSAFE with dependencies
