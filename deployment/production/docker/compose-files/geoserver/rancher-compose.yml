@@ -1,0 +1,20 @@
+# This compose file can be optionally supplied for rancher
+# It includes some optimizations like qgis-server load balancer and multiple
+# scaling for celery and qgis-server-backend
+version: '2'
+services:
+  celery:
+    scale: 1
+    start_on_create: true
+  django:
+    scale: 1
+    start_on_create: true
+  nginx:
+    scale: 1
+    start_on_create: true
+  rabbitmq:
+    scale: 1
+    start_on_create: true
+  postgis:
+    scale: 1
+    start_on_create: true

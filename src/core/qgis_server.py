@@ -18,6 +18,9 @@ def update_settings(settings):
     # Delete Geoserver settings
 
     try:
+        # Not using GeoFence if using QGIS Server Backend
+        settings.GEOFENCE_SECURITY_ENABLED = False
+
         settings.INSTALLED_APPS.remove("geonode.geoserver")
         settings.GEONODE_APPS.remove("geonode.geoserver")
         settings.MAP_BASELAYERS.remove(settings.LOCAL_GEOSERVER)
@@ -64,7 +67,8 @@ def update_settings(settings):
         'default': {
             'BACKEND': 'geonode.qgis_server',
             'LOCATION': settings.OGC_URL_INSIDE + 'qgis-server/',
-            'PUBLIC_LOCATION': settings.SITEURL + 'qgis-server/'
+            'PUBLIC_LOCATION': settings.SITEURL + 'qgis-server/',
+            'GEOFENCE_SECURITY_ENABLED': settings.GEOFENCE_SECURITY_ENABLED
         }
     }
 

@@ -20,7 +20,7 @@
 
         {% endif %}
         <env name="DB_PASS" value="postgres" />
-        <env name="ALLOWED_HOSTS" value="['django',]" />
+        <env name="ALLOWED_HOSTS" value="{{ django.ALLOWED_HOSTS }}" />
         {% if use_geosafe %}
 
         <env name="GEONODE_BASE_URL" value="{{ django.GEONODE_BASE_URL }}" />
