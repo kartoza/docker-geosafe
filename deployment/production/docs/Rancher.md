@@ -33,7 +33,49 @@ docker run -d -v /home/mysql:/var/lib/mysql --restart=unless-stopped -p 8080:808
 
 3. One rancher agent has been set up to actually run the instance (it could be on the same host as the rancher server). Take care not to specify the ``--name`` argument when running the agent - this is not supported and will cause problems with your installation later.
 
-# Creating a stack
+
+# Creating the stack (automated using rancher catalogue)
+
+An even nicer way to run the everything is to use our Rancher
+Catalogue Stack for GeoServer. See [http://rancher.com](http://rancher.com) 
+for more details on how to set up and configure your Rancher 
+environment. Once Rancher is set up, use the Admin -> Settings menu to 
+add our Rancher catalogue using this URL:
+
+https://github.com/kartoza/kartoza-rancher-catalogue
+
+Once your settings are saved open a Rancher environment and set up a 
+stack from the catalogue's 'Kartoza' section - you will see 
+GeoServer listed there.
+
+![screen shot 2017-10-23 at 17 04 52](https://user-images.githubusercontent.com/178003/31914192-02bae616-b84a-11e7-8265-abd92bcb2dee.png)
+
+
+![licecap](https://user-images.githubusercontent.com/178003/31914179-fa2a1620-b849-11e7-8b02-06cf6f99368a.gif)
+
+(Note that there is a small mistake in the above gif - the allowed hosts entries should be quoted.
+
+![screen shot 2017-10-23 at 17 07 15](https://user-images.githubusercontent.com/178003/31914206-13333188-b84a-11e7-8f7b-16dc8d0e60a1.png)
+
+
+If you want to synchronise your GeoServer settings and database backups
+(created by the nightly backup tool in the stack), use (Resilio 
+sync)[https://www.resilio.com/] to create two Read/Write keys:
+
+* one for database backups
+* one for GeoServer media backups
+
+**Note:** Resilio sync is not Free Software. It is free to use for
+individuals. Business users need to pay - see their web site for details.
+
+
+You can try a similar approach with Syncthing or Seafile (for free options) 
+or Dropbox or Google Drive if you want to use another commercial product. These
+products all have one limitation though: they require interaction 
+to register applications or keys. With Resilio Sync you can completely 
+automate the process without user intervention. 
+
+# Creating a stack (manually)
 
 We provide a set of `docker-compose.yml` and `rancher-compose.yml` files to be used 
 when creating a new stack. The related files should be [here](../docker/compose-files). 
