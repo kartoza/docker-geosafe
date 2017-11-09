@@ -27,6 +27,7 @@ git submodule update
 Build geonode image
 
 ```
+cd deployment
 make build-geonode-core
 ```
 
