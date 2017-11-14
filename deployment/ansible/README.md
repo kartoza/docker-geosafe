@@ -57,8 +57,8 @@ You need also to modify some variables to make it work in your local machine.
 
 1. You need to create new `all.yml` file. 
 
-Create a new `all.yml` file and put it on `deployment/ansible/development/group_vars/all.yml`.
-Copy the content from [all.travis.geoserver.yml](deployment/ansible/development/group_vars/all.travis.geoserver.yml) as a baseline.
+Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
+Copy the content from [all.travis.geoserver.yml](development/group_vars/all.travis.geoserver.yml) as a baseline.
 
 2. Modify your `remote_user` and `remote_group`.
 
@@ -157,7 +157,7 @@ address as SITEURL.
 After modifying the necessary variables in `all.yml`, you can run Ansible orchestration
 to generate all the files and docker-compose.yml file needed to spin up the instance.
 
-Run this shortcut command here from `deployment/` folder:
+Run this shortcut command here from `/deployment/` folder:
 Note that, in step `make setup-ansible`, you can just press enter when asked 
 about default PyCharm installation, because we didn't use it in this case.
 
@@ -193,8 +193,8 @@ This is the instance that we mainly develops.
 
 1. You need to create new `all.yml` file. 
 
-Create a new `all.yml` file and put it on `deployment/ansible/development/group_vars/all.yml`.
-Copy the content from [all.travis.qgis.yml](deployment/ansible/development/group_vars/all.travis.qgis.yml) as a baseline.
+Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
+Copy the content from [all.travis.qgis.yml](development/group_vars/all.travis.qgis.yml) as a baseline.
 
 Step 2 to 6 is the same.
 
@@ -210,8 +210,8 @@ This instance also includes a GeoSAFE package. A tool for using InaSAFE with Geo
 
 1. You need to create new `all.yml` file.
 
-Create a new `all.yml` file and put it on `deployment/ansible/development/group_vars/all.yml`.
-Copy the content from [all.travis.geosafe.yml](deployment/ansible/development/group_vars/all.travis.geosafe.yml) as a baseline.
+Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
+Copy the content from [all.travis.geosafe.yml](development/group_vars/all.travis.geosafe.yml) as a baseline.
 
 Step 2 to 5 is the same.
 
@@ -235,8 +235,8 @@ To set up development environment (with QGIS Server Backend and GeoSAFE):
  
 1. You need to create new `all.yml` file.
 
-Create a new `all.yml` file and put it on `deployment/ansible/development/group_vars/all.yml`.
-Copy the content from [all.sample.yml](deployment/ansible/development/group_vars/all.sample.yml) as a baseline.
+Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
+Copy the content from [all.sample.yml](development/group_vars/all.sample.yml) as a baseline.
 
 Follow step 2 to 7 of [GeoNode with QGIS Server Backend and GeoSAFE](#geonode-with-qgis-server-backend-and-geosafe)
 
