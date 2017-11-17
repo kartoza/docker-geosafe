@@ -2,7 +2,6 @@
 import os
 from ast import literal_eval
 
-import djcelery
 from celery.schedules import crontab
 from kombu import Queue
 
@@ -66,8 +65,6 @@ def update_settings(settings):
             'schedule': crontab(hour='0', minute='0')
         }
     }
-
-    djcelery.setup_loader()
 
     # Specific settings for GeoSAFE
 
