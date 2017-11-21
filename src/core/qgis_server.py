@@ -34,6 +34,11 @@ def update_settings(settings):
     except:
         pass
 
+    # Celery config
+    settings.CELERY_TASK_SERIALIZER = 'pickle'
+    settings.CELERY_ACCEPT_CONTENT = {'pickle'}
+    settings.CELERY_RESULT_SERIALIZER = 'pickle'
+
     # Leaflet config
     settings.LAYER_PREVIEW_LIBRARY = 'leaflet'
     if not hasattr(settings, 'LEAFLET_CONFIG'):
@@ -68,7 +73,8 @@ def update_settings(settings):
             'BACKEND': 'geonode.qgis_server',
             'LOCATION': settings.OGC_URL_INSIDE + 'qgis-server/',
             'PUBLIC_LOCATION': settings.SITEURL + 'qgis-server/',
-            'GEOFENCE_SECURITY_ENABLED': settings.GEOFENCE_SECURITY_ENABLED
+            'GEOFENCE_SECURITY_ENABLED': settings.GEOFENCE_SECURITY_ENABLED,
+            'LOG_FILE': ''
         }
     }
 
