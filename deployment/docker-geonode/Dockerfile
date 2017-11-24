@@ -30,7 +30,7 @@ ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py
 RUN chmod +x /setup-geonode.sh
 
 # include uwsgi and production ready
-RUN apt-get update -y; apt-get -y install \
+RUN apt-get update -y; apt-get -y --force-yes install \
 	python-gdal \
 	python-geoip \
 	npm \

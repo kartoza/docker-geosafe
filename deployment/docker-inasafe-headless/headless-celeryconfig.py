@@ -38,6 +38,12 @@ CELERY_ROUTES = {
 # here:
 # http://docs.celeryproject.org/en/latest/configuration.html#celeryd-concurrency
 CELERYD_CONCURRENCY = 1
+CELERYD_PREFETCH_MULTIPLIER = 1
+
+# Celery config
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_ACCEPT_CONTENT = {'pickle'}
+CELERY_RESULT_SERIALIZER = 'pickle'
 
 CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER', 'False') == 'True'
 

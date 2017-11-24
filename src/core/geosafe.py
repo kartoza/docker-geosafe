@@ -47,6 +47,11 @@ def update_settings(settings):
     settings.CELERYD_CONCURRENCY = 1
     settings.CELERYD_PREFETCH_MULTIPLIER = 1
 
+    # Celery config
+    settings.CELERY_TASK_SERIALIZER = 'pickle'
+    settings.CELERY_ACCEPT_CONTENT = {'pickle'}
+    settings.CELERY_RESULT_SERIALIZER = 'pickle'
+
     # Defining Celery queue to avoid clash between tasks. Leave as default
     settings.CELERY_QUEUES = [
         Queue('default', routing_key='default'),

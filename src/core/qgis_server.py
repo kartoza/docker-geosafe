@@ -21,6 +21,8 @@ def update_settings(settings):
         # Not using GeoFence if using QGIS Server Backend
         settings.GEOFENCE_SECURITY_ENABLED = False
 
+        settings.USE_GEOSERVER = False
+
         settings.INSTALLED_APPS.remove("geonode.geoserver")
         settings.GEONODE_APPS.remove("geonode.geoserver")
         settings.MAP_BASELAYERS.remove(settings.LOCAL_GEOSERVER)

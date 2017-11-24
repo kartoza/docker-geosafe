@@ -23,7 +23,7 @@ setup-ansible:
 
 build-geonode-core:
 	@echo "Building core GeoNode container as image base"
-	@cd ../src/geonode; docker pull geonode/django:latest; make build up down
+	@cd ../src/geonode; docker pull geonode/django:latest; docker-compose build django
 
 build:
 	@echo
