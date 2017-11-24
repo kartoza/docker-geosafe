@@ -159,6 +159,7 @@ Then run the command again to update docker-compose configurations.
 cd deployment
 make build
 make up
+# Wait a few seconds for the database to be really started.
 make sync
 ```
 

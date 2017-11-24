@@ -46,6 +46,10 @@ git submodule sync
 git submodule update
 ```
 
+These following steps are for production. To set up the development environment 
+with Ansible and PyCharm Professional Edition, go to 
+[the development section](#Development).
+
 ## GeoNode with GeoServer backend
 
 GeoNode in general provides default docker orchestration to easily install and 
@@ -166,6 +170,7 @@ make setup-ansible ANSIBLE_ARGS=--skip-tags=development
 make build-geonode-core
 make build
 make up
+# Wait a few seconds for the database to be really started.
 make sync
 make collectstatic
 ```
@@ -221,8 +226,10 @@ Step 7 to 9 is the same.
 
 # Development
 
-We develop using PyCharm IDE to streamline our debugging processs. This helps 
-us quickly run different docker container services for development (geonode, 
+We develop using PyCharm IDE Professional Edition to streamline our debugging processs.
+Unfortunetaly, PyCharm Community Edition is not supported.
+
+PyCharm helps us quickly run different docker container services for development (geonode, 
 geoserver, QGIS Server, InaSAFE headless, celery workers, rabbitmq, haproxy, 
 uwsgi, nginx, etc). This also helps us to quickly debug code in celery worker 
 and GeoNode, using PyCharm debugging features.
