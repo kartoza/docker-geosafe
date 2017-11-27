@@ -15,8 +15,21 @@ BROKER_URL = os.environ['BROKER_URL']
 
 CELERY_RESULT_BACKEND = BROKER_URL
 
+# Celery config
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_ACCEPT_CONTENT = {'pickle'}
+CELERY_RESULT_SERIALIZER = 'pickle'
+
 CELERY_ROUTES = {
-    'headless.tasks.inasafe_wrapper': {
+    'headless.tasks.inasafe_wrapper.filter_impact_function': {
+        'queue': 'inasafe-headless'
+    },
+
+    'headless.tasks.inasafe_wrapper.run_analysis': {
+        'queue': 'inasafe-headless-analysis'
+    },
+
+    'headless.tasks.inasafe_wrapper.read_keywords_iso_metadata': {
         'queue': 'inasafe-headless'
     }
 }

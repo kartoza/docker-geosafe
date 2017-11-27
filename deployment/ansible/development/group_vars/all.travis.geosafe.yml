@@ -32,6 +32,9 @@ qgis_server:
   QGIS_DEBUG: 0
   QGIS_SERVER_LOG_LEVEL: 0
 
+web:
+  command: prod
+
 django:
   DEBUG: False
   ALLOWED_HOSTS: "['localhost','django']"

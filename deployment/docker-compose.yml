@@ -23,7 +23,7 @@ services:
       - '../src/geonode/geonode/static_root:/home/web/static'
       - '../src/geonode/geonode/uploaded:/home/web/media'
       - './logs:/var/log/'
-    command: uwsgi --ini /uwsgi.conf
+    command: prod
     environment:
       - DATABASE_URL=postgres://docker:docker@postgis:5432/gis
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
@@ -44,26 +44,20 @@ services:
       - rabbitmq
     network_mode: "bridge"
 
-  nginx:
-    build: docker-nginx
-    links:
-      - django
-#  Default exposed port.
-#  Should be specified in docker-compose.override.yml
-#    ports:
-#      - "80:80"
-    network_mode: "bridge"
-
   web:
-    image: nginx
+    build: docker-nginx
+    command: prod
     volumes:
-      - './sites-enabled:/etc/nginx/conf.d:ro'
       # I dont use volumes_from as I want to use the ro modifier
       - '../src/geonode/geonode/static_root:/home/web/static:ro'
       - '../src/geonode/geonode/uploaded:/home/web/media:ro'
       - './logs:/var/log/nginx'
     links:
       - django
+#  Default exposed port.
+#  Should be specified in docker-compose.override.yml
+#    ports:
+#      - "80:80"
     network_mode: "bridge"
 
   celery:

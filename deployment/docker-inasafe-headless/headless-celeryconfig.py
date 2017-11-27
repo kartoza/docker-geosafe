@@ -5,7 +5,7 @@ This file is intended only for a sample.
 Please copy it as celeryconfig.py so it can be read
 """
 import os
-
+from distutils.util import strtobool
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '1/28/16'
@@ -17,7 +17,15 @@ BROKER_URL = os.environ.get('INASAFE_HEADLESS_BROKER_HOST')
 CELERY_RESULT_BACKEND = BROKER_URL
 
 CELERY_ROUTES = {
-    'headless.tasks.inasafe_wrapper': {
+    'headless.tasks.inasafe_wrapper.filter_impact_function': {
+        'queue': 'inasafe-headless'
+    },
+
+    'headless.tasks.inasafe_wrapper.run_analysis': {
+        'queue': 'inasafe-headless-analysis'
+    },
+
+    'headless.tasks.inasafe_wrapper.read_keywords_iso_metadata': {
         'queue': 'inasafe-headless'
     }
 }
@@ -45,7 +53,7 @@ CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_ACCEPT_CONTENT = {'pickle'}
 CELERY_RESULT_SERIALIZER = 'pickle'
 
-CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER', 'False') == 'True'
+CELERY_ALWAYS_EAGER = strtobool(os.environ.get('CELERY_ALWAYS_EAGER', 'False'))
 
 DEPLOY_OUTPUT_DIR = os.environ.get('INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR')
 DEPLOY_OUTPUT_URL = os.environ.get('INASAFE_HEADLESS_DEPLOY_OUTPUT_URL')

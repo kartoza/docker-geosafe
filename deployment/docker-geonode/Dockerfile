@@ -19,16 +19,6 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 # End of cut & paste section
 
-# Upgrade dependencies
-RUN apt-get update -y; apt-get install -y gdal-bin
-ADD uninstall.txt /uninstall.txt
-RUN pip uninstall -y -r /uninstall.txt
-ADD REQUIREMENTS.txt /REQUIREMENTS.txt
-RUN pip install --upgrade -r /REQUIREMENTS.txt
-ADD setup-geonode.sh /setup-geonode.sh
-ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py
-RUN chmod +x /setup-geonode.sh
-
 # include uwsgi and production ready
 RUN apt-get update -y; apt-get -y --force-yes install \
 	python-gdal \
@@ -38,6 +28,19 @@ RUN apt-get update -y; apt-get -y --force-yes install \
 	rpl
 RUN npm -g install yuglify
 RUN rpl "env node" "env nodejs" /usr/local/lib/node_modules/yuglify/bin/yuglify
-ADD uwsgi.conf /uwsgi.conf
 
-CMD ["uwsgi", "--ini", "/uwsgi.conf"]
+# Upgrade dependencies
+RUN apt-get update -y; apt-get install -y gdal-bin
+ADD uninstall.txt /uninstall.txt
+RUN pip uninstall -y -r /uninstall.txt
+ADD REQUIREMENTS.txt /REQUIREMENTS.txt
+RUN pip install --upgrade -r /REQUIREMENTS.txt
+
+# Entrypoint related
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+ADD uwsgi.conf /uwsgi.conf
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["prod"]
+
+# GeoSAFE Related
+ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py

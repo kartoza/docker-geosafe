@@ -30,10 +30,8 @@ docker_port_forward:
     http: 9003
   django:
     ssh: 9000
-  nginx:
-    http: 80
   web:
-    http: 8080
+    http: 80
   celery:
     ssh: 9001
   inasafe_headless:
@@ -48,10 +46,14 @@ qgis_server:
   QGIS_DEBUG: 0
   QGIS_SERVER_LOG_LEVEL: 0
 
+web:
+  # use django manage.py server
+  command: debug
+
 django:
   DEBUG: True
   # enable remote debugging
-  command: /usr/sbin/sshd -D
+  command: dev
   # put your ip address of your interface to SITEURL and GEONODE_BASE_URL
   ALLOWED_HOSTS: "['geonode.dev','localhost','django']"
   SITEURL: http://192.168.1.5/
@@ -75,7 +77,7 @@ django:
 celery:
   DEBUG: True
   # enable remote debugging
-  command: /usr/sbin/sshd -D
+  command: dev
 
 inasafe_headless:
   INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/

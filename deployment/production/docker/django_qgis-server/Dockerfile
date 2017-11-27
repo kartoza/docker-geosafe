@@ -4,7 +4,7 @@ FROM kartoza/geonode_django_base:${GEONODE_DJANGO_BASE_TAG}
 # Toolbox
 RUN apt-get -y update; apt-get -y install git python-pip python-virtualenv
 # include uwsgi and production ready
-RUN apt-get update -y; apt-get -y install \
+RUN apt-get update -y; apt-get -y --force-yes install \
 	python-gdal \
 	python-geoip \
 	npm \
@@ -25,7 +25,7 @@ WORKDIR /usr/src/app
 # Upgrade dependencies
 RUN apt-get update -y; apt-get install -y gdal-bin
 ADD uninstall.txt /uninstall.txt
-RUN pip uninstall -r /uninstall.txt
+RUN pip uninstall -y -r /uninstall.txt
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip install --upgrade -r /REQUIREMENTS.txt
 ADD entry-point.sh /entry-point.sh

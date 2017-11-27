@@ -22,6 +22,9 @@ docker_port_forward:
   web:
     http: 80
 
+web:
+  command: prod
+
 django:
   DEBUG: False
   ALLOWED_HOSTS: "['localhost','django']"

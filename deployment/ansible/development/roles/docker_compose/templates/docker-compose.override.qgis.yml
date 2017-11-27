@@ -84,21 +84,16 @@ services:
     links:
       - qgis-server
 
-  {% if docker_port_forward.nginx is defined %}
-
-  nginx:
-    ports:
-      # - "80:80"
-      {% if docker_port_forward.nginx.http is defined %}
-
-      - "{{ docker_port_forward.nginx.http }}:80"
-
-      {% endif %}
-  {% endif %}
-
   {% if docker_port_forward.web is defined %}
 
   web:
+
+    {% if web.command is defined %}
+
+    command: {{ web.command }}
+
+    {% endif %}
+
     ports:
       # - "80:80"
       {% if docker_port_forward.web.http is defined %}
