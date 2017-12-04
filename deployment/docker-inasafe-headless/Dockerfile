@@ -1,6 +1,7 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
 FROM debian:jessie
 
+RUN apt-get -y update; apt-get -y --force-yes install apt-transport-https
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
 
 RUN echo "deb     http://qgis.org/debian-ltr jessie main" >> /etc/apt/sources.list
@@ -19,7 +20,7 @@ RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 # This section taken on 2 July 2015 from
 # https://docs.docker.com/examples/running_ssh_service/
 # Sudo is needed by pycharm when it tries to pip install packages
-RUN apt-get update -y; apt-get install -y openssh-server sudo
+RUN apt-get update -y; apt-get install -y --force-yes openssh-server sudo
 RUN mkdir /var/run/sshd
 RUN echo 'root:docker' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -43,7 +44,7 @@ RUN pip install -r /REQUIREMENTS.txt
 RUN pip install -r /REQUIREMENTS-headless.txt
 RUN pip install -r /REQUIREMENTS-realtime.txt
 # Copy ubuntu fonts
-RUN apt-get -y install wget unzip
+RUN apt-get -y --force-yes install wget unzip
 ADD ubuntu-font-family-0.83.zip /ubuntu-font-family-0.83.zip
 RUN unzip ubuntu-font-family-0.83.zip
 RUN mv ubuntu-font-family-0.83 /usr/share/fonts/truetype/ubuntu-font-family

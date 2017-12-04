@@ -1,12 +1,12 @@
 FROM geonode/django:latest
 
 # Toolbox
-RUN apt-get -y update; apt-get -y install git python-pip python-virtualenv
+RUN apt-get -y update; apt-get -y --force-yes install git python-pip python-virtualenv
 
 # This section taken on 2 July 2015 from
 # https://docs.docker.com/examples/running_ssh_service/
 # Sudo is needed by pycharm when it tries to pip install packages
-RUN apt-get update -y; apt-get install -y openssh-server sudo
+RUN apt-get update -y; apt-get install -y --force-yes openssh-server sudo
 RUN mkdir -p /var/run/sshd
 RUN echo 'root:docker' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -30,7 +30,7 @@ RUN npm -g install yuglify
 RUN rpl "env node" "env nodejs" /usr/local/lib/node_modules/yuglify/bin/yuglify
 
 # Upgrade dependencies
-RUN apt-get update -y; apt-get install -y gdal-bin
+RUN apt-get update -y; apt-get install -y --force-yes gdal-bin
 ADD uninstall.txt /uninstall.txt
 RUN pip uninstall -y -r /uninstall.txt
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
