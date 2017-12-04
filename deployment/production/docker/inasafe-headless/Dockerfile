@@ -29,7 +29,6 @@ RUN pip install -r /REQUIREMENTS-realtime.txt
 # Copy ubuntu fonts
 RUN apt-get -y --force-yes install wget unzip
 ADD ubuntu-font-family-0.83.zip /ubuntu-font-family-0.83.zip
-RUN mv fad7939b-ubuntu-font-family-0.83.zip ubuntu-font-family-0.83.zip
 RUN unzip ubuntu-font-family-0.83.zip
 RUN mv ubuntu-font-family-0.83 /usr/share/fonts/truetype/ubuntu-font-family
 RUN fc-cache -f -v
