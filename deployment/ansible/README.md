@@ -48,7 +48,7 @@ git submodule update
 
 These following steps are for production. To set up the development environment 
 with Ansible and PyCharm Professional Edition, go to 
-[the development section](#Development).
+[the development section](#development).
 
 ## GeoNode with GeoServer backend
 
@@ -142,6 +142,8 @@ in their worker machine.
 
 7. Modify your GEOSERVER_PUBLIC_LOCATION django settings
 
+*Skip this step if you are using QGIS Server*
+
 GEOSERVER_PUBLIC_LOCATION setting is needed internally by GeoNode to refer to its
 GeoServer instance used as OGC Backend. The same rule applies with SITEURL. 
 For your information, GeoServer docker container is exposed on port 8080 by default.
@@ -181,7 +183,7 @@ Explanation:
 `make build-geonode-core` will build geonode docker container as base image
 `make build` will build all the services for this orchestration
 `make up` will spin up all docker containers services
-`make sync` will initiate first database migrations
+`make sync` will initiate first database migrations. If an error occurs during this step, have a look to the [Troubleshooting section](#troubleshooting)
 `make collectstatic` will initiate first static files generation.
 
 If you already pass through this stages, simply use `make down` to shutdown all 
@@ -201,11 +203,11 @@ This is the instance that we mainly develops.
 Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
 Copy the content from [all.travis.qgis.yml](development/group_vars/all.travis.qgis.yml) as a baseline.
 
-Step 2 to 6 is the same.
+Step 2 to 6 is the same in [GeoNode with GeoServer backend](#geonode-with-geoserver-backend)
 
 Skip step 7.
 
-Step 8 to 9 is the same.
+Step 8 to 9 is the same in [GeoNode with GeoServer backend](#geonode-with-geoserver-backend)
 
 ## GeoNode with QGIS Server Backend and GeoSAFE
 
@@ -218,11 +220,13 @@ This instance also includes a GeoSAFE package. A tool for using InaSAFE with Geo
 Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
 Copy the content from [all.travis.geosafe.yml](development/group_vars/all.travis.geosafe.yml) as a baseline.
 
-Step 2 to 5 is the same.
+Step 2 to 5 is the same in [GeoNode with GeoServer backend](#geonode-with-geoserver-backend)
 
 For step 6, also modify GEONODE_BASE_URL with the same value as SITEURL.
 
-Step 7 to 9 is the same.
+Skip step 7.
+
+Step 8 to 9 is the same in [GeoNode with GeoServer backend](#geonode-with-geoserver-backend)
 
 # Development
 
@@ -245,11 +249,18 @@ To set up development environment (with QGIS Server Backend and GeoSAFE):
 Create a new `all.yml` file and put it on `/deployment/ansible/development/group_vars/all.yml`.
 Copy the content from [all.sample.yml](development/group_vars/all.sample.yml) as a baseline.
 
-Follow step 2 to 7 of [GeoNode with QGIS Server Backend and GeoSAFE](#geonode-with-qgis-server-backend-and-geosafe)
+Edit `ogc_backend` and `use_geosafe` according to your wishes about QGIS vs 
+GeoServer and if you want GeoSAFE. Note if you want GeoSAFE, QGIS is compulsory.
+
+Step 2 to 5 is the same in [GeoNode with GeoServer backend](#geonode-with-geoserver-backend)
+
+For step 6, also modify GEONODE_BASE_URL with the same value as SITEURL.
+
+Skip step 7 if you use QGIS
 
 8. Run your ansible setup
 
-Follow the step from [GeoNode with QGIS Server Backend and GeoSAFE](#geonode-with-qgis-server-backend-and-geosafe), but 
+Follow the step 8 from [GeoNode with QGIS Server Backend and GeoSAFE](#geonode-with-qgis-server-backend-and-geosafe), but 
 instead of executing 
 
 ```
@@ -286,3 +297,27 @@ Additionally you can run Django tests by placing your cursor at a desired test m
 then right-click (open context menu in mac) and choose run tests. In this manner,
 the tests will run with CELERY_ALWAYS_EAGER settings, which means all celery tasks
 will try to execute synchronously in the same testing thread.
+
+# Troubleshooting
+
+
+**Issue:** An exception was raised during the `make sync` about the database and migrations eg:
+```
+  File "/usr/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column base_resourcebase.alternate does not exist
+LINE 1: ...loaded_preserve", "base_resourcebase"."group_id", "base_reso...
+                                                             ^
+
+Captured Task Output:
+---------------------
+---> pavement.sync
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
+
+Build failed running pavement.sync: Subprocess return code: 1
+make: *** [sync] Error 1
+```
+
+**Answer:** Migrations in GeoNode might have some issues. You should try to 
+remove your previous database by removing old containers and remove the content in the `deployment/pg` folder.
