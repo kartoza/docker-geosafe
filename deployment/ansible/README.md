@@ -321,3 +321,5 @@ make: *** [sync] Error 1
 
 **Answer:** Migrations in GeoNode might have some issues. You should try to 
 remove your previous database by removing old containers and remove the content in the `deployment/pg` folder.
+
+For more in depth explanations, see [Detailed Troubleshooting Guide for Migration Script Mismatch](https://github.com/kartoza/docker-geosafe/wiki/Detailed-Troubleshooting-Guide-for-Migration-Script-Mismatch)
