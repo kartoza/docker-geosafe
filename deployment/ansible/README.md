@@ -107,11 +107,10 @@ docker_port_forward:
 
 Change 80 to another port you need, if it is a different port.
 
-5. Include your host name in ALLOWED_HOSTS django settings
+5. Include your host name and your IP in ALLOWED_HOSTS django settings
 
 Django has security features to check the name of the hosts will match the assigned hosts.
-If you only use it on your local machine and will access GeoNode as http://localhost/ , 
-then the default settings is already sufficient. If you need to add another hostname, include it here:
+If you need to add another hostname, include it here:
 
 ```
 django:
