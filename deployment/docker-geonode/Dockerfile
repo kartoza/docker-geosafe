@@ -1,4 +1,4 @@
-FROM geonode/django:latest
+FROM geonode/geonode:geonode
 
 # Toolbox
 RUN apt-get -y update; apt-get -y --force-yes install git python-pip python-virtualenv

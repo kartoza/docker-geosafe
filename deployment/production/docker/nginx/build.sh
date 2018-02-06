@@ -1,6 +1,26 @@
 #!/usr/bin/env bash
-IMAGE_NAME=geonode_nginx
-TAG_NAME=latest
-docker build -t kartoza/${IMAGE_NAME} .
-docker tag kartoza/${IMAGE_NAME}:latest kartoza/${IMAGE_NAME}:${TAG_NAME}
-docker push kartoza/${IMAGE_NAME}:${TAG_NAME}
+
+if [ -z "$REPO_NAME" ]; then
+	REPO_NAME=kartoza
+fi
+
+if [ -z "$IMAGE_NAME" ]; then
+	IMAGE_NAME=geonode_nginx
+fi
+
+if [ -z "$TAG_NAME" ]; then
+	TAG_NAME=latest
+fi
+
+if [ -z "$BUILD_ARGS" ]; then
+	BUILD_ARGS="--pull --no-cache"
+fi
+
+# Build Args Environment
+
+echo "Build: $REPO_NAME/$IMAGE_NAME:$TAG_NAME"
+
+docker build -t ${REPO_NAME}/${IMAGE_NAME} \
+	${BUILD_ARGS} .
+docker tag ${REPO_NAME}/${IMAGE_NAME}:latest ${REPO_NAME}/${IMAGE_NAME}:${TAG_NAME}
+docker push ${REPO_NAME}/${IMAGE_NAME}:${TAG_NAME}
