@@ -5,3 +5,4 @@ hammock
 pyinotify
 celery==4.1.0
 future
+pyopenssl==17.5.0
