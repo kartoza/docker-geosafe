@@ -80,21 +80,13 @@ celery:
   command: dev
 
 inasafe_headless:
-  INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
-  INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
   QGIS_LOG_FILE: /tmp/inasafe/realtime/logs/qgis.log
   QGIS_DEBUG_FILE: /tmp/inasafe/realtime/logs/qgis-debug.log
   QGIS_DEBUG: 0
   INASAFE_WORK_DIR: /tmp/inasafe
-  # enable remote debugging
-  command: /start-celery.sh dev
 
 inasafe_headless_analysis:
-  INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR: /home/output/
-  INASAFE_HEADLESS_DEPLOY_OUTPUT_URL: http://inasafe-output/output/
   QGIS_LOG_FILE: /tmp/inasafe/realtime/logs/qgis.log
   QGIS_DEBUG_FILE: /tmp/inasafe/realtime/logs/qgis-debug.log
   QGIS_DEBUG: 0
   INASAFE_WORK_DIR: /tmp/inasafe
-  # enable remote debugging
-  command: /start-celery.sh dev

@@ -4,30 +4,41 @@
 This file is intended only for a sample.
 Please copy it as celeryconfig.py so it can be read
 """
+
 import os
-from distutils.util import strtobool
 
-__author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
-__date__ = '1/28/16'
+__copyright__ = "Copyright 2018, The InaSAFE Project"
+__license__ = "GPL version 3"
+__email__ = "info@inasafe.org"
+__revision__ = '$Format:%H$'
 
 
-# This is a default value
-BROKER_URL = os.environ.get('INASAFE_HEADLESS_BROKER_HOST')
+broker_url = os.environ.get('INASAFE_HEADLESS_BROKER_URL')
 
-CELERY_RESULT_BACKEND = BROKER_URL
+result_backend = broker_url
 
-CELERY_ROUTES = {
-    'headless.tasks.inasafe_wrapper.filter_impact_function': {
+task_routes = {
+    'inasafe.headless.tasks.get_keywords': {
         'queue': 'inasafe-headless'
     },
-
-    'headless.tasks.inasafe_wrapper.run_analysis': {
+    'inasafe.headless.tasks.run_analysis': {
         'queue': 'inasafe-headless-analysis'
     },
-
-    'headless.tasks.inasafe_wrapper.read_keywords_iso_metadata': {
+    'inasafe.headless.tasks.run_multi_exposure_analysis': {
+        'queue': 'inasafe-headless-analysis'
+    },
+    'inasafe.headless.tasks.generate_report': {
+        'queue': 'inasafe-headless-analysis'
+    },
+    'inasafe.headless.tasks.get_generated_report': {
         'queue': 'inasafe-headless'
-    }
+    },
+    'inasafe.headless.tasks.generate_contour': {
+        'queue': 'inasafe-headless-analysis'
+    },
+    'inasafe.headless.tasks.check_broker_connection': {
+        'queue': 'inasafe-headless'
+    },
 }
 
 # RMN: This is really important.
@@ -45,15 +56,10 @@ CELERY_ROUTES = {
 # **NIGHTMARE** to your celery worker. Read about this particular settings
 # here:
 # http://docs.celeryproject.org/en/latest/configuration.html#celeryd-concurrency
-CELERYD_CONCURRENCY = 1
-CELERYD_PREFETCH_MULTIPLIER = 1
+worker_concurrency = 1
+worker_prefetch_multiplier = 1
 
 # Celery config
-CELERY_TASK_SERIALIZER = 'pickle'
-CELERY_ACCEPT_CONTENT = {'pickle'}
-CELERY_RESULT_SERIALIZER = 'pickle'
-
-CELERY_ALWAYS_EAGER = strtobool(os.environ.get('CELERY_ALWAYS_EAGER', 'False'))
-
-DEPLOY_OUTPUT_DIR = os.environ.get('INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR')
-DEPLOY_OUTPUT_URL = os.environ.get('INASAFE_HEADLESS_DEPLOY_OUTPUT_URL')
+task_serializer = 'pickle'
+accept_content = {'pickle'}
+result_serializer = 'pickle'

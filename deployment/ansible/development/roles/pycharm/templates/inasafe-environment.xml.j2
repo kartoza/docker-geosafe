@@ -4,14 +4,12 @@
         <env name="INASAFE_LOCALE" value="id" />
         <env name="C_FORCE_ROOT" value="True" />
         <env name="QGIS_PATH" value="/usr" />
-        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_URL" value="{{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}" />
         <env name="INASAFE_HEADLESS_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
         <env name="DISPLAY" value=":99" />
         <env name="LD_LIBRARY_PATH" value="/usr/lib" />
         <env name="QGIS_LOG_FILE" value="{{ inasafe_headless.QGIS_LOG_FILE }}" />
         <env name="QGIS_DEBUG_FILE" value="{{ inasafe_headless.QGIS_DEBUG_FILE }}" />
         <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/src/inasafe" />
-        <env name="INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR" value="{{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}" />
         <env name="QGIS_PREFIX_PATH" value="/usr" />
         <env name="INASAFE_WORK_DIR" value="{{ inasafe_headless.INASAFE_WORK_DIR }}" />
         <env name="INASAFE_SENTRY" value="1" />

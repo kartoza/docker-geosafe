@@ -164,25 +164,25 @@ services:
     network_mode: "bridge"
 
   inasafe-headless:
-    build: docker-inasafe-headless
+    image: inasafe/headless_processor
     restart: on-failure
-    working_dir: /home/src/inasafe
     environment:
       - C_FORCE_ROOT=True
       - PYTHONPATH=/home/src/inasafe
       - InaSAFEQGIS=/home/src/inasafe
       - DISPLAY=:99
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
       - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL={{ inasafe_headless.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}
       - QGIS_LOG_FILE={{ inasafe_headless.QGIS_LOG_FILE }}
       - QGIS_DEBUG_FILE={{ inasafe_headless.QGIS_DEBUG_FILE }}
       - QGIS_DEBUG={{ inasafe_headless.QGIS_DEBUG }}
       - INASAFE_WORK_DIR={{ inasafe_headless.INASAFE_WORK_DIR }}
+      - INASAFE_OUTPUT_DIR=/home/headless/output
     volumes:
-      - '../src/inasafe:/home/src/inasafe'
-      - './inasafe/headless/output:/home/output'
-      - '../src/geonode/geonode/uploaded:{{ django.INASAFE_LAYER_DIRECTORY }}'
+      - './inasafe/headless/tmp:/tmp/inasafe'
+      - './inasafe/headless/output:/home/headless/output'
+      - '../src/geonode/geonode/uploaded:/usr/src/app/geonode/uploaded'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
@@ -190,7 +190,7 @@ services:
 
     {% else %}
 
-    command: /start-celery.sh prod inasafe-headless
+    command: /docker-entrypoint.sh prod inasafe-headless-worker
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless is defined %}
@@ -211,33 +211,33 @@ services:
     network_mode: "bridge"
 
   inasafe-headless-analysis:
-    build: docker-inasafe-headless
+    image: inasafe/headless_processor
     restart: on-failure
-    working_dir: /home/src/inasafe
     environment:
       - C_FORCE_ROOT=True
       - PYTHONPATH=/home/src/inasafe
       - InaSAFEQGIS=/home/src/inasafe
       - DISPLAY=:99
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
       - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_DIR }}
-      - INASAFE_HEADLESS_DEPLOY_OUTPUT_URL={{ inasafe_headless_analysis.INASAFE_HEADLESS_DEPLOY_OUTPUT_URL }}
-      - QGIS_LOG_FILE={{ inasafe_headless_analysis.QGIS_LOG_FILE }}
-      - QGIS_DEBUG_FILE={{ inasafe_headless_analysis.QGIS_DEBUG_FILE }}
-      - QGIS_DEBUG={{ inasafe_headless_analysis.QGIS_DEBUG }}
-      - INASAFE_WORK_DIR={{ inasafe_headless_analysis.INASAFE_WORK_DIR }}
+      - QGIS_LOG_FILE={{ inasafe_headless.QGIS_LOG_FILE }}
+      - QGIS_DEBUG_FILE={{ inasafe_headless.QGIS_DEBUG_FILE }}
+      - QGIS_DEBUG={{ inasafe_headless.QGIS_DEBUG }}
+      - INASAFE_WORK_DIR={{ inasafe_headless.INASAFE_WORK_DIR }}
+      - INASAFE_OUTPUT_DIR=/home/headless/output
     volumes:
-      - '../src/inasafe:/home/src/inasafe'
-      - './inasafe/headless/output:/home/output'
-      - '../src/geonode/geonode/uploaded:{{ django.INASAFE_LAYER_DIRECTORY }}'
-      - './pycharm_helpers/inasafe-headless-analysis:/root/.pycharm_helpers'
+      - './inasafe/headless/tmp:/tmp/inasafe'
+      - './inasafe/headless/output:/home/headless/output'
+      - '../src/geonode/geonode/uploaded:/usr/src/app/geonode/uploaded'
+      - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless_analysis.command is defined %}
 
     command: {{ inasafe_headless_analysis.command }}
 
     {% else %}
 
-    command: /start-celery.sh prod inasafe-headless-analysis
+    command: /docker-entrypoint.sh prod inasafe-headless-worker
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless_analysis is defined %}
