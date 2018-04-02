@@ -1,4 +1,4 @@
-FROM geonode/geonode:geonode
+FROM geonode/geonode:latest
 
 # Toolbox
 RUN apt-get -y update; apt-get -y --force-yes install git python-pip python-virtualenv
@@ -31,10 +31,6 @@ RUN rpl "env node" "env nodejs" /usr/local/lib/node_modules/yuglify/bin/yuglify
 
 # Upgrade dependencies
 RUN apt-get update -y; apt-get install -y --force-yes gdal-bin
-ADD uninstall.txt /uninstall.txt
-RUN pip uninstall -y -r /uninstall.txt
-ADD REQUIREMENTS.txt /REQUIREMENTS.txt
-RUN pip install --upgrade -r /REQUIREMENTS.txt
 
 # Entrypoint related
 ADD docker-entrypoint.sh /docker-entrypoint.sh

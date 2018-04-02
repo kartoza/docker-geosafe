@@ -9,32 +9,42 @@ def update_settings(settings):
 
     # Settings for QGIS Server
 
-    settings.GEONODE_APPS += ("geonode.qgis_server", )
+    qgis_server_apps_package = "geonode.qgis_server"
+
     settings.GEONODE_APPS = list(settings.GEONODE_APPS)
-    settings.INSTALLED_APPS += (
-        "geonode.qgis_server", )
+    if qgis_server_apps_package not in settings.GEONODE_APPS:
+
+        settings.GEONODE_APPS += ("geonode.qgis_server", )
+
     settings.INSTALLED_APPS = list(settings.INSTALLED_APPS)
+    if qgis_server_apps_package not in settings.INSTALLED_APPS:
+        settings.INSTALLED_APPS += (
+            "geonode.qgis_server", )
 
     # Delete Geoserver settings
+    # Not using GeoFence if using QGIS Server Backend
+    settings.GEOFENCE_SECURITY_ENABLED = False
 
-    try:
-        # Not using GeoFence if using QGIS Server Backend
-        settings.GEOFENCE_SECURITY_ENABLED = False
+    settings.USE_GEOSERVER = False
 
-        settings.USE_GEOSERVER = False
+    settings.INSTALLED_APPS.remove("geonode.geoserver")
+    settings.GEONODE_APPS.remove("geonode.geoserver")
 
-        settings.INSTALLED_APPS.remove("geonode.geoserver")
-        settings.GEONODE_APPS.remove("geonode.geoserver")
+    if hasattr(settings, 'PUBLIC_GEOSERVER') and \
+            settings.PUBLIC_GEOSERVER in settings.MAP_BASELAYERS:
+        settings.MAP_BASELAYERS.remove(settings.PUBLIC_GEOSERVER)
+        del settings.PUBLIC_GEOSERVER
+
+    if hasattr(settings, 'LOCAL_GEOSERVER') and \
+            settings.LOCAL_GEOSERVER in settings.MAP_BASELAYERS:
         settings.MAP_BASELAYERS.remove(settings.LOCAL_GEOSERVER)
         del settings.LOCAL_GEOSERVER
 
-        geoserver_context_processor = 'geonode.geoserver.context_processors.geoserver_urls'
-        settings.TEMPLATES[0]['OPTIONS']['context_processors'].remove(geoserver_context_processor)
+    geoserver_context_processor = 'geonode.geoserver.context_processors.geoserver_urls'
+    settings.TEMPLATES[0]['OPTIONS']['context_processors'].remove(geoserver_context_processor)
 
-        qgis_server_context_processor = 'geonode.qgis_server.context_processors.qgis_server_urls'
-        settings.TEMPLATES[0]['OPTIONS']['context_processors'].append(qgis_server_context_processor)
-    except:
-        pass
+    qgis_server_context_processor = 'geonode.qgis_server.context_processors.qgis_server_urls'
+    settings.TEMPLATES[0]['OPTIONS']['context_processors'].append(qgis_server_context_processor)
 
     # Celery config
     settings.CELERY_TASK_SERIALIZER = 'pickle'
@@ -42,7 +52,8 @@ def update_settings(settings):
     settings.CELERY_RESULT_SERIALIZER = 'pickle'
 
     # Leaflet config
-    settings.LAYER_PREVIEW_LIBRARY = 'leaflet'
+    settings.GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY = 'leaflet'
+    settings.GEONODE_CLIENT_HOOKSET = 'geonode.client.hooksets.LeafletHookSet'
     if not hasattr(settings, 'LEAFLET_CONFIG'):
         settings.LEAFLET_CONFIG = {
             'TILES': [
