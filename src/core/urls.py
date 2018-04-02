@@ -1,6 +1,8 @@
 # coding=utf-8
 from __future__ import absolute_import
 
+from django.conf.urls import patterns, include
+
 from geonode.urls import *
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'

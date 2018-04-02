@@ -23,7 +23,7 @@ setup-ansible:
 
 build-geonode-core:
 	@echo "Building core GeoNode container as image base"
-	@cd ../src/geonode; docker pull geonode/django:latest; docker-compose build django
+	@cd ../src/geonode; docker pull geonode/geonode:latest; docker-compose build django
 
 build:
 	@echo
@@ -44,6 +44,16 @@ sync: up
 
 collectstatic: up
 	@docker-compose -p $(PROJECT_ID) exec django django-admin.py collectstatic
+
+static-development-setup:
+	@echo "Nodejs and NPM are prerequisites"
+	@echo "Make sure these are installed before running this command."
+	@cd ../src/geonode/geonode/static; npm install --save-dev; bower install
+
+static-grunt-production:
+	@echo "Make sure static development command were setup before running this command."
+	@cd ../src/geonode/geonode/static; grunt production
+
 
 reload:
 	@docker-compose -p $(PROJECT_ID) exec django uwsgi --reload  /tmp/django.pid
