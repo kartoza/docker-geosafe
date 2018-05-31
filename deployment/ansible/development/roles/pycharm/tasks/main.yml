@@ -23,7 +23,7 @@
 
 - name: gather os specific variables
   include_vars:
-    file: "{{ pycharm_version }}/{{ ansible_distribution }}.yml"
+    file: "generic/{{ ansible_distribution }}.yml"
 
 - name: customize dockerized python interpreter
   template:
