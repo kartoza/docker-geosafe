@@ -1,4 +1,4 @@
-FROM geonode/geonode:latest
+FROM kartoza/geonode_django_base:latest
 
 # Toolbox
 RUN apt-get -y update; apt-get -y --force-yes install git python-pip python-virtualenv

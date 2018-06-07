@@ -35,7 +35,7 @@ services:
 
 
   qgis-server-backend:
-    image: kartoza/qgis-server:LTR
+    image: kartoza/qgis-server:2.18
     volumes:
       - '../src/geonode:/usr/src/app'
       - '../src/core:/usr/src/core'
