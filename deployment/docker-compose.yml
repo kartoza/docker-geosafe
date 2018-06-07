@@ -2,7 +2,7 @@ version: '2'
 services:
 
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.6
     network_mode: "bridge"
 
   postgis:

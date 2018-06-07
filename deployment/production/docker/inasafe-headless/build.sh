@@ -19,7 +19,7 @@ fi
 # Build Args Environment
 
 if [ -z "$INASAFE_HEADLESS_TAG" ]; then
-	INASAFE_HEADLESS_TAG=latest
+	INASAFE_HEADLESS_TAG=realtime-backport-cherry-pick
 fi
 
 echo "INASAFE_HEADLESS_TAG=${INASAFE_HEADLESS_TAG}"
