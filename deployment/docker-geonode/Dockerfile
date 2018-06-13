@@ -1,8 +1,5 @@
 FROM kartoza/geonode_django_base:latest
 
-# Toolbox
-RUN apt-get -y update; apt-get -y --force-yes install git python-pip python-virtualenv
-
 # This section taken on 2 July 2015 from
 # https://docs.docker.com/examples/running_ssh_service/
 # Sudo is needed by pycharm when it tries to pip install packages
@@ -19,24 +16,12 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 # End of cut & paste section
 
-# include uwsgi and production ready
-RUN apt-get update -y; apt-get -y --force-yes install \
-	python-gdal \
-	python-geoip \
-	npm \
-	nodejs \
-	rpl
-RUN npm -g install yuglify
-RUN rpl "env node" "env nodejs" /usr/local/lib/node_modules/yuglify/bin/yuglify
-
-# Upgrade dependencies
-RUN apt-get update -y; apt-get install -y --force-yes gdal-bin
-
 # Entrypoint related
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 ADD uwsgi.conf /uwsgi.conf
-ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["prod"]
 
 # GeoSAFE Related
 ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["prod"]

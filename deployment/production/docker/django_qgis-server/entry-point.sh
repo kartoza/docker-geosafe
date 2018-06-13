@@ -18,12 +18,6 @@ echo "Number of arguments $#"
 
 if [ $# -eq 1 ]; then
 	case $1 in
-		# Dev mode, allow ssh
-		[Dd][Ee][Vv])
-			echo "Running in dev mode. Allowing SSH"
-			exec /usr/sbin/sshd -D
-			exit
-			;;
 		# Debug mode, run manage.py in debug mode
 		[Dd][Ee][Bb][Uu][Gg])
 			echo "Running in debug mode. Run Django Server"
@@ -45,4 +39,4 @@ if [ $# -eq 1 ]; then
 fi
 
 # Run as bash entrypoint
-exec $@
+exec "$@"

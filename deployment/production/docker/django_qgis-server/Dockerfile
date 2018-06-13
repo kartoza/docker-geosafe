@@ -1,17 +1,6 @@
 ARG GEONODE_DJANGO_BASE_TAG=latest
 FROM kartoza/geonode_django_base:${GEONODE_DJANGO_BASE_TAG}
 
-# Toolbox
-RUN apt-get -y update; apt-get -y install git python-pip python-virtualenv
-# include uwsgi and production ready
-RUN apt-get update -y; apt-get -y --force-yes install \
-	python-gdal \
-	python-geoip \
-	npm \
-	nodejs \
-	rpl
-RUN npm -g install yuglify
-RUN rpl "env node" "env nodejs" /usr/local/lib/node_modules/yuglify/bin/yuglify
 ADD uwsgi.conf /uwsgi.conf
 
 # Clone source code
@@ -23,8 +12,8 @@ RUN mv /tmp/docker-geosafe/src/core /usr/src/core
 WORKDIR /usr/src/app
 
 # Upgrade dependencies
-RUN apt-get update -y; apt-get install -y gdal-bin
 ADD entry-point.sh /entry-point.sh
 RUN chmod +x /entry-point.sh
 
-CMD ["uwsgi", "--ini", "/uwsgi.conf"]
+ENTRYPOINT ["/entry-point.sh"]
+CMD ["prod"]

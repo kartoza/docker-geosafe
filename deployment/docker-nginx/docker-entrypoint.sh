@@ -27,4 +27,4 @@ if [ $# -eq 1 ]; then
 fi
 
 # Run as bash entrypoint
-exec $@
+exec "$@"

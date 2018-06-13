@@ -3,7 +3,7 @@ FROM kartoza/geonode_django_qgis-server:${GEONODE_DJANGO_QGIS_SERVER_TAG}
 
 # Clone source code
 WORKDIR /usr/src
-ARG GEOSAFE_TAG=2.6.x
+ARG GEOSAFE_TAG=2.8.x
 RUN git clone --branch ${GEOSAFE_TAG} --depth 1 https://github.com/kartoza/geosafe.git
 
 WORKDIR /usr/src/app
