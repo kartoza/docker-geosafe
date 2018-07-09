@@ -167,18 +167,20 @@ services:
     image: inasafe/headless_processor
     restart: on-failure
     environment:
-      - C_FORCE_ROOT=True
-      - PYTHONPATH=/home/src/inasafe
-      - InaSAFEQGIS=/home/src/inasafe
-      - DISPLAY=:99
-      - TASK_ALWAYS_EAGER=False
-      - ON_TRAVIS=False
-      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-      - QGIS_LOG_FILE={{ inasafe_headless.QGIS_LOG_FILE }}
-      - QGIS_DEBUG_FILE={{ inasafe_headless.QGIS_DEBUG_FILE }}
-      - QGIS_DEBUG={{ inasafe_headless.QGIS_DEBUG }}
-      - INASAFE_WORK_DIR={{ inasafe_headless.INASAFE_WORK_DIR }}
-      - INASAFE_OUTPUT_DIR=/home/headless/output
+      C_FORCE_ROOT: 'True'
+      DISPLAY: :99
+      HOSTNAME_SENTRY: http://realtime.inasafe.org/
+      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
+      INASAFE_LOCALE: id
+      INASAFE_OUTPUT_DIR: /home/headless/outputs
+      INASAFE_SENTRY: '1'
+      INASAFE_WORK_DIR: /home/headless
+      PYTHONPATH: /usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      TASK_ALWAYS_EAGER: 'False'
+      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
+      QGIS_LOG_FILE: {{ inasafe_headless.QGIS_LOG_FILE }}
+      QGIS_DEBUG_FILE: {{ inasafe_headless.QGIS_DEBUG_FILE }}
+      QGIS_DEBUG: {{ inasafe_headless.QGIS_DEBUG }}
     volumes:
       - './inasafe/headless/tmp:/tmp/inasafe'
       - './inasafe/headless/output:/home/headless/output'
@@ -190,7 +192,7 @@ services:
 
     {% else %}
 
-    command: /docker-entrypoint.sh prod inasafe-headless-worker
+    command: prod inasafe-headless-worker
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless is defined %}
@@ -214,18 +216,20 @@ services:
     image: inasafe/headless_processor
     restart: on-failure
     environment:
-      - C_FORCE_ROOT=True
-      - PYTHONPATH=/home/src/inasafe
-      - InaSAFEQGIS=/home/src/inasafe
-      - DISPLAY=:99
-      - TASK_ALWAYS_EAGER=False
-      - ON_TRAVIS=False
-      - INASAFE_HEADLESS_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
-      - QGIS_LOG_FILE={{ inasafe_headless.QGIS_LOG_FILE }}
-      - QGIS_DEBUG_FILE={{ inasafe_headless.QGIS_DEBUG_FILE }}
-      - QGIS_DEBUG={{ inasafe_headless.QGIS_DEBUG }}
-      - INASAFE_WORK_DIR={{ inasafe_headless.INASAFE_WORK_DIR }}
-      - INASAFE_OUTPUT_DIR=/home/headless/output
+      C_FORCE_ROOT: 'True'
+      DISPLAY: :99
+      HOSTNAME_SENTRY: http://realtime.inasafe.org/
+      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
+      INASAFE_LOCALE: id
+      INASAFE_OUTPUT_DIR: /home/headless/outputs
+      INASAFE_SENTRY: '1'
+      INASAFE_WORK_DIR: /home/headless
+      PYTHONPATH: /usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      TASK_ALWAYS_EAGER: 'False'
+      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
+      QGIS_LOG_FILE: {{ inasafe_headless.QGIS_LOG_FILE }}
+      QGIS_DEBUG_FILE: {{ inasafe_headless.QGIS_DEBUG_FILE }}
+      QGIS_DEBUG: {{ inasafe_headless.QGIS_DEBUG }}
     volumes:
       - './inasafe/headless/tmp:/tmp/inasafe'
       - './inasafe/headless/output:/home/headless/output'
@@ -237,7 +241,7 @@ services:
 
     {% else %}
 
-    command: /docker-entrypoint.sh prod inasafe-headless-worker
+    command: prod inasafe-headless-worker
 
     {% endif %}
     {% if docker_port_forward.inasafe_headless_analysis is defined %}
