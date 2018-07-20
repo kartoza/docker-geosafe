@@ -5,7 +5,7 @@ if [ -z "$REPO_NAME" ]; then
 fi
 
 if [ -z "$IMAGE_NAME" ]; then
-	IMAGE_NAME=geonode_nginx
+	IMAGE_NAME=geonode_nginx_conf
 fi
 
 if [ -z "$TAG_NAME" ]; then

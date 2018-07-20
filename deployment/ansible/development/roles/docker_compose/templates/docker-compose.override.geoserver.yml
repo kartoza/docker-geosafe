@@ -1,5 +1,6 @@
 version: '2'
-
+volumes:
+  geoserver-data-dir:
 services:
 
   {% if docker_port_forward.db is defined %}
@@ -15,7 +16,7 @@ services:
   {% endif %}
 
   geoserver:
-    image: geonode/geoserver:alias
+    image: geosolutionsit/geoserver-docker:2.13.x
     links:
       - db
     {% if docker_port_forward.geoserver is defined %}
@@ -29,22 +30,22 @@ services:
       {% endif %}
     {% endif %}
 
-    volumes_from:
-      - data_dir_conf
+    volumes:
+      - geoserver-data-dir:/geoserver_data/data
     environment:
       - DJANGO_URL={{ django.environment.GEONODE_BASE_URL }}
       - SITEURL={{ django.environment.SITEURL }}
       - GEOSERVER_LOCATION={{ django.environment.GEOSERVER_LOCATION }}
       - GEOSERVER_PUBLIC_LOCATION={{ django.environment.GEOSERVER_PUBLIC_LOCATION }}
+      - GEOSERVER_ADMIN_PASSWORD={{ django.environment.GEOSERVER_ADMIN_PASSWORD }}
 
     network_mode: "bridge"
 
   data_dir_conf:
-    image: geonode/geoserver_data:2.9.x-oauth2
-    container_name: geoserver_data_dir
+    image: geosolutionsit/geoserver_data:2.13.x
     command: /bin/true
     volumes:
-      - /geoserver_data/data
+      - geoserver-data-dir:/geoserver_data/data
     network_mode: "bridge"
 
   django:
@@ -88,6 +89,9 @@ services:
     command: {{ web.command }}
 
     {% endif %}
+
+    links:
+      - geoserver
 
     ports:
       # - "80:80"

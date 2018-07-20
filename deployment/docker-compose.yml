@@ -22,6 +22,7 @@ services:
       - '../src/core:/usr/src/core'
       - '../src/geonode/geonode/static_root:/home/web/static'
       - '../src/geonode/geonode/uploaded:/home/web/media'
+      - './geonode_backup:/geonode_backup'
       - './logs:/var/log/'
     command: prod
     environment:
@@ -51,10 +52,12 @@ services:
     network_mode: "bridge"
 
   web:
-    build: docker-nginx
+    image: nginx
     command: prod
+    entrypoint: /etc/nginx/sites-available/docker-entrypoint.sh
     volumes:
       # I dont use volumes_from as I want to use the ro modifier
+      - './production/docker/nginx_conf/sites-available:/etc/nginx/sites-available'
       - '../src/geonode/geonode/static_root:/home/web/static:ro'
       - '../src/geonode/geonode/uploaded:/home/web/media:ro'
       - './logs:/var/log/nginx'

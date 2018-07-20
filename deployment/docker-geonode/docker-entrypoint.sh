@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # GeoSAFE Related
 if [ -d /usr/src/geosafe/tasks/headless/ ]; then
 	echo "Copy celeryconfig for Geosafe if not exists"
@@ -7,9 +9,6 @@ if [ -d /usr/src/geosafe/tasks/headless/ ]; then
 fi
 
 echo "Number of arguments $#"
-
-#!/bin/bash
-set -e
 
 /usr/local/bin/invoke update >> /usr/src/app/invoke.log
 
