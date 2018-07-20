@@ -5,13 +5,13 @@ services:
     image: rabbitmq:3.6
     network_mode: "bridge"
 
-  postgis:
+  db:
     image: kartoza/postgis:9.4-2.1
     restart: on-failure
     volumes:
       - './pg/postgres_data:/var/lib/postgresql'
     environment:
-      - POSTGRES_USER=docker
+      - POSTGRES_USER=gis
       - POSTGRES_PASS=docker
     network_mode: "bridge"
 
@@ -25,7 +25,6 @@ services:
       - './logs:/var/log/'
     command: prod
     environment:
-      - DATABASE_URL=postgres://docker:docker@postgis:5432/gis
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
       - DJANGO_SETTINGS_MODULE=geonode.settings
       - GEOSERVER_BASE_URL="http://geoserver:8080/geoserver/"
@@ -33,14 +32,21 @@ services:
 # host
 #      - ALLOWED_HOSTS=['django',]
       - DEBUG=False
+      - DATABASE_URL=postgres://gis:docker@db:5432/gis
+      - GEODATABASE_URL=postgres://gis:docker@db:5432/gis
       - PYTHONPATH=/usr/src:/usr/src/app/
       - DJANGO_SETTINGS_MODULE=core.settings
       - ROOT_URLCONF=core.urls
       - SITEURL=http://localhost/
       - GEONODE_BASE_URL=http://nginx/
       - QGIS_SERVER_URL=http://qgis-server/
+      - GEONODE_DATABASE_PASSWORD=docker
+      - GEONODE_DATABASE=gis
+      - GEONODE_GEODATABASE_PASSWORD=docker
+      - GEONODE_GEODATABASE=gis
+      - PGPASSWORD=docker
     links:
-      - postgis
+      - db
       - rabbitmq
     network_mode: "bridge"
 
@@ -70,7 +76,8 @@ services:
     environment:
       - DEBUG=False
       - C_FORCE_ROOT=True
-      - DATABASE_URL=postgres://docker:docker@postgis:5432/gis
+      - DATABASE_URL=postgres://gis:docker@db:5432/gis
+      - GEODATABASE_URL=postgres://gis:docker@db:5432/gis
       - BROKER_URL=amqp://guest:guest@rabbitmq:5672/
       - PYTHONPATH=/usr/src:/usr/src/app/
       - DJANGO_SETTINGS_MODULE=core.settings
@@ -78,8 +85,13 @@ services:
       - SITEURL=http://localhost/
       - GEONODE_BASE_URL=http://nginx/
       - QGIS_SERVER_URL=http://qgis-server/
-    command: celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+      - GEONODE_DATABASE_PASSWORD=docker
+      - GEONODE_DATABASE=gis
+      - GEONODE_GEODATABASE_PASSWORD=docker
+      - GEONODE_GEODATABASE=gis
+      - PGPASSWORD=docker
+    command: celery -A geonode worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
     links:
       - rabbitmq
-      - postgis
+      - db
     network_mode: "bridge"

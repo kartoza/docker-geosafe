@@ -289,7 +289,11 @@
       <module name="docker-geosafe" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="/usr/local/bin/celery" />
+    {% if use_geosafe %}
       <option name="PARAMETERS" value="-A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B" />
+    {% else %}
+      <option name="PARAMETERS" value="-A geonode worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B" />
+    {% endif %}
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>

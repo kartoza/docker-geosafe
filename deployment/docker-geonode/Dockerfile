@@ -19,6 +19,9 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 # Entrypoint related
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 ADD uwsgi.conf /uwsgi.conf
+ADD wait-for-databases /usr/bin/wait-for-databases
+ADD requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
 
 # GeoSAFE Related
 ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py

@@ -5,13 +5,16 @@
         <env name="C_FORCE_ROOT" value="True" />
         <env name="QGIS_PATH" value="/usr" />
         <env name="INASAFE_HEADLESS_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
-        <env name="DISPLAY" value=":99" />
         <env name="LD_LIBRARY_PATH" value="/usr/lib" />
-        <env name="QGIS_LOG_FILE" value="{{ inasafe_headless.QGIS_LOG_FILE }}" />
-        <env name="QGIS_DEBUG_FILE" value="{{ inasafe_headless.QGIS_DEBUG_FILE }}" />
         <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/home/src/inasafe" />
         <env name="QGIS_PREFIX_PATH" value="/usr" />
-        <env name="INASAFE_WORK_DIR" value="{{ inasafe_headless.INASAFE_WORK_DIR }}" />
         <env name="INASAFE_SENTRY" value="1" />
         <env name="DEBIAN_FRONTEND" value="noninteractive" />
-        <env name="QGIS_DEBUG" value="{{ inasafe_headless.QGIS_DEBUG }}" />
+
+        {% for key, value in inasafe_headless.environment.iteritems() %}
+
+        <env name="{{ key }}" value="{{ value }}" />
+
+        {% endfor %}
+
+        <env name="DISPLAY" value=":99" />

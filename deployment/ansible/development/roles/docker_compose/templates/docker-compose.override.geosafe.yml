@@ -2,14 +2,14 @@ version: '2'
 
 services:
 
-  {% if docker_port_forward.postgis is defined %}
+  {% if docker_port_forward.db is defined %}
 
-  postgis:
+  db:
     ports:
       # - "6543:5432"
-      {% if docker_port_forward.postgis.postgis is defined %}
+      {% if docker_port_forward.db.db is defined %}
 
-      - "{{ docker_port_forward.postgis.postgis }}:5432"
+      - "{{ docker_port_forward.db.db }}:5432"
 
       {% endif %}
   {% endif %}
@@ -44,39 +44,34 @@ services:
       - './qgis-web:/var/www'
       - './qgis-server-log:/tmp/qgis-server'
     environment:
-      - DEBUG={{ qgis_server.DEBUG }}
-      - QGIS_LOG_FILE={{ qgis_server.QGIS_LOG_FILE }}
-      - QGIS_SERVER_LOG_FILE={{ qgis_server.QGIS_SERVER_LOG_FILE }}
-      # Log level 0 is the lowest (catch all), 5 is the highest (only fatal error)
-      - QGIS_DEBUG={{ qgis_server.QGIS_DEBUG }}
-      - QGIS_SERVER_LOG_LEVEL={{ qgis_server.QGIS_SERVER_LOG_LEVEL }}
       # It is important to include this environment variable
       # QGIS-Server:LTR cgi needs it
-      - QGIS_PROJECT_FILE=
+      QGIS_PROJECT_FILE: ""
+
+      {% for key, value in qgis_server.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
+
     network_mode: "bridge"
 
   django:
     volumes:
       - '../src/geosafe:/usr/src/geosafe'
-      - './inasafe/headless/output:{{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
+      - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
-      - DEBUG={{ django.DEBUG }}
-      - ALLOWED_HOSTS={{ django.ALLOWED_HOSTS }}
-      - SITEURL={{ django.SITEURL }}
-      - OGC_BACKEND=geonode.{{ ogc_backend }}
-      - GEONODE_BASE_URL={{ django.GEONODE_BASE_URL }}
-      - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
-      - USE_GEOSAFE={{ use_geosafe }}
-      - USE_LAYER_FILE_ACCESS={{ django.USE_LAYER_FILE_ACCESS }}
-      - INASAFE_LAYER_DIRECTORY={{ django.INASAFE_LAYER_DIRECTORY }}
-      - INASAFE_LAYER_DIRECTORY_BASE_PATH={{ django.INASAFE_LAYER_DIRECTORY_BASE_PATH }}
-      - GEOSAFE_IMPACT_OUTPUT_DIRECTORY={{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}
-      - INASAFE_IMPACT_BASE_URL={{ django.INASAFE_IMPACT_BASE_URL }}
-      - USE_LAYER_HTTP_ACCESS={{ django.USE_LAYER_HTTP_ACCESS }}
-      - INASAFE_ANALYSIS_RUN_TIME_LIMIT={{ django.INASAFE_ANALYSIS_RUN_TIME_LIMIT }}
-      - INASAFE_ANALYSIS_AREA_LIMIT={{ django.INASAFE_ANALYSIS_AREA_LIMIT }}
+      USE_GEOSAFE: "{{ use_geosafe }}"
+      OGC_BACKEND: "geonode.{{ ogc_backend }}"
+
+      {% for key, value in django.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
+
     {% if django.command is defined %}
 
     command: {{ django.command }}
@@ -119,24 +114,17 @@ services:
   celery:
     volumes:
       - '../src/geosafe:/usr/src/geosafe'
-      - './inasafe/headless/output:{{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
+      - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
-      - DEBUG={{ django.DEBUG }}
-      - ALLOWED_HOSTS={{ django.ALLOWED_HOSTS }}
-      - SITEURL={{ django.SITEURL }}
-      - OGC_BACKEND=geonode.{{ ogc_backend }}
-      - GEONODE_BASE_URL={{ django.GEONODE_BASE_URL }}
-      - QGIS_SERVER_URL={{ django.QGIS_SERVER_URL }}
-      - USE_GEOSAFE={{ use_geosafe }}
-      - USE_LAYER_FILE_ACCESS={{ django.USE_LAYER_FILE_ACCESS }}
-      - INASAFE_LAYER_DIRECTORY={{ django.INASAFE_LAYER_DIRECTORY }}
-      - INASAFE_LAYER_DIRECTORY_BASE_PATH={{ django.INASAFE_LAYER_DIRECTORY_BASE_PATH }}
-      - GEOSAFE_IMPACT_OUTPUT_DIRECTORY={{ django.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}
-      - INASAFE_IMPACT_BASE_URL={{ django.INASAFE_IMPACT_BASE_URL }}
-      - USE_LAYER_HTTP_ACCESS={{ django.USE_LAYER_HTTP_ACCESS }}
-      - INASAFE_ANALYSIS_RUN_TIME_LIMIT={{ django.INASAFE_ANALYSIS_RUN_TIME_LIMIT }}
-      - INASAFE_ANALYSIS_AREA_LIMIT={{ django.INASAFE_ANALYSIS_AREA_LIMIT }}
+      USE_GEOSAFE: "{{ use_geosafe }}"
+      OGC_BACKEND: "geonode.{{ ogc_backend }}"
+
+      {% for key, value in django.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
     {% if celery.command is defined %}
 
     command: {{ celery.command }}
@@ -167,20 +155,13 @@ services:
     image: inasafe/headless_processor
     restart: on-failure
     environment:
-      C_FORCE_ROOT: 'True'
-      DISPLAY: :99
-      HOSTNAME_SENTRY: http://realtime.inasafe.org/
-      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
-      INASAFE_LOCALE: id
-      INASAFE_OUTPUT_DIR: /home/headless/outputs
-      INASAFE_SENTRY: '1'
-      INASAFE_WORK_DIR: /home/headless
-      PYTHONPATH: /usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
-      TASK_ALWAYS_EAGER: 'False'
-      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
-      QGIS_LOG_FILE: {{ inasafe_headless.QGIS_LOG_FILE }}
-      QGIS_DEBUG_FILE: {{ inasafe_headless.QGIS_DEBUG_FILE }}
-      QGIS_DEBUG: {{ inasafe_headless.QGIS_DEBUG }}
+
+      {% for key, value in inasafe_headless.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
+
     volumes:
       - './inasafe/headless/tmp:/tmp/inasafe'
       - './inasafe/headless/output:/home/headless/output'
@@ -216,20 +197,13 @@ services:
     image: inasafe/headless_processor
     restart: on-failure
     environment:
-      C_FORCE_ROOT: 'True'
-      DISPLAY: :99
-      HOSTNAME_SENTRY: http://realtime.inasafe.org/
-      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
-      INASAFE_LOCALE: id
-      INASAFE_OUTPUT_DIR: /home/headless/outputs
-      INASAFE_SENTRY: '1'
-      INASAFE_WORK_DIR: /home/headless
-      PYTHONPATH: /usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
-      TASK_ALWAYS_EAGER: 'False'
-      INASAFE_HEADLESS_BROKER_HOST: amqp://guest:guest@rabbitmq:5672/
-      QGIS_LOG_FILE: {{ inasafe_headless.QGIS_LOG_FILE }}
-      QGIS_DEBUG_FILE: {{ inasafe_headless.QGIS_DEBUG_FILE }}
-      QGIS_DEBUG: {{ inasafe_headless.QGIS_DEBUG }}
+
+      {% for key, value in inasafe_headless.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
+
     volumes:
       - './inasafe/headless/tmp:/tmp/inasafe'
       - './inasafe/headless/output:/home/headless/output'

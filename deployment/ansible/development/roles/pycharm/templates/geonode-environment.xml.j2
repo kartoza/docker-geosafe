@@ -4,33 +4,16 @@
         <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
         <env name="ROOT_URLCONF" value="core.urls" />
         <env name="C_FORCE_ROOT" value="True" />
-        <env name="DB_USER" value="postgres" />
-        <env name="DB_NAME" value="postgres" />
-        <env name="DEBUG" value="{{ django.DEBUG }}" />
         <env name="LANG" value="C.UTF-8" />
         <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
         <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
-        <env name="DATABASE_URL" value="postgres://docker:docker@postgis:5432/gis" />
+        <env name="DATABASE_URL" value="postgres://docker:docker@db:5432/gis" />
+
+        {% for key, value in django.environment.iteritems() %}
+
+        <env name="{{ key }}" value="{{ value }}" />
+
+        {% endfor %}
+
         <env name="OGC_BACKEND" value="geonode.{{ ogc_backend }}" />
-        {% if ogc_backend == 'geoserver' %}
-
-        <env name="GEOSERVER_BASE_URL" value="{{ django.GEOSERVER_BASE_URL }}" />
-        <env name="GEOSERVER_LOCATION" value="{{ django.GEOSERVER_LOCATION }}" />
-        <env name="GEOSERVER_PUBLIC_LOCATION" value="{{ django.GEOSERVER_PUBLIC_LOCATION }}" />
-
-        {% endif %}
-        <env name="DB_PASS" value="postgres" />
-        <env name="ALLOWED_HOSTS" value="{{ django.ALLOWED_HOSTS }}" />
-        {% if use_geosafe %}
-
-        <env name="GEONODE_BASE_URL" value="{{ django.GEONODE_BASE_URL }}" />
         <env name="USE_GEOSAFE" value="{{ use_geosafe }}" />
-
-        {% endif %}
-        <env name="USE_GEOSAFE" value="{{ use_geosafe }}" />
-        {% if ogc_backend == 'qgis_server' %}
-
-        <env name="QGIS_SERVER_URL" value="{{ django.QGIS_SERVER_URL }}" />
-
-        {% endif %}
-        <env name="SITEURL" value="{{ django.SITEURL }}" />

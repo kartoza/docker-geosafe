@@ -2,14 +2,14 @@ version: '2'
 
 services:
 
-  {% if docker_port_forward.postgis is defined %}
+  {% if docker_port_forward.db is defined %}
 
-  postgis:
+  db:
     ports:
       # - "6543:5432"
-      {% if docker_port_forward.postgis.postgis is defined %}
+      {% if docker_port_forward.db.db is defined %}
 
-      - "{{ docker_port_forward.postgis.postgis }}:5432"
+      - "{{ docker_port_forward.db.db }}:5432"
 
       {% endif %}
   {% endif %}
@@ -17,7 +17,7 @@ services:
   geoserver:
     image: geonode/geoserver:alias
     links:
-      - postgis
+      - db
     {% if docker_port_forward.geoserver is defined %}
 
     ports:
@@ -32,10 +32,10 @@ services:
     volumes_from:
       - data_dir_conf
     environment:
-      - DJANGO_URL={{ django.GEONODE_BASE_URL }}
-      - SITEURL={{ django.SITEURL }}
-      - GEOSERVER_LOCATION={{ django.GEOSERVER_LOCATION }}
-      - GEOSERVER_PUBLIC_LOCATION={{ django.GEOSERVER_PUBLIC_LOCATION }}
+      - DJANGO_URL={{ django.environment.GEONODE_BASE_URL }}
+      - SITEURL={{ django.environment.SITEURL }}
+      - GEOSERVER_LOCATION={{ django.environment.GEOSERVER_LOCATION }}
+      - GEOSERVER_PUBLIC_LOCATION={{ django.environment.GEOSERVER_PUBLIC_LOCATION }}
 
     network_mode: "bridge"
 
@@ -51,14 +51,15 @@ services:
     volumes:
       - './pycharm_helpers/django:/root/.pycharm_helpers'
     environment:
-      - DEBUG={{ django.DEBUG }}
-      - ALLOWED_HOSTS={{ django.ALLOWED_HOSTS }}
-      - SITEURL={{ django.SITEURL }}
-      - OGC_BACKEND=geonode.{{ ogc_backend }}
-      - USE_GEOSAFE={{ use_geosafe }}
-      - GEOSERVER_BASE_URL={{ django.GEOSERVER_BASE_URL }}
-      - GEOSERVER_LOCATION={{ django.GEOSERVER_LOCATION }}
-      - GEOSERVER_PUBLIC_LOCATION={{ django.GEOSERVER_PUBLIC_LOCATION }}
+      USE_GEOSAFE: "{{ use_geosafe }}"
+      OGC_BACKEND: "geonode.{{ ogc_backend }}"
+
+      {% for key, value in django.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
+
     {% if django.command is defined %}
 
     command: {{ django.command }}
@@ -101,14 +102,14 @@ services:
     volumes:
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
-      - DEBUG={{ django.DEBUG }}
-      - ALLOWED_HOSTS={{ django.ALLOWED_HOSTS }}
-      - SITEURL={{ django.SITEURL }}
-      - OGC_BACKEND=geonode.{{ ogc_backend }}
-      - USE_GEOSAFE={{ use_geosafe }}
-      - GEOSERVER_BASE_URL={{ django.GEOSERVER_BASE_URL }}
-      - GEOSERVER_LOCATION={{ django.GEOSERVER_LOCATION }}
-      - GEOSERVER_PUBLIC_LOCATION={{ django.GEOSERVER_PUBLIC_LOCATION }}
+      USE_GEOSAFE: "{{ use_geosafe }}"
+      OGC_BACKEND: "geonode.{{ ogc_backend }}"
+
+      {% for key, value in django.environment.iteritems() %}
+
+      {{ key }}: "{{ value }}"
+
+      {% endfor %}
     {% if celery.command is defined %}
 
     command: {{ celery.command }}

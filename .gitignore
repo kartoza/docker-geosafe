@@ -99,8 +99,10 @@ deployment/qgis-web
 deployment/docker-compose.override.yml
 deployment/ansible/development/group_vars/all
 deployment/ansible/development/group_vars/all.yml
+deployment/ansible/development/group_vars/all.yml.backup*
 deployment/ansible/development/site.retry
 deployment/ansible/tmp
+deployment/production/**/env.sh
 
 pycharm_helpers
 
