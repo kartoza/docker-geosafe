@@ -38,6 +38,7 @@ services:
       - GEOSERVER_LOCATION={{ django.environment.GEOSERVER_LOCATION }}
       - GEOSERVER_PUBLIC_LOCATION={{ django.environment.GEOSERVER_PUBLIC_LOCATION }}
       - GEOSERVER_ADMIN_PASSWORD={{ django.environment.GEOSERVER_ADMIN_PASSWORD }}
+      - NGINX_BASE_URL={{ django.environment.SITEURL }}geoserver
 
     network_mode: "bridge"
 

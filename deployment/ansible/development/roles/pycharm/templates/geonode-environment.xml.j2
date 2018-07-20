@@ -7,7 +7,7 @@
         <env name="LANG" value="C.UTF-8" />
         <env name="BROKER_URL" value="amqp://guest:guest@rabbitmq:5672/" />
         <env name="DJANGO_SETTINGS_MODULE" value="core.settings" />
-        <env name="DATABASE_URL" value="postgres://docker:docker@db:5432/gis" />
+        <env name="DATABASE_URL" value="postgres://gis:docker@db:5432/gis" />
 
         {% for key, value in django.environment.iteritems() %}
 

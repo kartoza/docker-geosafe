@@ -4,7 +4,9 @@ set -e
 
 # Apply permissions
 echo "Apply permissions for QGIS Server"
+mkdir -p geonode/qgis_layer
 chmod 777 geonode/qgis_layer
+mkdir -p geonode/qgis_tiles
 chmod 777 geonode/qgis_tiles
 
 echo "Number of arguments $#"
@@ -29,6 +31,9 @@ echo "migrations task done"
 echo "prepare task done"
 /usr/local/bin/invoke fixtures >> /usr/src/app/invoke.log
 echo "fixture task done"
+
+python manage.py collectstatic --noinput -i geoexplorer >> /usr/src/app/invoke.log
+echo "collectstatic done"
 
 if [ $# -eq 1 ]; then
 	case $1 in

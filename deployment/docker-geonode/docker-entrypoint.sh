@@ -31,6 +31,9 @@ echo "prepare task done"
 /usr/local/bin/invoke fixtures >> /usr/src/app/invoke.log
 echo "fixture task done"
 
+python manage.py collectstatic --noinput -i geoexplorer >> /usr/src/app/invoke.log
+echo "collectstatic done"
+
 if [ $# -eq 1 ]; then
 	case $1 in
 		# Dev mode, allow ssh

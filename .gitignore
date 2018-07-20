@@ -103,6 +103,7 @@ deployment/ansible/development/group_vars/all.yml.backup*
 deployment/ansible/development/site.retry
 deployment/ansible/tmp
 deployment/production/**/env.sh
+deployment/geonode_backup
 
 pycharm_helpers
 

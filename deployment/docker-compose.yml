@@ -6,11 +6,12 @@ services:
     network_mode: "bridge"
 
   db:
-    image: kartoza/postgis:9.4-2.1
+    image: kartoza/postgis:9.6-2.4
     restart: on-failure
     volumes:
       - './pg/postgres_data:/var/lib/postgresql'
     environment:
+      - ALLOW_IP_RANGE=0.0.0.0/0
       - POSTGRES_USER=gis
       - POSTGRES_PASS=docker
     network_mode: "bridge"
