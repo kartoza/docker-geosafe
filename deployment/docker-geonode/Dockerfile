@@ -23,8 +23,5 @@ ADD wait-for-databases /usr/bin/wait-for-databases
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
-# GeoSAFE Related
-ADD geosafe-tasks-headless-celeryconfig.py /celeryconfig.py
-
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["prod"]

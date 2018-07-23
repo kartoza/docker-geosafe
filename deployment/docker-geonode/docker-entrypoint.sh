@@ -2,12 +2,6 @@
 
 set -e
 
-# GeoSAFE Related
-if [ -d /usr/src/geosafe/tasks/headless/ ]; then
-	echo "Copy celeryconfig for Geosafe if not exists"
-	cp -n /celeryconfig.py /usr/src/geosafe/tasks/headless/celeryconfig.py
-fi
-
 echo "Number of arguments $#"
 
 /usr/local/bin/invoke update >> /usr/src/app/invoke.log

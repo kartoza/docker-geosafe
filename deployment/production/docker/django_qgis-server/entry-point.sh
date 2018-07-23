@@ -20,20 +20,36 @@ echo GEODATABASE_URL=$GEODATABASE_URL
 echo SITEURL=$SITEURL
 echo ALLOWED_HOSTS=$ALLOWED_HOSTS
 echo GEOSERVER_PUBLIC_LOCATION=$GEOSERVER_PUBLIC_LOCATION
+echo STATIC_ROOT=$STATIC_ROOT
+echo MEDIA_ROOT=$MEDIA_ROOT
 
-/usr/local/bin/invoke waitfordbs >> /usr/src/app/invoke.log
+/usr/local/bin/invoke waitfordbs
 
 echo "waitfordbs task done"
 
-/usr/local/bin/invoke migrations >> /usr/src/app/invoke.log
+/usr/local/bin/invoke migrations
 echo "migrations task done"
-/usr/local/bin/invoke prepare >> /usr/src/app/invoke.log
-echo "prepare task done"
-/usr/local/bin/invoke fixtures >> /usr/src/app/invoke.log
-echo "fixture task done"
 
-python manage.py collectstatic --noinput -i geoexplorer >> /usr/src/app/invoke.log
-echo "collectstatic done"
+echo "Lock file: $MEDIA_ROOT/geonode_init.lock"
+
+if [ ! -e "$MEDIA_ROOT/geonode_init.lock" ]; then
+
+	echo "Lock file doesn't exists, perform initializations"
+
+	python manage.py collectstatic --noinput --clear
+	echo "collectstatic done"
+
+	/usr/local/bin/invoke prepare
+	echo "prepare task done"
+
+	/usr/local/bin/invoke fixtures
+	echo "fixture task done"
+
+	echo "Initialize geonode_init.lock"
+	date > $MEDIA_ROOT/geonode_init.lock
+else
+	echo "Lock file exists. Skip initializations"
+fi
 
 if [ $# -eq 1 ]; then
 	case $1 in

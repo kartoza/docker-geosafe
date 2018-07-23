@@ -16,7 +16,7 @@ services:
   {% endif %}
 
   geoserver:
-    image: geosolutionsit/geoserver-docker:2.13.x
+    image: geosolutionsit/geoserver-docker:2.12.x
     links:
       - db
     {% if docker_port_forward.geoserver is defined %}
@@ -43,7 +43,7 @@ services:
     network_mode: "bridge"
 
   data_dir_conf:
-    image: geosolutionsit/geoserver_data:2.13.x
+    image: geosolutionsit/geoserver_data:2.12.x
     command: /bin/true
     volumes:
       - geoserver-data-dir:/geoserver_data/data
