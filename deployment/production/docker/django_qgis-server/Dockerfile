@@ -13,6 +13,10 @@ WORKDIR /usr/src/app
 
 # Upgrade dependencies
 ADD entry-point.sh /entry-point.sh
+ADD uwsgi.conf /uwsgi.conf
+ADD wait-for-databases /usr/bin/wait-for-databases
+ADD requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
 RUN chmod +x /entry-point.sh
 
 ENTRYPOINT ["/entry-point.sh"]
