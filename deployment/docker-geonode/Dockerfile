@@ -6,7 +6,7 @@ FROM kartoza/geonode_django_base:latest
 RUN apt-get update -y; apt-get install -y --force-yes openssh-server sudo
 RUN mkdir -p /var/run/sshd
 RUN echo 'root:docker' | chpasswd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
