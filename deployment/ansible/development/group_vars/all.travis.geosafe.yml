@@ -56,7 +56,7 @@ django:
     # GeoSAFE specific settings
     USE_LAYER_FILE_ACCESS: True
     INASAFE_LAYER_DIRECTORY: "/home/geosafe/media/"
-    INASAFE_LAYER_DIRECTORY_BASE_PATH: "/usr/src/app/geonode/uploaded/"
+    INASAFE_LAYER_DIRECTORY_BASE_PATH: "/usr/src/app/geonode/qgis_layer/"
     GEOSAFE_IMPACT_OUTPUT_DIRECTORY: "/home/geosafe/impact_layers"
     INASAFE_IMPACT_BASE_URL: "/output/"
     USE_LAYER_HTTP_ACCESS: False

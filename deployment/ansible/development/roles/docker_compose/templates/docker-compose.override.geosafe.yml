@@ -65,6 +65,7 @@ services:
     environment:
       USE_GEOSAFE: "{{ use_geosafe }}"
       OGC_BACKEND: "geonode.{{ ogc_backend }}"
+      CELERY_TASK_ALWAYS_EAGER: "False"
 
       {% for key, value in django.environment.iteritems() %}
 
@@ -119,6 +120,7 @@ services:
     environment:
       USE_GEOSAFE: "{{ use_geosafe }}"
       OGC_BACKEND: "geonode.{{ ogc_backend }}"
+      CELERY_TASK_ALWAYS_EAGER: "False"
 
       {% for key, value in django.environment.iteritems() %}
 
@@ -164,8 +166,8 @@ services:
 
     volumes:
       - './inasafe/headless/tmp:/tmp/inasafe'
-      - './inasafe/headless/output:/home/headless/output'
-      - '../src/geonode/geonode/uploaded:/usr/src/app/geonode/uploaded'
+      - './inasafe/headless/output:{{ inasafe_headless.environment.INASAFE_OUTPUT_DIR }}'
+      - '../src/geonode/geonode/qgis_layer:{{ django.environment.INASAFE_LAYER_DIRECTORY }}'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
@@ -206,8 +208,8 @@ services:
 
     volumes:
       - './inasafe/headless/tmp:/tmp/inasafe'
-      - './inasafe/headless/output:/home/headless/output'
-      - '../src/geonode/geonode/uploaded:/usr/src/app/geonode/uploaded'
+      - './inasafe/headless/output:{{ inasafe_headless.environment.INASAFE_OUTPUT_DIR }}'
+      - '../src/geonode/geonode/qgis_layer:{{ django.environment.INASAFE_LAYER_DIRECTORY }}'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless_analysis.command is defined %}
 

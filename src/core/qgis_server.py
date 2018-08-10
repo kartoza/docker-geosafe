@@ -1,5 +1,6 @@
 # coding=utf-8
 import os
+from ast import literal_eval
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 
@@ -47,6 +48,8 @@ def update_settings(settings):
     settings.TEMPLATES[0]['OPTIONS']['context_processors'].append(qgis_server_context_processor)
 
     # Celery config
+    settings.CELERY_ALWAYS_EAGER = literal_eval(os.environ.get(
+        'CELERY_ALWAYS_EAGER', 'False'))
     settings.CELERY_TASK_SERIALIZER = 'pickle'
     settings.CELERY_ACCEPT_CONTENT = {'pickle'}
     settings.CELERY_RESULT_SERIALIZER = 'pickle'

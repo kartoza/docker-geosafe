@@ -257,6 +257,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
           {% include 'geonode-environment.xml.j2' %}
+          <env name="CELERY_ALWAYS_EAGER" value="False" />
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.django.ssh }}/usr/local/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -280,6 +281,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
           {% include 'geonode-environment.xml.j2' %}
+          <env name="CELERY_ALWAYS_EAGER" value="False" />
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />

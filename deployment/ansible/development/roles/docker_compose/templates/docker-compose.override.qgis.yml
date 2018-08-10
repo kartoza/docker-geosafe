@@ -61,6 +61,7 @@ services:
     environment:
       USE_GEOSAFE: "{{ use_geosafe }}"
       OGC_BACKEND: "geonode.{{ ogc_backend }}"
+      CELERY_TASK_ALWAYS_EAGER: "False"
 
       {% for key, value in django.environment.iteritems() %}
 
@@ -112,6 +113,7 @@ services:
     environment:
       USE_GEOSAFE: "{{ use_geosafe }}"
       OGC_BACKEND: "geonode.{{ ogc_backend }}"
+      CELERY_TASK_ALWAYS_EAGER: "False"
 
       {% for key, value in django.environment.iteritems() %}
 
