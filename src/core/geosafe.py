@@ -82,7 +82,7 @@ def update_settings(settings):
         'INASAFE_LAYER_DIRECTORY', '/home/geosafe/media/')
 
     settings.INASAFE_LAYER_DIRECTORY_BASE_PATH = os.environ.get(
-        'INASAFE_LAYER_DIRECTORY_BASE_PATH', '/usr/src/app/geonode/uploaded/')
+        'INASAFE_LAYER_DIRECTORY_BASE_PATH', '/usr/src/app/geonode/qgis_layer/')
 
     settings.GEOSAFE_IMPACT_OUTPUT_DIRECTORY = os.environ.get(
         'GEOSAFE_IMPACT_OUTPUT_DIRECTORY', '/home/geosafe/impact_layers/')
