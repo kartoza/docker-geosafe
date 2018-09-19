@@ -15,12 +15,11 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
           {% include 'geonode-environment.xml.j2' %}
-          <env name="CELERY_ALWAYS_EAGER" value="True" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/geonode" />
       <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="false" />
       <module name="docker-geosafe" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
@@ -28,7 +27,7 @@
       <option name="SETTINGS_FILE" value="" />
       <option name="CUSTOM_SETTINGS" value="false" />
       <option name="USE_OPTIONS" value="true" />
-      <option name="OPTIONS" value="--noinput --liveserver=0.0.0.0:8000" />
+      <option name="OPTIONS" value="--noinput --liveserver=0.0.0.0:8000 --nomigrations" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
@@ -257,7 +256,6 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
           {% include 'geonode-environment.xml.j2' %}
-          <env name="CELERY_ALWAYS_EAGER" value="False" />
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.django.ssh }}/usr/local/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -281,7 +279,29 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
           {% include 'geonode-environment.xml.j2' %}
-          <env name="CELERY_ALWAYS_EAGER" value="False" />
+      </envs>
+      <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
+      <module name="docker-geosafe" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="/usr/local/bin/celery" />
+    {% if use_geosafe %}
+      <option name="PARAMETERS" value="-A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B" />
+    {% else %}
+      <option name="PARAMETERS" value="-A geonode worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B" />
+    {% endif %}
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Geonode Celery Unittest Worker" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+          {% include 'geonode-environment.xml.j2' %}
+          <env name="CELERY_TESTING_WORKER" value="True" />
       </envs>
       <option name="SDK_HOME" value="ssh://root@localhost:{{ docker_port_forward.celery.ssh }}/usr/local/bin/python" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -340,6 +360,7 @@
     <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Django server.Geonode Django" />
       <item index="1" class="java.lang.String" itemvalue="Python.Geonode Celery" />
+      <item index="1" class="java.lang.String" itemvalue="Python.Geonode Celery Unittest Worker" />
         {% if use_geosafe %}
       <item index="2" class="java.lang.String" itemvalue="Python.Geonode InaSAFE Headless" />
       <item index="3" class="java.lang.String" itemvalue="Python.Geonode InaSAFE Headless Analysis" />

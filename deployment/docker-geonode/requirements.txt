@@ -1,3 +1,7 @@
 invoke==1.1.0
 docker==3.4.1
 uWSGI==2.0.17
+
+# For testing
+timeout-decorator==0.4.0
+django-test-without-migrations==0.6

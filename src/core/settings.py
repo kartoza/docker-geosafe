@@ -41,12 +41,31 @@ if DEBUG:
 
     LOGGING["loggers"]["geonode"] = {
         "handlers": ["console"],
-        "level": "DEBUG",
+        "level": "INFO",
     }
     LOGGING["loggers"]["geosafe"] = {
         "handlers": ["console"],
-        "level": "DEBUG",
+        "level": "INFO",
     }
+
+    INSTALLED_APPS = ['test_without_migrations'] + INSTALLED_APPS
+
+    # Specify test database name
+    # This allow a separate database instance when running
+    DATABASES['default']['TEST'] = {
+        'NAME': 'unittests'
+    }
+
+    # Redefine databases entry for unittests
+    # If this flag is set to true, then it is a celery worker instance
+    # for Django unittests
+    CELERY_TESTING_WORKER = ast.literal_eval(os.environ.get(
+        'CELERY_TESTING_WORKER', 'False'))
+
+    if CELERY_TESTING_WORKER:
+        # Celery can't detect if it is using a test database mode or not
+        # So, for unittesting we specify test database for celery to use
+        DATABASES['default']['NAME'] = 'unittests'
 
 try:
     # convert to list
@@ -56,4 +75,4 @@ except:
     pass
 
 # Used when running test in development mode
-TESTING = sys.argv[1:2] == ['test']
+TESTING = sys.argv[1:2] == ['test'] or os.environ.get('TESTING')

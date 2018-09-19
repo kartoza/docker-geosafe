@@ -18,9 +18,6 @@ def update_settings(settings):
     template_dirs.insert(0, '/usr/src/geosafe/templates')
 
     settings.TEMPLATES[0]['DIRS'] = template_dirs
-    settings.STATICFILES_DIRS += (
-        '/usr/src/geosafe/static',
-    )
 
     # Geosafe settings
     # App specific

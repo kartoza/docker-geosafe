@@ -120,6 +120,11 @@ wait:
 logs:
 	@docker-compose logs --follow django
 
+remove-test-db:
+	@docker-compose stop db
+	@docker-compose run --rm --entrypoint="" db /bin/bash -c "service postgresql start; su - postgres -c \"psql-l;sleep 5;dropdb unittests;psql -l\"; service postgresql stop"
+	@docker-compose up -d db
+
 down:
 	@docker-compose down --remove-orphans ${ARGS}
 

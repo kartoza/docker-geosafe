@@ -80,6 +80,8 @@ django:
     USE_LAYER_HTTP_ACCESS: False
     INASAFE_ANALYSIS_RUN_TIME_LIMIT: 600
     INASAFE_ANALYSIS_AREA_LIMIT: 1000000000
+    # Celery settings
+    CELERY_ALWAYS_EAGER: False
 
 celery:
   # enable remote debugging
