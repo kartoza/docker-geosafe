@@ -41,7 +41,7 @@ django:
     # put your ip address of your interface to SITEURL and GEONODE_BASE_URL
     ALLOWED_HOSTS: "['172.17.0.1','localhost','django']"
     SITEURL: http://172.17.0.1/
-    GEONODE_BASE_URL: http://django:8000/
+    GEONODE_BASE_URL: http://172.17.0.1/
     GEONODE_LB_HOST_IP: 172.17.0.1
     GEONODE_LB_PORT: 80
     UWSGI_CMD: uwsgi --ini /uwsgi.conf

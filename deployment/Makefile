@@ -55,6 +55,16 @@ static-grunt-production:
 	@echo "Make sure static development command were setup before running this command."
 	@cd ../src/geonode/geonode/static; grunt production
 
+geosafe-unittests-worker:
+	@docker-compose run --rm -d -e CELERY_TESTING_WORKER=True --entrypoint="" celery /usr/local/bin/celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+
+geosafe-coverage-unittests-worker:
+	@docker-compose run --rm -d --entrypoint="" -e CELERY_TESTING_WORKER=True -e COVERAGE_PROCESS_START=/usr/src/geosafe/.coveragerc celery coverage run --rcfile=/usr/src/geosafe/.coveragerc /usr/local/bin/celery -A geosafe worker -l debug -P solo -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+
+geosafe-coverage-unittests-worker-kill:
+	@docker kill --signal=SIGINT geonode-docker_celery_run_1
+	@sleep 5
+	@docker rm geonode-docker_celery_run_1
 
 reload:
 	@docker-compose exec django uwsgi --reload  /tmp/django.pid
@@ -122,7 +132,7 @@ logs:
 
 remove-test-db:
 	@docker-compose stop db
-	@docker-compose run --rm --entrypoint="" db /bin/bash -c "service postgresql start; su - postgres -c \"psql-l;sleep 5;dropdb unittests;psql -l\"; service postgresql stop"
+	@docker-compose run --rm --entrypoint="" db /bin/bash -c "service postgresql start; su - postgres -c \"sleep 5;psql -l;dropdb unittests;psql -l\"; service postgresql stop"
 	@docker-compose up -d db
 
 down:
@@ -137,8 +147,8 @@ smoketest: up
 unittest: up
 	@docker-compose exec django python manage.py test geonode.people.tests geonode.base.tests geonode.layers.tests geonode.maps.tests geonode.proxy.tests geonode.security.tests geonode.social.tests geonode.catalogue.tests geonode.documents.tests geonode.api.tests geonode.groups.tests geonode.services.tests geonode.geoserver.tests geonode.upload.tests geonode.tasks.tests --noinput --failfast
 
-geosafe-test:
-	@docker-compose exec django coverage run --branch --source=geosafe manage.py test --noinput geosafe --liveserver=0.0.0.0:8000 /usr/src/app
+geosafe-coverage-test:
+	@docker-compose exec django /bin/bash -c "export TESTING=True; export COVERAGE_PROCESS_START=/usr/src/geosafe/.coveragerc; coverage run --rcfile=/usr/src/geosafe/.coveragerc manage.py test geosafe --noinput --liveserver=0.0.0.0:8000 --nomigrations"
 
 test: smoketest unittest
 

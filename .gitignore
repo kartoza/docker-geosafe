@@ -102,6 +102,7 @@ deployment/ansible/development/group_vars/all.yml
 deployment/ansible/development/group_vars/all.yml.backup*
 deployment/ansible/development/site.retry
 deployment/ansible/tmp
+deployment/logs
 deployment/production/**/env.sh
 deployment/geonode_backup
 

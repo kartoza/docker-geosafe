@@ -24,6 +24,7 @@ ADD docker-entrypoint.sh /docker-entrypoint.sh
 ADD uwsgi.conf /uwsgi.conf
 ADD wait-for-databases /usr/bin/wait-for-databases
 ADD requirements.txt /requirements.txt
+ADD sitecustomize.py /usr/local/lib/python2.7/site-packages/sitecustomize.py
 RUN pip install -r /requirements.txt
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
