@@ -58,7 +58,7 @@ services:
 
   django:
     volumes:
-      - '../src/geosafe:/usr/src/geosafe'
+      - '{{ project_path}}{{ component_path.geosafe }}:/usr/src/geosafe'
       - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
@@ -114,7 +114,7 @@ services:
 
   celery:
     volumes:
-      - '../src/geosafe:/usr/src/geosafe'
+      - '{{ project_path}}{{ component_path.geosafe }}:/usr/src/geosafe'
       - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
     environment:
