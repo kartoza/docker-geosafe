@@ -29,8 +29,8 @@ def update_settings(settings):
 
     # Specific celery settings. Can be modified accordingly or leave as
     # default
-    settings.CELERY_ALWAYS_EAGER = literal_eval(os.environ.get(
-        'CELERY_ALWAYS_EAGER', 'False'))
+    settings.CELERY_TASK_ALWAYS_EAGER = literal_eval(os.environ.get(
+        'CELERY_TASK_ALWAYS_EAGER', 'False'))
     settings.CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
     settings.CELERY_IGNORE_RESULT = False
     settings.CELERY_SEND_EVENTS = True

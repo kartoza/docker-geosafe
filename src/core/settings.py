@@ -41,11 +41,11 @@ if DEBUG:
 
     LOGGING["loggers"]["geonode"] = {
         "handlers": ["console"],
-        "level": "INFO",
+        "level": "DEBUG",
     }
     LOGGING["loggers"]["geosafe"] = {
         "handlers": ["console"],
-        "level": "INFO",
+        "level": "DEBUG",
     }
 
     INSTALLED_APPS = ['test_without_migrations'] + INSTALLED_APPS
