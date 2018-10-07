@@ -1,6 +1,7 @@
 export COMPOSE_PROJECT_NAME=geonode-docker
 export COMPOSE_FILE=docker-compose.yml:docker-compose.override.yml
 SHELL := /bin/bash
+LANG = en
 DELAY = 5
 
 # ----------------------------------------------------------------------------
@@ -148,7 +149,42 @@ unittest: up
 	@docker-compose exec django python manage.py test geonode.people.tests geonode.base.tests geonode.layers.tests geonode.maps.tests geonode.proxy.tests geonode.security.tests geonode.social.tests geonode.catalogue.tests geonode.documents.tests geonode.api.tests geonode.groups.tests geonode.services.tests geonode.geoserver.tests geonode.upload.tests geonode.tasks.tests --noinput --failfast
 
 geosafe-coverage-test:
-	@docker-compose exec django /bin/bash -c "export TESTING=True; export COVERAGE_PROCESS_START=/usr/src/geosafe/.coveragerc; coverage run --rcfile=/usr/src/geosafe/.coveragerc manage.py test geosafe --noinput --liveserver=0.0.0.0:8000 --nomigrations"
+	@../src/geosafe/scripts/travis/run_coverage_tests.sh
+
+geosafe-makemessages:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Running make messages $(LANG) "
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec django /bin/bash -c "cd /usr/src/geosafe; python /usr/src/app/manage.py makemessages -l $(LANG)"
+
+geosafe-compilemessages:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Running compile messages $(LANG) "
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec django /bin/bash -c "cd /usr/src/geosafe; python /usr/src/app/manage.py compilemessages -l $(LANG)"
+
+geosafe-transifex-pull:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Download translation from Transifex ${LANG}"
+	@echo "------------------------------------------------------------------"
+	@cd ../src/geosafe; tx pull -l ${LANG}
+
+geosafe-transifex-push-language:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Push translation to Transifex for language $(LANG)"
+	@echo "------------------------------------------------------------------"
+	@cd ../src/geosafe; tx push -t -l $(LANG)
+
+geosafe-transifex-push-source:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Push translation source to Transifex"
+	@echo "------------------------------------------------------------------"
+	@cd ../src/geosafe; tx push -s
 
 test: smoketest unittest
 

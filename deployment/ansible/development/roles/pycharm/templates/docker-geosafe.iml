@@ -21,6 +21,9 @@
     {% if use_geosafe or ogc_backend == 'qgis_server' %}
       <sourceFolder url="file://$MODULE_DIR$/src/otf-project" isTestSource="false" />
     {% endif %}
+	{% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+	  <sourceFolder url="file://$MODULE_DIR$/src/custom_theme" isTestSource="false" />
+	{% endif %}
     </content>
     <orderEntry type="jdk" jdkName="Geonode Django" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

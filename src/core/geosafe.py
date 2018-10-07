@@ -10,14 +10,18 @@ __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 
 def update_settings(settings):
     """Update settings file for geosafe."""
-    settings.INSTALLED_APPS += ("geosafe", )
     settings.INSTALLED_APPS = list(settings.INSTALLED_APPS)
+    settings.INSTALLED_APPS.append('geosafe')
 
     # Make priority for geosafe templates
     template_dirs = list(settings.TEMPLATES[0]['DIRS'])
     template_dirs.insert(0, '/usr/src/geosafe/templates')
 
     settings.TEMPLATES[0]['DIRS'] = template_dirs
+
+    # Include GeoSAFE locale path
+    settings.LOCALE_PATHS = list(settings.LOCALE_PATHS)
+    settings.LOCALE_PATHS.insert(0, '/usr/src/geosafe/locale')
 
     # Geosafe settings
     # App specific

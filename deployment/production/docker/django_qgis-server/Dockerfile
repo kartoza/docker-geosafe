@@ -15,6 +15,8 @@ WORKDIR /usr/src/app
 ADD entry-point.sh /entry-point.sh
 ADD uwsgi.conf /uwsgi.conf
 ADD wait-for-databases /usr/bin/wait-for-databases
+ADD install-theme-app.sh /usr/bin/install-theme-app.sh
+RUN chmod +x /usr/bin/install-theme-app.sh
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 RUN chmod +x /entry-point.sh

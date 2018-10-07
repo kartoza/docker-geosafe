@@ -1,7 +1,7 @@
 
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" />
-        <env name="PYTHONPATH" value="/usr/src:/usr/src/app/" />
+        <env name="PYTHONPATH" value="/usr/src:/usr/src/app:{% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}/usr/src/custom_theme{% endif %}" />
         <env name="ROOT_URLCONF" value="core.urls" />
         <env name="C_FORCE_ROOT" value="True" />
         <env name="LANG" value="C.UTF-8" />

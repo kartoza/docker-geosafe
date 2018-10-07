@@ -62,10 +62,23 @@ services:
       - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
+
+      {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+
+      - '../src/custom_theme:/usr/src/custom_theme'
+
+      {% endif %}
+
     environment:
       USE_GEOSAFE: "{{ use_geosafe }}"
       OGC_BACKEND: "geonode.{{ ogc_backend }}"
       CELERY_TASK_ALWAYS_EAGER: "False"
+
+      {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+
+      PYTHONPATH: /usr/src:/usr/src/app:/usr/src/custom_theme
+
+      {% endif %}
 
       {% for key, value in django.environment.iteritems() %}
 
@@ -117,10 +130,23 @@ services:
       - '{{ project_path}}{{ component_path.geosafe }}:/usr/src/geosafe'
       - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
+
+      {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+
+      - '../src/custom_theme:/usr/src/custom_theme'
+
+      {% endif %}
+
     environment:
       USE_GEOSAFE: "{{ use_geosafe }}"
       OGC_BACKEND: "geonode.{{ ogc_backend }}"
       CELERY_TASK_ALWAYS_EAGER: "False"
+
+      {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+
+      PYTHONPATH: /usr/src:/usr/src/app:/usr/src/custom_theme
+
+      {% endif %}
 
       {% for key, value in django.environment.iteritems() %}
 

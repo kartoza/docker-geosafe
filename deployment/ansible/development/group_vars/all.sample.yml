@@ -64,6 +64,11 @@ django:
     GEONODE_LB_HOST_IP: geonode.test
     GEONODE_LB_PORT: 80
     UWSGI_CMD: uwsgi --ini /uwsgi.conf
+    # Django MISC settings
+    LANGUAGE_CODE: en
+    USE_THEME_APP: False
+    THEME_APP_PATH: /usr/src/custom_theme
+    THEME_APP_NAME: custom_theme
     # Settings for qgis server
     QGIS_SERVER_URL: http://qgis-server/
     # Settings for geoserver

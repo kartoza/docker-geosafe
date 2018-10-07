@@ -27,6 +27,10 @@ echo MEDIA_ROOT=$MEDIA_ROOT
 
 echo "waitfordbs task done"
 
+install-theme-app.sh
+
+echo "custom theme check task done"
+
 /usr/local/bin/invoke migrations
 echo "migrations task done"
 

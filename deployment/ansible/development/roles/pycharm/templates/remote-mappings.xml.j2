@@ -11,6 +11,9 @@
             {% if use_geosafe %}
               <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
             {% endif %}
+            {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+              <mapping local-root="$PROJECT_DIR$/src/custom_theme" remote-root="/usr/src/custom_theme" />
+            {% endif %}
               <mapping local-root="$PROJECT_DIR$/src" remote-root="/usr/src" />
             </list>
           </settings>
@@ -22,6 +25,9 @@
               <mapping local-root="$PROJECT_DIR$/src/geonode" remote-root="/usr/src/app" />
             {% if use_geosafe %}
               <mapping local-root="$PROJECT_DIR$/src/geosafe" remote-root="/usr/src/geosafe" />
+            {% endif %}
+            {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
+              <mapping local-root="$PROJECT_DIR$/src/custom_theme" remote-root="/usr/src/custom_theme" />
             {% endif %}
               <mapping local-root="$PROJECT_DIR$/src" remote-root="/usr/src" />
             </list>
