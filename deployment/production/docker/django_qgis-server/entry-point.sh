@@ -34,6 +34,9 @@ echo "custom theme check task done"
 /usr/local/bin/invoke migrations
 echo "migrations task done"
 
+python manage.py compilemessages >> /usr/src/app/invoke.log
+echo "compilemessages done"
+
 echo "Lock file: $MEDIA_ROOT/geonode_init.lock"
 
 if [ ! -e "$MEDIA_ROOT/geonode_init.lock" ]; then

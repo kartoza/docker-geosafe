@@ -28,6 +28,9 @@ echo "fixture task done"
 python manage.py collectstatic --noinput -i geoexplorer >> /usr/src/app/invoke.log
 echo "collectstatic done"
 
+python manage.py compilemessages >> /usr/src/app/invoke.log
+echo "compilemessages done"
+
 if [ $# -eq 1 ]; then
 	case $1 in
 		# Dev mode, allow ssh

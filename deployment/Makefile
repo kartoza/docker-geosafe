@@ -163,7 +163,7 @@ geosafe-compilemessages:
 	@echo "------------------------------------------------------------------"
 	@echo "Running compile messages $(LANG) "
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec django /bin/bash -c "cd /usr/src/geosafe; python /usr/src/app/manage.py compilemessages -l $(LANG)"
+	@docker-compose exec django python manage.py compilemessages
 
 geosafe-transifex-pull:
 	@echo
