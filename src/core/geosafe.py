@@ -10,6 +10,11 @@ __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 
 def update_settings(settings):
     """Update settings file for geosafe."""
+    # GeoSAFE needs postgis engine
+
+    settings.DATABASES["default"]["ENGINE"] = \
+        'django.contrib.gis.db.backends.postgis'
+
     settings.INSTALLED_APPS = list(settings.INSTALLED_APPS)
     settings.INSTALLED_APPS.append('geosafe')
 
