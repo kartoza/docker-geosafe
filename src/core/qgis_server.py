@@ -1,116 +1,129 @@
 # coding=utf-8
 import os
+import sys
+import importlib
 from ast import literal_eval
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 
 
-def update_settings(settings):
-    """Update settings file for qgis server."""
+settings_file = os.environ.get(
+    'DJANGO_SETTINGS_MODULE', 'geonode.settings')
+if settings_file not in sys.modules:
+    current_settings = importlib.import_module(settings_file)
+    sys.modules[settings_file] = current_settings
+else:
+    current_settings = sys.modules[settings_file]
 
-    # Settings for QGIS Server
+locals().update({
+    k: getattr(current_settings, k)
+    for k in dir(current_settings) if not k.startswith('_')
+})
 
-    qgis_server_apps_package = "geonode.qgis_server"
+# Settings for QGIS Server
 
-    settings.GEONODE_APPS = list(settings.GEONODE_APPS)
-    if qgis_server_apps_package not in settings.GEONODE_APPS:
+_qgis_server_apps_package = "geonode.qgis_server"
 
-        settings.GEONODE_APPS += ("geonode.qgis_server", )
+GEONODE_APPS = list(GEONODE_APPS)
+if _qgis_server_apps_package not in GEONODE_APPS:
 
-    settings.INSTALLED_APPS = list(settings.INSTALLED_APPS)
-    if qgis_server_apps_package not in settings.INSTALLED_APPS:
-        settings.INSTALLED_APPS += (
-            "geonode.qgis_server", )
+    GEONODE_APPS += ("geonode.qgis_server", )
 
-    # Delete Geoserver settings
-    # Not using GeoFence if using QGIS Server Backend
-    settings.GEOFENCE_SECURITY_ENABLED = False
+INSTALLED_APPS = list(INSTALLED_APPS)
+if _qgis_server_apps_package not in INSTALLED_APPS:
+    INSTALLED_APPS += (
+        "geonode.qgis_server", )
 
-    settings.USE_GEOSERVER = False
+# Delete Geoserver settings
+# Not using GeoFence if using QGIS Server Backend
+GEOFENCE_SECURITY_ENABLED = False
 
-    settings.INSTALLED_APPS.remove("geonode.geoserver")
-    settings.GEONODE_APPS.remove("geonode.geoserver")
+USE_GEOSERVER = False
 
-    if hasattr(settings, 'PUBLIC_GEOSERVER') and \
-            settings.PUBLIC_GEOSERVER in settings.MAP_BASELAYERS:
-        settings.MAP_BASELAYERS.remove(settings.PUBLIC_GEOSERVER)
-        del settings.PUBLIC_GEOSERVER
+INSTALLED_APPS.remove("geonode.geoserver")
+GEONODE_APPS.remove("geonode.geoserver")
 
-    if hasattr(settings, 'LOCAL_GEOSERVER') and \
-            settings.LOCAL_GEOSERVER in settings.MAP_BASELAYERS:
-        settings.MAP_BASELAYERS.remove(settings.LOCAL_GEOSERVER)
-        del settings.LOCAL_GEOSERVER
+if hasattr(current_settings, 'PUBLIC_GEOSERVER') and \
+        PUBLIC_GEOSERVER in MAP_BASELAYERS:
+    MAP_BASELAYERS.remove(PUBLIC_GEOSERVER)
+    del PUBLIC_GEOSERVER
 
-    geoserver_context_processor = 'geonode.geoserver.context_processors.geoserver_urls'
-    settings.TEMPLATES[0]['OPTIONS']['context_processors'].remove(geoserver_context_processor)
+if hasattr(current_settings, 'LOCAL_GEOSERVER') and \
+        LOCAL_GEOSERVER in MAP_BASELAYERS:
+    MAP_BASELAYERS.remove(LOCAL_GEOSERVER)
+    del LOCAL_GEOSERVER
 
-    qgis_server_context_processor = 'geonode.qgis_server.context_processors.qgis_server_urls'
-    settings.TEMPLATES[0]['OPTIONS']['context_processors'].append(qgis_server_context_processor)
+geoserver_context_processor = 'geonode.geoserver.context_processors.geoserver_urls'
+if geoserver_context_processor in TEMPLATES[0]['OPTIONS']['context_processors']:
+    TEMPLATES[0]['OPTIONS']['context_processors'].remove(geoserver_context_processor)
 
-    # Celery config
-    settings.CELERY_ALWAYS_EAGER = literal_eval(os.environ.get(
-        'CELERY_ALWAYS_EAGER', 'False'))
-    settings.CELERY_TASK_SERIALIZER = 'pickle'
-    settings.CELERY_ACCEPT_CONTENT = {'pickle'}
-    settings.CELERY_RESULT_SERIALIZER = 'pickle'
+qgis_server_context_processor = 'geonode.qgis_server.context_processors.qgis_server_urls'
+TEMPLATES[0]['OPTIONS']['context_processors'].append(qgis_server_context_processor)
 
-    # Leaflet config
-    settings.GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY = 'leaflet'
-    settings.GEONODE_CLIENT_HOOKSET = 'geonode.client.hooksets.LeafletHookSet'
-    if not hasattr(settings, 'LEAFLET_CONFIG'):
-        settings.LEAFLET_CONFIG = {
-            'TILES': [
-                # Map Quest
-                ('Map Quest',
-                 'http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
-                 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> '
-                 '&mdash; Map data &copy; '
-                 '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'),
-            ],
-            'PLUGINS': {
-                'esri-leaflet': {
-                    'js': 'lib/js/esri-leaflet.js',
-                    'auto-include': True,
-                },
-                'leaflet-fullscreen': {
-                    'css': 'lib/css/leaflet.fullscreen.css',
-                    'js': 'lib/js/Leaflet.fullscreen.min.js',
-                    'auto-include': True,
-                },
+# Celery config
+CELERY_ALWAYS_EAGER = literal_eval(os.environ.get(
+    'CELERY_ALWAYS_EAGER', 'False'))
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_ACCEPT_CONTENT = {'pickle'}
+CELERY_RESULT_SERIALIZER = 'pickle'
+
+# Leaflet config
+GEONODE_CLIENT_LAYER_PREVIEW_LIBRARY = 'leaflet'
+GEONODE_CLIENT_HOOKSET = 'geonode.client.hooksets.LeafletHookSet'
+if not hasattr(current_settings, 'LEAFLET_CONFIG'):
+    LEAFLET_CONFIG = {
+        'TILES': [
+            # Map Quest
+            ('Map Quest',
+             'http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
+             'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> '
+             '&mdash; Map data &copy; '
+             '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'),
+        ],
+        'PLUGINS': {
+            'esri-leaflet': {
+                'js': 'lib/js/esri-leaflet.js',
+                'auto-include': True,
             },
-            'SRID': 3857,
-            'RESET_VIEW': False
-        }
-
-    # QGIS Server as local OGC Server, wrapped by geonode itself.
-    settings.OGC_URL_INSIDE = os.environ.get('OGC_URL_INSIDE', settings.SITEURL)
-    settings.OGC_SERVER = {
-        'default': {
-            'BACKEND': 'geonode.qgis_server',
-            'LOCATION': settings.OGC_URL_INSIDE + 'qgis-server/',
-            'PUBLIC_LOCATION': settings.SITEURL + 'qgis-server/',
-            'GEOFENCE_SECURITY_ENABLED': settings.GEOFENCE_SECURITY_ENABLED,
-            'LOG_FILE': ''
-        }
+            'leaflet-fullscreen': {
+                'css': 'lib/css/leaflet.fullscreen.css',
+                'js': 'lib/js/Leaflet.fullscreen.min.js',
+                'auto-include': True,
+            },
+        },
+        'SRID': 3857,
+        'RESET_VIEW': False
     }
 
-    # OGC (WMS/WFS/WCS) Server Settings
-    tiles_directory = os.path.join(settings.PROJECT_ROOT, "qgis_tiles")
-    layer_directory = os.path.join(settings.PROJECT_ROOT, "qgis_layer")
-    settings.QGIS_SERVER_URL = os.environ.get(
-        'QGIS_SERVER_URL', 'http://qgis-server/')
-    settings.QGIS_SERVER_CONFIG = {
-        'tiles_directory': tiles_directory,
-        'tile_path': tiles_directory + '/%s/%s/%d/%d/%d.png',
-        'legend_path': tiles_directory + '/%s/%s/legend.png',
-        'thumbnail_path': tiles_directory + '/%s/thumbnail.png',
-        'map_tile_path': os.path.join(
-            tiles_directory, '%s', 'map_tiles', '%s', '%s', '%s', '%s.png'),
-        'qgis_server_url': settings.QGIS_SERVER_URL,
-        'layer_directory': layer_directory
+# QGIS Server as local OGC Server, wrapped by geonode itself.
+OGC_URL_INSIDE = os.environ.get('OGC_URL_INSIDE', SITEURL)
+OGC_SERVER = {
+    'default': {
+        'BACKEND': 'geonode.qgis_server',
+        'LOCATION': OGC_URL_INSIDE + 'qgis-server/',
+        'PUBLIC_LOCATION': SITEURL + 'qgis-server/',
+        'GEOFENCE_SECURITY_ENABLED': GEOFENCE_SECURITY_ENABLED,
+        'LOG_FILE': ''
     }
+}
 
-    # Middleware classes
-    settings.MIDDLEWARE_CLASSES += (
-        'geonode.qgis_server.middleware.QGISServerLayerMiddleware',
-    )
+# OGC (WMS/WFS/WCS) Server Settings
+tiles_directory = os.path.join(PROJECT_ROOT, "qgis_tiles")
+layer_directory = os.path.join(PROJECT_ROOT, "qgis_layer")
+QGIS_SERVER_URL = os.environ.get(
+    'QGIS_SERVER_URL', 'http://qgis-server/')
+QGIS_SERVER_CONFIG = {
+    'tiles_directory': tiles_directory,
+    'tile_path': tiles_directory + '/%s/%s/%d/%d/%d.png',
+    'legend_path': tiles_directory + '/%s/%s/legend.png',
+    'thumbnail_path': tiles_directory + '/%s/thumbnail.png',
+    'map_tile_path': os.path.join(
+        tiles_directory, '%s', 'map_tiles', '%s', '%s', '%s', '%s.png'),
+    'qgis_server_url': QGIS_SERVER_URL,
+    'layer_directory': layer_directory
+}
+
+# Middleware classes
+MIDDLEWARE_CLASSES += (
+    'geonode.qgis_server.middleware.QGISServerLayerMiddleware',
+)

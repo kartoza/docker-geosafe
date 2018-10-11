@@ -10,10 +10,55 @@ __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '8/25/16'
 
 
+def update_settings_from(settings_name):
+    """This method will try to update settings.
+
+    It works as follows.
+
+    The way GeoNode made as platform will let us to cascade different
+    settings for each django app that uses GeoNode as a platform.
+
+    We just need to load each settings and updated current locals modules.
+
+    Let's say, the sites root settings is located (and described) in
+    DJANGO_SETTINGS_MODULE
+
+    This is the current file 'core.settings'
+
+    This file will dictate which settings will load first and which to
+    override form.
+
+    Usually, 'geonode.settings' needs to be loaded first to include some
+    basic settings. Then we need to override some settings based on the app
+    we used. So we do
+
+    update_settings_from(settings_name, current_module)
+
+    To override settings in this module.
+
+    By the design of Django, all needed settings starts with capital letter
+    all Uppercase. So we exclude any files prefixed by _ since it is only of
+    local module's concern.
+
+    :param settings_name: The settings name in the format of python modules
+        e.g. core.settings
+    :type settings_name: basestring
+
+    :return: will return current module
+    :rtype: module
+    """
+    app_settings = importlib.import_module(settings_name)
+    return {
+        k: getattr(app_settings, k)
+        for k in dir(app_settings) if not k.startswith('_')
+    }
+
+
 try:
     # import geonode settings
-    from geonode.settings import *
-    this_settings = sys.modules[__name__]
+    geonode_settings = update_settings_from('geonode.settings')
+    locals().update(geonode_settings)
+    this_settings = sys.modules['geonode.settings']
 except ImportError:
     pass
 
@@ -21,8 +66,8 @@ try:
     # if using QGIS Server, import settings
     ogc_backend = os.environ.get('OGC_BACKEND', 'geonode.qgis_server')
     if ogc_backend == 'geonode.qgis_server':
-        from core.qgis_server import update_settings
-        update_settings(this_settings)
+        qgis_server_settings = update_settings_from('core.qgis_server')
+        locals().update(qgis_server_settings)
 except ImportError:
     pass
 
@@ -31,8 +76,8 @@ try:
     use_geosafe = os.environ.get('USE_GEOSAFE', 'True')
     use_geosafe = ast.literal_eval(use_geosafe)
     if use_geosafe:
-        from core.geosafe import update_settings
-        update_settings(this_settings)
+        geosafe_settings = update_settings_from('core.geosafe')
+        locals().update(geosafe_settings)
 except ImportError:
     pass
 
@@ -68,8 +113,9 @@ if USE_THEME_APP:
         TEMPLATES[0]['DIRS'] = template_dirs
 
     # Import app settings
-    importlib.import_module(
+    theme_settings = update_settings_from(
         '{app_name}.settings'.format(app_name=THEME_APP_NAME))
+    locals().update(theme_settings)
 
 # Loggers
 if DEBUG:
