@@ -16,6 +16,15 @@ services:
       - POSTGRES_PASS=docker
     network_mode: "bridge"
 
+  smtp:
+    image: catatnight/postfix
+    environment:
+    # You could change this to something more suitable
+    - maildomain=geonode.test
+    - smtp_user=noreply:docker
+    network_mode: "bridge"
+    restart: unless-stopped
+
   django:
     build: docker-geonode
     volumes:
@@ -48,6 +57,7 @@ services:
       - GEONODE_GEODATABASE=gis
       - PGPASSWORD=docker
     links:
+      - smtp
       - db
       - rabbitmq
     network_mode: "bridge"

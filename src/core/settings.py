@@ -5,6 +5,7 @@ import importlib
 import ast
 import sys
 import os
+from distutils.util import strtobool
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '8/25/16'
@@ -61,6 +62,19 @@ try:
     this_settings = sys.modules['geonode.settings']
 except ImportError:
     pass
+
+# Email settings
+if EMAIL_ENABLE:
+    EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp')
+    EMAIL_PORT = os.environ.get('EMAIL_PORT', 25)
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'noreply')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'docker')
+    EMAIL_USE_TLS = strtobool(os.environ.get('EMAIL_USE_TLS', 'False'))
+    DEFAULT_FROM_EMAIL = os.environ.get(
+        'DEFAULT_FROM_EMAIL', 'GeoNode <no-reply@{0}>'.format(SITEURL))
+else:
+    EMAIL_BACKEND = os.getenv('DJANGO_EMAIL_BACKEND',
+                              default='django.core.mail.backends.console.EmailBackend')
 
 try:
     # if using QGIS Server, import settings

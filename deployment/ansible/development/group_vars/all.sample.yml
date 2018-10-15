@@ -64,6 +64,8 @@ django:
     GEONODE_LB_HOST_IP: geonode.test
     GEONODE_LB_PORT: 80
     UWSGI_CMD: uwsgi --ini /uwsgi.conf
+    # Email settings
+    EMAIL_ENABLE: False
     # Django MISC settings
     LANGUAGE_CODE: en
     USE_THEME_APP: False
