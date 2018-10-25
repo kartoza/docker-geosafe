@@ -129,6 +129,10 @@ INASAFE_ANALYSIS_RUN_TIME_LIMIT = literal_eval(os.environ.get(
 INASAFE_ANALYSIS_AREA_LIMIT = literal_eval(os.environ.get(
     'INASAFE_ANALYSIS_AREA_LIMIT', '1000000000'))
 
+# QGIS report template directory settings
+QGIS_REPORT_TEMPLATE_DIRECTORY = (
+    '/usr/src/geosafe/templates/geosafe/qgis_templates')
+
 # Custom theme settings
 USE_THEME_APP = literal_eval(
     os.environ.get('USE_THEME_APP', 'False'))
