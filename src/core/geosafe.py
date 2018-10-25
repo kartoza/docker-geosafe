@@ -128,3 +128,21 @@ INASAFE_ANALYSIS_RUN_TIME_LIMIT = literal_eval(os.environ.get(
 # with warning that analysis will might take a long time.
 INASAFE_ANALYSIS_AREA_LIMIT = literal_eval(os.environ.get(
     'INASAFE_ANALYSIS_AREA_LIMIT', '1000000000'))
+
+# Custom theme settings
+USE_THEME_APP = literal_eval(
+    os.environ.get('USE_THEME_APP', 'False'))
+
+if USE_THEME_APP:
+
+    THEME_APP_NAME = os.environ.get('THEME_APP_NAME', None)
+    THEME_APP_PATH = os.environ.get('THEME_APP_PATH', None)
+
+    # Prioritize custom translations
+    if THEME_APP_PATH:
+
+        # The path is {custom_theme_path}/templates/geosafe/qgis_templates
+        QGIS_REPORT_TEMPLATE_DIRECTORY = os.path.join(
+            THEME_APP_PATH,
+            THEME_APP_NAME,
+            'templates', 'geosafe', 'qgis_templates')
