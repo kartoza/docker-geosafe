@@ -180,7 +180,7 @@ services:
     network_mode: "bridge"
 
   inasafe-headless:
-    image: inasafe/headless_processor
+    image: inasafe/headless_processor:latest
     restart: on-failure
     environment:
 
@@ -211,48 +211,6 @@ services:
       {% if docker_port_forward.inasafe_headless.ssh is defined %}
 
       - "{{ docker_port_forward.inasafe_headless.ssh }}:22"
-
-      {% endif %}
-    {% endif %}
-
-    links:
-      - rabbitmq:rabbitmq
-      - web:web
-      - django:django
-    network_mode: "bridge"
-
-  inasafe-headless-analysis:
-    image: inasafe/headless_processor
-    restart: on-failure
-    environment:
-
-      {% for key, value in inasafe_headless.environment.iteritems() %}
-
-      {{ key }}: "{{ value }}"
-
-      {% endfor %}
-
-    volumes:
-      - './inasafe/headless/tmp:/tmp/inasafe'
-      - './inasafe/headless/output:{{ inasafe_headless.environment.INASAFE_OUTPUT_DIR }}'
-      - '../src/geonode/geonode/qgis_layer:{{ django.environment.INASAFE_LAYER_DIRECTORY }}'
-      - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
-    {% if inasafe_headless_analysis.command is defined %}
-
-    command: {{ inasafe_headless_analysis.command }}
-
-    {% else %}
-
-    command: prod inasafe-headless-worker
-
-    {% endif %}
-    {% if docker_port_forward.inasafe_headless_analysis is defined %}
-
-    ports:
-      # - "9002:22"
-      {% if docker_port_forward.inasafe_headless_analysis.ssh is defined %}
-
-      - "{{ docker_port_forward.inasafe_headless_analysis.ssh }}:22"
 
       {% endif %}
     {% endif %}
