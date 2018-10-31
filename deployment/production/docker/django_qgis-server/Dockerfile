@@ -21,6 +21,7 @@ RUN chmod +x /usr/bin/install-theme-app.sh
 ADD requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 RUN chmod +x /entry-point.sh
+RUN chmod +x /celery-entry-point.sh
 
 ENTRYPOINT ["/entry-point.sh"]
 CMD ["prod"]
