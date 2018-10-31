@@ -13,6 +13,7 @@ WORKDIR /usr/src/app
 
 # Upgrade dependencies
 ADD entry-point.sh /entry-point.sh
+ADD celery-entry-point.sh /celery-entry-point.sh
 ADD uwsgi.conf /uwsgi.conf
 ADD wait-for-databases /usr/bin/wait-for-databases
 ADD install-theme-app.sh /usr/bin/install-theme-app.sh
