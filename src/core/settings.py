@@ -126,12 +126,6 @@ if USE_THEME_APP:
 
         TEMPLATES[0]['DIRS'] = template_dirs
 
-        LOCALIZED_QGIS_REPORT_TEMPLATE = {
-            'en': os.path.join(
-                template_dirs[0], 'geosafe', 'qgis_templates',
-                'en', 'map-report.qpt')
-        }
-
     # Import app settings
     theme_settings = update_settings_from(
         '{app_name}.settings'.format(app_name=THEME_APP_NAME))

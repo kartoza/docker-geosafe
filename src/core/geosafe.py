@@ -130,7 +130,8 @@ INASAFE_ANALYSIS_AREA_LIMIT = literal_eval(os.environ.get(
     'INASAFE_ANALYSIS_AREA_LIMIT', '1000000000'))
 
 # QGIS report template settings
-LOCALIZED_QGIS_REPORT_TEMPLATE = {
-    'en': os.path.join(
-        template_dirs[0], 'geosafe', 'qgis_templates', 'en', 'map-report.qpt')
-}
+# You can use this if you have custom template file
+# LOCALIZED_QGIS_REPORT_TEMPLATE = {
+#     'en': os.path.join(
+#         template_dirs[0], 'geosafe', 'qgis_templates', 'en', 'map-report.qpt')
+# }
