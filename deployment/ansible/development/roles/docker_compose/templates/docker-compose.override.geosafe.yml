@@ -60,6 +60,7 @@ services:
     volumes:
       - '{{ project_path}}{{ component_path.geosafe }}:/usr/src/geosafe'
       - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
+      - './inasafe/headless/settings:/home/headless/settings'
       - '../src/otf-project:/opt/qgis-server/plugins'
       - './pycharm_helpers/django:/root/.pycharm_helpers'
 
@@ -129,6 +130,7 @@ services:
     volumes:
       - '{{ project_path}}{{ component_path.geosafe }}:/usr/src/geosafe'
       - './inasafe/headless/output:{{ django.environment.GEOSAFE_IMPACT_OUTPUT_DIRECTORY }}'
+      - './inasafe/headless/settings:/home/headless/settings'
       - './pycharm_helpers/celery:/root/.pycharm_helpers'
 
       {% if django.environment.USE_THEME_APP is defined and django.environment.USE_THEME_APP %}
@@ -194,6 +196,7 @@ services:
       - './inasafe/headless/tmp:/tmp/inasafe'
       - './inasafe/headless/output:{{ inasafe_headless.environment.INASAFE_OUTPUT_DIR }}'
       - '../src/geonode/geonode/qgis_layer:{{ django.environment.INASAFE_LAYER_DIRECTORY }}'
+      - './inasafe/headless/settings:/home/headless/settings'
       - './pycharm_helpers/inasafe-headless:/root/.pycharm_helpers'
     {% if inasafe_headless.command is defined %}
 
