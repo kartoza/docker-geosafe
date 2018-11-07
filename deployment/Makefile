@@ -158,6 +158,13 @@ geosafe-makemessages:
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec django /bin/bash -c "cd /usr/src/geosafe; python /usr/src/app/manage.py makemessages -l $(LANG)"
 
+geonode-makemessages:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Running make messages $(LANG) "
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec django /bin/bash -c "python /usr/src/app/manage.py makemessages -l $(LANG)"
+
 geosafe-compilemessages:
 	@echo
 	@echo "------------------------------------------------------------------"

@@ -39,6 +39,7 @@ TEMPLATES[0]['DIRS'] = template_dirs
 # Include GeoSAFE locale path
 LOCALE_PATHS = list(LOCALE_PATHS)
 LOCALE_PATHS.insert(0, '/usr/src/geosafe/locale')
+LOCALE_PATHS.insert(1, '/usr/src/geosafe/geonode/locale')
 
 # Geosafe settings
 # App specific
