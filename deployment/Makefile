@@ -57,15 +57,15 @@ static-grunt-production:
 	@cd ../src/geonode/geonode/static; grunt production
 
 geosafe-unittests-worker:
-	@docker-compose run --rm -d -e CELERY_TESTING_WORKER=True --entrypoint="" celery /usr/local/bin/celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+	@docker-compose run --rm -d --name="geosafe-unittest-worker" -e CELERY_TESTING_WORKER=True --entrypoint="" celery /usr/local/bin/celery -A geosafe worker -l debug -Q default,cleanup,email,update,geosafe -n geonode.%h -B
 
 geosafe-coverage-unittests-worker:
-	@docker-compose run --rm -d --entrypoint="" -e CELERY_TESTING_WORKER=True -e COVERAGE_PROCESS_START=/usr/src/geosafe/.coveragerc celery coverage run --rcfile=/usr/src/geosafe/.coveragerc /usr/local/bin/celery -A geosafe worker -l debug -P solo -Q default,cleanup,email,update,geosafe -n geonode.%h -B
+	@docker-compose run --rm -d --name="geosafe-unittest-worker" --entrypoint="" -e CELERY_TESTING_WORKER=True -e COVERAGE_PROCESS_START=/usr/src/geosafe/.coveragerc celery coverage run --rcfile=/usr/src/geosafe/.coveragerc /usr/local/bin/celery -A geosafe worker -l debug -P solo -Q default,cleanup,email,update,geosafe -n geonode.%h -B
 
 geosafe-coverage-unittests-worker-kill:
-	@docker kill --signal=SIGINT geonode-docker_celery_run_1
+	@docker kill --signal=SIGINT geosafe-unittest-worker
 	@sleep 5
-	@docker rm geonode-docker_celery_run_1
+	@docker rm geosafe-unittest-worker
 
 reload:
 	@docker-compose exec django uwsgi --reload  /tmp/django.pid
