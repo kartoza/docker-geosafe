@@ -78,6 +78,9 @@ restart-celery:
 	@docker-compose restart inasafe-headless
 	@docker-compose restart inasafe-headless-analysis
 
+stop-inasafe-headless:
+	@docker-compose stop inasafe-headless
+
 shell:
 	@docker-compose exec django /bin/bash
 
@@ -86,6 +89,9 @@ db-shell:
 
 postgis-shell:
 	@docker-compose exec db su - postgres -c "psql"
+
+inasafe-headless-shell:
+	@docker-compose exec inasafe-headless /bin/bash
 
 status:
 	@docker-compose ps
