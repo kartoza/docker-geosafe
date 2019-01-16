@@ -44,6 +44,9 @@ sync: up
 	@docker-compose exec django django-admin.py makemigrations --noinput --merge
 	@docker-compose exec django paver sync
 
+django-ready:
+	@docker-compose exec django /bin/bash -c "exit 0"
+
 collectstatic: up
 	@docker-compose exec django django-admin.py collectstatic
 

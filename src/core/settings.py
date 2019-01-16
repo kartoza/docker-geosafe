@@ -84,6 +84,9 @@ else:
         'DJANGO_EMAIL_BACKEND',
         default='django.core.mail.backends.email.EmailBackend')
 
+# Selenium
+SELENIUM_DRIVER = os.environ.get('SELENIUM_DRIVER')
+
 try:
     # if using QGIS Server, import settings
     ogc_backend = os.environ.get('OGC_BACKEND', 'geonode.qgis_server')
