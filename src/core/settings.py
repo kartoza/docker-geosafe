@@ -82,7 +82,7 @@ if DEBUG:
 else:
     EMAIL_BACKEND = os.getenv(
         'DJANGO_EMAIL_BACKEND',
-        default='django.core.mail.backends.email.EmailBackend')
+        default='django.core.mail.backends.smtp.EmailBackend')
 
 # Selenium
 SELENIUM_DRIVER = os.environ.get('SELENIUM_DRIVER')
